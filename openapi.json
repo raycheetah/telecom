@@ -1,0 +1,2101 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "http://localhost"
+    }
+  ],
+  "info": {
+    "description": "",
+    "version": "1.0.0",
+    "title": "中華 Api",
+    "contact": {
+      "email": "apiteam@swagger.io"
+    },
+    "license": {
+      "name": "Sysage"
+    }
+  },
+  "tags": [
+    {
+      "name": "user",
+      "description": "進件",
+      "externalDocs": {
+        "description": "",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "usage",
+      "description": "billing metrics"
+    },
+    {
+      "name": "maintenance",
+      "description": "維護",
+      "externalDocs": {
+        "description": "",
+        "url": "http://swagger.io"
+      }
+    }
+  ],
+  "paths": {
+    "/user/org": {
+      "post": {
+        "summary": "新增組織",
+        "tags": [
+          "user"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "taskInfo": {
+                      "$ref": "#/components/schemas/taskInfo"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "user:0000",
+                        "message": "進件成功",
+                        "success": true
+                      }
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "taskInfo": {
+                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
+                        "createTime": "2021-05-12 11:10:55"
+                      },
+                      "info": {
+                        "code": "user:0900",
+                        "message": "進件失敗 重複進件！此件已於 2021-05-06 12:14:55 成功進過",
+                        "exception": {
+                          "message": " 重複進件！此件已於 2021-05-06 12:14:55 成功進過",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  重複進件！此件已於 2021-05-06 12:14:55 成功進過\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                        },
+                        "success": false
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "createorg",
+        "description": "新增組織",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/tenant"
+              },
+              "examples": {
+                "Tenant": {
+                  "value": {
+                    "id": "kubernetes",
+                    "name": "VCPP Org",
+                    "description": "VCPP test tenant",
+                    "active": true,
+                    "vAppRuntimeLease": 0,
+                    "vAppStorageLease": 0,
+                    "vAppTemplateLease": 0
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        }
+      },
+      "parameters": []
+    },
+    "/user/{orgId}/vdc": {
+      "post": {
+        "summary": "新增組織 Virtual Data Center",
+        "tags": [
+          "user"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "taskInfo": {
+                      "$ref": "#/components/schemas/taskInfo"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "user:0000",
+                        "message": "建立vdc成功",
+                        "success": true
+                      }
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "taskInfo": {
+                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
+                        "createTime": "2021-05-12 11:10:55"
+                      },
+                      "info": {
+                        "code": "user:0800",
+                        "message": "vdc建立失敗",
+                        "exception": {
+                          "message": "vdc建立失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  重複進件！此件已於 2021-05-06 12:14:55 成功進過\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                        },
+                        "success": false
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "createvdc",
+        "description": "1 cpu 換算成2GHz\n設定CPU resources guaranteed:固定為 0%\n設定Memory resources guaranteed:固定為 0%\n1 cpu = 1VM數\nRPP包裝增加SSD儲存空間，RPG包裝增加SAS儲存空間，從 storeage policy 去分",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/quota"
+              },
+              "examples": {
+                "vdc": {
+                  "value": {
+                    "id": "kubernetes",
+                    "providerId": "pVDC-DEV",
+                    "resources": [
+                      {
+                        "type": "cpu",
+                        "limit": 2
+                      },
+                      {
+                        "type": "vm",
+                        "limit": 10
+                      },
+                      {
+                        "type": "network",
+                        "limit": 100,
+                        "networkPoolId": "NP-Overlay"
+                      },
+                      {
+                        "type": "disk",
+                        "limit": 30000,
+                        "storageId": ""
+                      },
+                      {
+                        "type": "memory",
+                        "limit": 8192
+                      },
+                      {
+                        "type": "vcpu",
+                        "limit": 2
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        }
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "orgId",
+          "in": "path",
+          "required": true,
+          "description": "組織名稱, 完整 URL 中的唯一識別碼，使用者用以登入此組織。只能使用英(小寫)數字元或下列其中一項: '-' '_' '.' '(' ')' ',' '$'"
+        }
+      ]
+    },
+    "/user/{orgId}/account": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "orgId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "製作使用者帳號之權限表",
+        "tags": [
+          "user"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "taskInfo": {
+                      "$ref": "#/components/schemas/taskInfo"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/rights"
+                    }
+                  }
+                },
+                "examples": {
+                  "Fail": {
+                    "value": {
+                      "taskInfo": {
+                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
+                        "createTime": "2021-05-12 11:10:55"
+                      },
+                      "info": {
+                        "code": "user:0600",
+                        "message": "帳號查詢失敗",
+                        "exception": {
+                          "message": " 帳號查詢失敗",
+                          "url": null,
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  帳號查詢失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                        },
+                        "success": false
+                      }
+                    }
+                  },
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "string",
+                        "message": "string",
+                        "success": true,
+                        "exception": {
+                          "message": "string",
+                          "url": "string",
+                          "stackTrace": "string"
+                        }
+                      },
+                      "data": [
+                        {
+                          "name": "Organization vDC Named Disk",
+                          "type": "VIEW",
+                          "rights": []
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getrights",
+        "description": "製作使用者帳號之權限表",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "AccId",
+            "description": "帳號名稱",
+            "required": true
+          }
+        ]
+      },
+      "post": {
+        "summary": "新增使用者",
+        "tags": [
+          "user"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "taskInfo": {
+                      "$ref": "#/components/schemas/taskInfo"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "user:0000",
+                        "message": "新增成功",
+                        "success": true
+                      }
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "taskInfo": {
+                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
+                        "createTime": "2021-05-12 11:10:55"
+                      },
+                      "info": {
+                        "code": "user:0700",
+                        "message": "新增帳號失敗",
+                        "exception": {
+                          "message": " 新增帳號失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  新增帳號失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                        },
+                        "success": false
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "addaccount",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/account"
+              },
+              "examples": {
+                "Account": {
+                  "value": {
+                    "id": "admin",
+                    "active": true,
+                    "role": "Tenant Admin",
+                    "contactName": "tester",
+                    "contactMail": "tester@test.com.tw",
+                    "contactPhone": "0901-234-567"
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        },
+        "description": "新增使用者"
+      }
+    },
+    "/maintenance/org": {
+      "put": {
+        "summary": "update lease time",
+        "tags": [
+          "maintenance"
+        ],
+        "operationId": "updateorg",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "taskInfo": {
+                      "$ref": "#/components/schemas/taskInfo"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "maintenance:0000",
+                        "message": "更新組織成功",
+                        "success": true
+                      }
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "taskInfo": {
+                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
+                        "createTime": "2021-05-12 11:10:55"
+                      },
+                      "info": {
+                        "code": "maintenance:0500",
+                        "message": "更新組織失敗",
+                        "exception": {
+                          "message": " 更新組織失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  更新組織失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                        },
+                        "success": false
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "設定 lease time",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/tenant"
+              },
+              "examples": {
+                "vdc": {
+                  "value": {
+                    "id": "string",
+                    "active": true,
+                    "vAppRuntimeLease": 0,
+                    "vAppStorageLease": 0,
+                    "vAppTemplateLease": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maintenance/{orgId}/vdc": {
+      "parameters": [
+        {
+          "name": "orgId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "put": {
+        "summary": "VDC 加購",
+        "tags": [
+          "maintenance"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "taskInfo": {
+                      "$ref": "#/components/schemas/taskInfo"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "maintenance:0000",
+                        "message": "更新vdc成功",
+                        "success": true
+                      }
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "taskInfo": {
+                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
+                        "createTime": "2021-05-12 11:10:55"
+                      },
+                      "info": {
+                        "code": "user:0800",
+                        "message": "vdc更新失敗",
+                        "exception": {
+                          "message": "vdc更新失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  重複進件！此件已於 2021-05-06 12:14:55 成功進過\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                        },
+                        "success": false
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "updatevdc",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/quota"
+              },
+              "examples": {
+                "VDC": {
+                  "value": {
+                    "id": "kubernetes",
+                    "providerId": "pVDC-DEV",
+                    "resources": [
+                      {
+                        "type": "cpu",
+                        "limit": 3
+                      },
+                      {
+                        "type": "disk",
+                        "limit": 30001,
+                        "storageId": ""
+                      },
+                      {
+                        "type": "memory",
+                        "limit": 8193
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        },
+        "description": "VDC 加購"
+      }
+    },
+    "/user/{orgId}/vdc/network": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "orgId",
+          "in": "path",
+          "required": true,
+          "description": "組織名稱"
+        }
+      ],
+      "post": {
+        "summary": "新增組織網路",
+        "tags": [
+          "user"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "taskInfo": {
+                      "$ref": "#/components/schemas/taskInfo"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "user:0000",
+                        "message": "組織network建立成功",
+                        "success": true
+                      }
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "taskInfo": {
+                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
+                        "createTime": "2021-05-12 11:10:55"
+                      },
+                      "info": {
+                        "code": "user:0400",
+                        "message": "組織 network 建立失敗",
+                        "exception": {
+                          "message": "組織 network 建立失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  組織 network 建立失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                        },
+                        "success": false
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "addVdcNetwork",
+        "description": "1. vcd portal 已經沒有是否使用 edge dns 的 checkbox boolean 欄位，若不填 vdc network 的 dns, 是否會直接用 edge 的 dns 未來要測試過\n2. vcd portal 已經沒有設定 vdc network 在組織vdc內可以共享的 boolean 欄位，若要共享網路，在 vcd 10.2 nsx-t 的結構之下只能使用 vdc group, vdc group 遇到技術問題還在測試中",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/vdcNet"
+              },
+              "examples": {
+                "vdc network": {
+                  "value": {
+                    "id": "kubernetes",
+                    "gatewayCidr": "192.168.1.254/24",
+                    "staticIpPools": [
+                      "192.168.1.1 - 192.168.1.253"
+                    ],
+                    "edgeId": "kubernetes"
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "/user/{orgId}/vdc/{vdcId}/edge": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "orgId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "vdcId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "post": {
+        "summary": "新增 edge",
+        "tags": [
+          "user"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "taskInfo": {
+                      "$ref": "#/components/schemas/taskInfo"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "user:0000",
+                        "message": "建立edge成功",
+                        "success": true
+                      }
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "taskInfo": {
+                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
+                        "createTime": "2021-05-12 11:10:55"
+                      },
+                      "info": {
+                        "code": "user:0300",
+                        "message": "edge 建立失敗",
+                        "exception": {
+                          "message": "edge 建立失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  edge 建立失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                        },
+                        "success": false
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "addEdge",
+        "description": "1. vcd edge 是 T1, vcd 外部網路是 T0, vcd 不能設置 T0, T0 只能由 nsx-t 去設定\n2. 所以更新 T0 的 uplink 等同更新 vcd 外部網路的 uplink, 設定 vcd edge 的 uplink 等於是設置 T1 的uplink\n3. 所謂設定 esg 外部網路介面的 ip 是?  \n4. vcd Api/UI 已經沒有 configure default gateway checkbox/設定, 原則上 vcd edge/T1 已經是 底下的 org network 的 gateway\n5. vcd Api/UI 已經沒有 Use default gateway for DNS Relay checkbox/設定, \n要設 edge dns, 經由另一個新的 vcd10.2 openapi",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/edge"
+              },
+              "examples": {
+                "edge": {
+                  "value": {
+                    "id": "kubernetes",
+                    "publicNetworkId": "EN-External",
+                    "resources": [
+                      {
+                        "type": "static",
+                        "ipAddress": "10.9.57.102"
+                      },
+                      {
+                        "type": "addressPool",
+                        "pools": [
+                          "10.9.57.102 - 10.9.57.102"
+                        ]
+                      },
+                      {
+                        "type": "qos",
+                        "limitSettings": [
+                          {
+                            "id": "RayTryIn",
+                            "type": "inbound",
+                            "bandwidth": 1,
+                            "bps": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "dns",
+                        "defaultForwarderZone": {
+                          "displayName": "RayTryDns",
+                          "upstreamServers": [
+                            "10.9.57.31"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maintenance/{orgId}/vdc/{vdcId}/edge": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "orgId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "vdcId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "put": {
+        "summary": "加購 Public IP / 加購網路頻寬",
+        "tags": [
+          "maintenance"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "taskInfo": {
+                      "$ref": "#/components/schemas/taskInfo"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "maintenance:0000",
+                        "message": "更新 edge 成功",
+                        "success": true
+                      }
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "taskInfo": {
+                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
+                        "createTime": "2021-05-12 11:10:55"
+                      },
+                      "info": {
+                        "code": "maintenance:0200",
+                        "message": "加購失敗",
+                        "exception": {
+                          "message": "加購失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  加購失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                        },
+                        "success": false
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "updateEdge",
+        "description": "1. vcd edge 是 T1, vcd 外部網路是 T0, vcd 不能設置 T0, T0 只能由 nsx-t 去設定\n2. 所以更新 T0 的 uplink 等同更新 vcd 外部網路的 uplink, 設定 vcd edge 的 uplink 等於是設置 T1 的uplink",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/resource_edge"
+                }
+              },
+              "examples": {
+                "加購頻寬": {
+                  "value": [
+                    {
+                      "type": "qos",
+                      "limitSettings": [
+                        {
+                          "id": "RayTryIn",
+                          "type": "inbound",
+                          "bandwidth": 2,
+                          "bps": 2
+                        },
+                        {
+                          "id": "RayTryOut",
+                          "type": "outbound",
+                          "bandwidth": 2,
+                          "bps": 2
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "加購 IP": {
+                  "value": [
+                    {
+                      "type": "static",
+                      "ipAddress": "10.9.57.103"
+                    },
+                    {
+                      "type": "addressPool",
+                      "pools": [
+                        "10.9.57.104 - 10.9.57.104"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/usage/list": {
+      "get": {
+        "summary": "Metrics",
+        "tags": [
+          "usage"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/usage"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "VM_Info": {
+                    "value": {
+                      "resourceType": "VM_Info",
+                      "statistics": [
+                        {
+                          "tenantId": "admin@jimmytest0624.com",
+                          "vmId": "vm:068646f6-9af4-4b6a-b925-ff8181465f9d",
+                          "vmName": "antony-test-0308",
+                          "info": {
+                            "name": "antony-test-0308",
+                            "vCore": 1,
+                            "vRam": 2048,
+                            "vDisk": [
+                              {
+                                "diskId": "2000",
+                                "diskName": "Hard disk 1",
+                                "storagePolicyName": "VCD-StoragePolicy",
+                                "isIndependent": false,
+                                "quantity": 16
+                              }
+                            ],
+                            "ipList": [
+                              "172.16.10.11"
+                            ],
+                            "os": "CentOS 7 (64-bit)",
+                            "status": "ON"
+                          },
+                          "timestamp": 1616550300000,
+                          "timeString": "2021-03-24 09:45:00"
+                        }
+                      ]
+                    }
+                  },
+                  "Unused_disks": {
+                    "value": {
+                      "resourceType": "Unused_disks",
+                      "unit": "GB",
+                      "statistics": [
+                        {
+                          "tenantId": "jimmytest0624.com",
+                          "disks": [
+                            {
+                              "diskId": "disk:201be1fb-1392-46ec-8184-04f8cffed5c3",
+                              "diskName": "jimmy0624-disk1",
+                              "storagePolicyName": "VCD-StoragePolicy",
+                              "isIndependent": true,
+                              "quantity": 0.029296875
+                            }
+                          ],
+                          "timestamp": 1616550300000,
+                          "timeString": "2021-03-24 09:45:00"
+                        }
+                      ]
+                    }
+                  },
+                  "Snapshots": {
+                    "value": {
+                      "resourceType": "Snapshots",
+                      "unit": "GB",
+                      "statistics": [
+                        {
+                          "tenantId": "jimmytest0624.com",
+                          "vmId": "vm:6c4e94b2-33d3-4d7c-934f-5139f8eeb765",
+                          "vmName": "antony-vm-1203",
+                          "quantity": 40,
+                          "timestamp": 1616550300000,
+                          "timeString": "2021-03-24 09:45:00"
+                        }
+                      ]
+                    }
+                  },
+                  "Network": {
+                    "value": {
+                      "resourceType": "Network",
+                      "unit": "bytes",
+                      "statistics": [
+                        {
+                          "tenantId": "admin@jimmytest0624.com",
+                          "edgeId": "gateway:b03f80d1-4108-41ac-b6a2-6e2bcfeebb29",
+                          "quantity": 298898.646336,
+                          "usages": [
+                            {
+                              "id": "0",
+                              "ipAddress": "192.168.30.37"
+                            }
+                          ],
+                          "timestamp": 1616550300000,
+                          "timeString": "2021-03-24 09:45:00"
+                        }
+                      ]
+                    }
+                  },
+                  "LoadBalance_Info": {
+                    "value": {
+                      "resourceType": "LoadBalance_Info",
+                      "statistics": [
+                        {
+                          "tenantId": "admin@jimmytest0624.com",
+                          "ipList": [
+                            "192.168.0.2",
+                            "192.168.0.6"
+                          ],
+                          "timestamp": 1616550300000,
+                          "timeString": "2021-03-24 09:45:00",
+                          "name": "vip-1@jimmytest0624-com-EDGE"
+                        }
+                      ]
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "info": {
+                        "code": "user:9999",
+                        "message": "抓取 Metrics 失敗",
+                        "exception": {
+                          "message": "抓取 Metrics 失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  帳號查詢失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask抓取 Metrics 失敗til.java:25)"
+                        },
+                        "success": false
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "usageMetrics",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "VM_Info",
+                "Unused_Disks",
+                "Snapshots",
+                "Network",
+                "LoadBalance"
+              ]
+            },
+            "in": "query",
+            "name": "resourceType"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "tenantId",
+            "description": "組織名稱"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "vdcId",
+            "description": "組織vdc名稱"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "example": "1616550300000"
+            },
+            "in": "query",
+            "name": "startTime",
+            "description": "13位 timestamp"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "example": "1616550300000"
+            },
+            "in": "query",
+            "name": "endTime",
+            "description": "13位 timestamp"
+          }
+        ],
+        "description": ""
+      }
+    },
+    "/usage/list/snapshot": {
+      "get": {
+        "summary": "統計某月有幾台 VM 做過 snapshot",
+        "tags": [
+          "usage"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/statistic"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "usage:0000",
+                        "message": "抓取 snapshot info 成功",
+                        "success": true
+                      },
+                      "data": [
+                        {
+                          "tenantId": "RayOrg",
+                          "timestamp": 1619798400000,
+                          "timeString": "2021-05-01 00:00:00",
+                          "vmId": "RayVmOne"
+                        },
+                        {
+                          "tenantId": "RayOrg",
+                          "timestamp": 1619798400000,
+                          "timeString": "2021-05-01 00:00:00",
+                          "vmId": "RayVmTwo"
+                        }
+                      ]
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "info": {
+                        "code": "user:9999",
+                        "message": "抓取snapshot時間失敗",
+                        "exception": {
+                          "message": "抓取snapshot時間失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  帳號查詢失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
+                        },
+                        "success": false
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getMonthSnapshot",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "tenantId",
+            "description": "組織名稱"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "vdcId",
+            "description": "vdc名稱"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "monthTime",
+            "description": "13位timestamp, 程式自動 mod 月開始時間"
+          }
+        ]
+      }
+    },
+    "/usage/list/vm": {
+      "get": {
+        "summary": "1個月內VM開機的時間",
+        "tags": [
+          "usage"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/statistic"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "string",
+                        "message": "string",
+                        "success": true,
+                        "exception": {
+                          "message": "string",
+                          "url": "string",
+                          "stackTrace": "string"
+                        }
+                      },
+                      "data": [
+                        {
+                          "tenantId": "RayOrg",
+                          "timestamp": 1619798400000,
+                          "timeString": "2021-05-01 00:00:00",
+                          "vmId": "RayVmOne",
+                          "quantity": 73,
+                          "unit": "Hours"
+                        },
+                        {
+                          "tenantId": "RayOrg",
+                          "timestamp": 1619798400000,
+                          "timeString": "2021-05-01 00:00:00",
+                          "vmId": "RayVmTwo",
+                          "quantity": 123,
+                          "unit": "Hours"
+                        }
+                      ]
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "info": {
+                        "code": "user:9999",
+                        "message": "抓取開機時間失敗",
+                        "exception": {
+                          "message": "抓取開機時間失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  帳號查詢失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
+                        },
+                        "success": false
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "openVmMonth",
+        "description": "",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "monthTime",
+            "description": "13位timestamp, 程式自動 mod 月開始時間"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "tenantId",
+            "description": "組織名稱"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "vdcId",
+            "description": "組織vdc名稱"
+          }
+        ]
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "See AsyncAPI example",
+    "url": "https://mermade.github.io/shins/asyncapi.html"
+  },
+  "components": {
+    "schemas": {
+      "tenant": {
+        "type": "object",
+        "x-examples": {
+          "Tenant": {
+            "id": "kubernetes",
+            "name": "VCPP Org",
+            "description": "VCPP test tenant",
+            "active": true
+          }
+        },
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "vAppRuntimeLease": {
+            "type": "integer"
+          },
+          "vAppStorageLease": {
+            "type": "integer"
+          },
+          "vAppTemplateLease": {
+            "type": "integer"
+          }
+        }
+      },
+      "account": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "admin"
+          },
+          "active": {
+            "type": "boolean",
+            "description": "true"
+          },
+          "role": {
+            "type": "string",
+            "description": "Tenant Admin"
+          },
+          "contactName": {
+            "type": "string",
+            "description": "tester"
+          },
+          "contactMail": {
+            "type": "string",
+            "description": "tester@test.com.tw"
+          },
+          "contactPhone": {
+            "type": "string",
+            "description": "0901-234-567"
+          }
+        },
+        "x-examples": {
+          "Account": {
+            "id": "admin",
+            "active": true,
+            "role": "Tenant Admin",
+            "contactName": "tester",
+            "contactMail": "tester@test.com.tw",
+            "contactPhone": "0901-234-567"
+          }
+        }
+      },
+      "quota": {
+        "title": "auota",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "providerId": {
+            "type": "string"
+          },
+          "resources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/resource"
+            }
+          }
+        },
+        "x-examples": {
+          "Quota Example": {
+            "id": "kubernetes",
+            "providerId": "pVDC-DEV",
+            "resources": [
+              {
+                "type": "cpu",
+                "limit": 2
+              },
+              {
+                "type": "vm",
+                "limit": 10
+              },
+              {
+                "type": "network",
+                "limit": 100,
+                "networkPoolId": "NP-Overlay"
+              },
+              {
+                "type": "disk",
+                "limit": 30000,
+                "storageId": ""
+              },
+              {
+                "type": "memory",
+                "limit": 8192
+              },
+              {
+                "type": "vcpu",
+                "limit": 2
+              }
+            ]
+          }
+        }
+      },
+      "resource": {
+        "title": "resources",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "cpu",
+              "vm",
+              "network",
+              "disk",
+              "memory",
+              "vcpu"
+            ]
+          },
+          "limit": {
+            "type": "number"
+          },
+          "networkPoolId": {
+            "type": "string",
+            "description": "network 專用，其他設值無意義"
+          },
+          "storageId": {
+            "type": "string",
+            "description": "disk 專用，其他設值無意義"
+          }
+        }
+      },
+      "vdcNet": {
+        "title": "vdcNet",
+        "type": "object",
+        "x-examples": {
+          "vdc network": {
+            "id": "kubernetes",
+            "gatewayCidr": "192.168.1.254/24",
+            "staticIpPools": [
+              "192.168.1.1 - 192.168.1.253"
+            ],
+            "edgeId": "kubernetes"
+          }
+        },
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "gatewayCidr": {
+            "type": "string",
+            "pattern": "^([0-9]{1,3}\\.){3}[0-9]{1,3}(/([0-9]|[1-2][0-9]|3[0-2]))?$"
+          },
+          "dns1": {
+            "type": "string",
+            "pattern": "^$|^(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}$"
+          },
+          "dns2": {
+            "type": "string",
+            "pattern": "^$|^(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}$"
+          },
+          "staticIpPools": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "vdcGroup": {
+            "type": "string"
+          },
+          "edgeId": {
+            "type": "string"
+          }
+        }
+      },
+      "edge": {
+        "title": "edge",
+        "type": "object",
+        "x-examples": {
+          "edge": {
+            "id": "kubernetes",
+            "publicNetworkId": "EN-External",
+            "resources": [
+              {
+                "type": "static",
+                "ipAddress": "string",
+                "pools": [
+                  "string"
+                ],
+                "limitSettings": [
+                  {
+                    "id": "string",
+                    "type": "inbound",
+                    "bandwidth": 0,
+                    "bps": 0
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "publicNetworkId": {
+            "type": "string"
+          },
+          "resources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/resource_edge"
+            }
+          }
+        }
+      },
+      "resource_edge": {
+        "title": "resource_edge",
+        "type": "object",
+        "x-examples": {
+          "static": {
+            "type": "static",
+            "ipAddress": "10.9.57.102"
+          },
+          "dynamic": {
+            "type": "addressPool",
+            "pools": [
+              "10.9.57.102 - 10.9.57.102"
+            ]
+          },
+          "qos": {
+            "type": "qos",
+            "limitSettings": [
+              {
+                "id": "RayTryIn",
+                "type": "inbound",
+                "bandwidth": 1,
+                "bps": 1
+              }
+            ]
+          },
+          "dns": {
+            "type": "dns",
+            "defaultForwarderZone": {
+              "displayName": "RayTryDns",
+              "upstreamServers": [
+                "10.9.57.31"
+              ]
+            }
+          }
+        },
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "static",
+              "addressPool",
+              "qos",
+              "dns"
+            ]
+          },
+          "ipAddress": {
+            "type": "string",
+            "description": "static 專用，設在其他無效",
+            "pattern": "^(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}$"
+          },
+          "pools": {
+            "type": "array",
+            "description": "addressPool 專用，設在其他無效",
+            "items": {
+              "type": "string"
+            }
+          },
+          "limitSettings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/qos"
+            }
+          },
+          "defaultForwarderZone": {
+            "$ref": "#/components/schemas/dns"
+          }
+        },
+        "description": ""
+      },
+      "qos": {
+        "title": "qos",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "inbound",
+              "outbound"
+            ]
+          },
+          "bandwidth": {
+            "type": "number"
+          },
+          "bps": {
+            "type": "integer"
+          }
+        }
+      },
+      "info": {
+        "title": "info",
+        "type": "object",
+        "x-examples": {
+          "Success": {
+            "code": "user:0000",
+            "message": "進件成功",
+            "success": true,
+            "taskId": "nul"
+          },
+          "Fail": {
+            "code": "user:0900",
+            "message": "進件失敗 重複進件！此件已於 2021-05-06 12:14:55 成功進過",
+            "success": false,
+            "exception": {
+              "message": "重複進件！此件已於 2021-05-06 12:14:55 成功進過",
+              "url": null,
+              "stackTrace": "string"
+            }
+          }
+        },
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "exception": {
+            "$ref": "#/components/schemas/exception"
+          }
+        }
+      },
+      "statistic": {
+        "title": "statistic",
+        "type": "object",
+        "x-examples": {},
+        "properties": {
+          "tenantId": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "integer"
+          },
+          "timeString": {
+            "type": "string"
+          },
+          "vmId": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "info": {
+            "$ref": "#/components/schemas/vmInfo"
+          },
+          "edgeId": {
+            "type": "string"
+          },
+          "ipList": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "disks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/vDisk"
+            }
+          },
+          "Usages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ipUsages"
+            }
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "GB",
+              "Bytes",
+              "Hours"
+            ]
+          }
+        }
+      },
+      "vDisk": {
+        "title": "vDisk",
+        "type": "object",
+        "x-examples": {
+          "vDisk": {
+            "diskId": "disk:201be1fb-1392-46ec-8184-04f8cffed5c3",
+            "diskName": "jimmy0624-disk1",
+            "storagePolicyName": "VCD-StoragePolicy",
+            "isIndependent": true,
+            "quantity": 0.029296875
+          }
+        },
+        "properties": {
+          "diskName": {
+            "type": "string"
+          },
+          "isIndependent": {
+            "type": "boolean"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "storagePolicyName": {
+            "type": "string"
+          }
+        }
+      },
+      "vmInfo": {
+        "title": "vmInfo",
+        "type": "object",
+        "x-examples": {
+          "vmInfo": {
+            "name": "antony-test-0308",
+            "vCore": 1,
+            "vRam": 2048,
+            "vDisk": [
+              {
+                "diskId": "2000",
+                "diskName": "Hard disk 1",
+                "storagePolicyName": "VCD-StoragePolicy",
+                "isIndependent": false,
+                "quantity": 16
+              }
+            ],
+            "ipList": [
+              "172.16.10.11"
+            ],
+            "os": "CentOS 7 (64-bit)",
+            "status": "ON"
+          }
+        },
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "vCore": {
+            "type": "number"
+          },
+          "vRam": {
+            "type": "number"
+          },
+          "vDisk": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/vDisk"
+            }
+          },
+          "os": {
+            "type": "string"
+          },
+          "status": {
+            "type": "boolean"
+          },
+          "ipList": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "description": ""
+      },
+      "exception": {
+        "title": "exception",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "stackTrace": {
+            "type": "string"
+          }
+        },
+        "x-examples": {
+          "Exception": {
+            "message": "重複進件！此件已於 2021-05-06 12:14:55 成功進過",
+            "url": "string",
+            "stackTrace": "string"
+          }
+        }
+      },
+      "taskInfo": {
+        "title": "taskInfo",
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "type": "string"
+          },
+          "createTime": {
+            "type": "string"
+          }
+        },
+        "x-examples": {
+          "example-1": {
+            "taskId": "string",
+            "createTime": "string"
+          }
+        }
+      },
+      "rights": {
+        "title": "rights",
+        "type": "array",
+        "x-examples": {
+          "rights": [
+            {
+              "name": "string",
+              "type": "string",
+              "rights": [
+                {
+                  "name": "string",
+                  "type": "string",
+                  "rights": []
+                }
+              ]
+            }
+          ]
+        },
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "rights": {
+              "$ref": "#/components/schemas/rights"
+            }
+          }
+        },
+        "description": ""
+      },
+      "dns": {
+        "title": "dns",
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string"
+          },
+          "upstreamServers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "x-examples": {
+          "dns": {
+            "displayName": "RayTryDns",
+            "upstreamServers": [
+              "10.9.57.31"
+            ]
+          }
+        }
+      },
+      "usage": {
+        "title": "resource_usage",
+        "type": "object",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "enum": [
+              "Snapshots",
+              "VM_Info",
+              "VM_Template",
+              "Network",
+              "LoadBalance_Info",
+              "Unused_disks"
+            ]
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "GB",
+              "bytes"
+            ]
+          },
+          "statistics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/statistic"
+            }
+          }
+        },
+        "x-examples": {
+          "VM_Info": {
+            "resourceType": "VM_Info",
+            "statistics": [
+              {
+                "tenantId": "admin@jimmytest0624.com",
+                "vmId": "vm:068646f6-9af4-4b6a-b925-ff8181465f9d",
+                "vmName": "antony-test-0308",
+                "info": {
+                  "name": "antony-test-0308",
+                  "vCore": 1,
+                  "vRam": 2048,
+                  "vDisk": [
+                    {
+                      "diskId": "2000",
+                      "diskName": "Hard disk 1",
+                      "storagePolicyName": "VCD-StoragePolicy",
+                      "isIndependent": false,
+                      "quantity": 16
+                    }
+                  ],
+                  "ipList": [
+                    "172.16.10.11"
+                  ],
+                  "os": "CentOS 7 (64-bit)",
+                  "status": "ON"
+                },
+                "timestamp": 1616550300000,
+                "timeString": "2021-03-24 09:45:00"
+              }
+            ]
+          },
+          "Unused_disks": {
+            "resourceType": "Unused_disks",
+            "unit": "GB",
+            "statistics": [
+              {
+                "tenantId": "jimmytest0624.com",
+                "disks": [
+                  {
+                    "diskId": "disk:201be1fb-1392-46ec-8184-04f8cffed5c3",
+                    "diskName": "jimmy0624-disk1",
+                    "storagePolicyName": "VCD-StoragePolicy",
+                    "isIndependent": true,
+                    "quantity": 0.029296875
+                  }
+                ],
+                "timestamp": 1616550300000,
+                "timeString": "2021-03-24 09:45:00"
+              }
+            ]
+          },
+          "Snapshots": {
+            "resourceType": "Snapshots",
+            "unit": "GB",
+            "statistics": [
+              {
+                "tenantId": "jimmytest0624.com",
+                "vmId": "vm:6c4e94b2-33d3-4d7c-934f-5139f8eeb765",
+                "vmName": "antony-vm-1203",
+                "quantity": 40,
+                "timestamp": 1616550300000,
+                "timeString": "2021-03-24 09:45:00"
+              }
+            ]
+          },
+          "Network": {
+            "resourceType": "Network",
+            "unit": "bytes",
+            "statistics": [
+              {
+                "tenantId": "admin@jimmytest0624.com",
+                "edgeId": "gateway:b03f80d1-4108-41ac-b6a2-6e2bcfeebb29",
+                "quantity": 298898.646336,
+                "usages": [
+                  {
+                    "id": "0",
+                    "ipAddress": "192.168.30.37"
+                  }
+                ],
+                "timestamp": 1616550300000,
+                "timeString": "2021-03-24 09:45:00"
+              }
+            ]
+          },
+          "LoadBalance": {
+            "resourceType": "LoadBalance_Info",
+            "statistics": [
+              {
+                "tenantId": "admin@jimmytest0624.com",
+                "ipList": [
+                  "192.168.0.2",
+                  "192.168.0.6"
+                ],
+                "timestamp": 1616550300000,
+                "timeString": "2021-03-24 09:45:00",
+                "name": "vip-1@jimmytest0624-com-EDGE"
+              }
+            ]
+          }
+        }
+      },
+      "ipUsages": {
+        "title": "ipUsages",
+        "type": "object",
+        "x-examples": {
+          "ipUsage": {
+            "id": "0",
+            "ipAddress": "192.168.30.37"
+          }
+        },
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "ipAddress": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {},
+    "links": {},
+    "callbacks": {},
+    "parameters": {}
+  },
+  "security": []
+}
