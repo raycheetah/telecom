@@ -1499,7 +1499,7 @@
     },
     "/session/signin": {
       "post": {
-        "summary": "",
+        "summary": "Ap Server Session 登入",
         "operationId": "sessionSignin",
         "responses": {
           "200": {
@@ -1584,12 +1584,13 @@
         },
         "tags": [
           "session"
-        ]
+        ],
+        "description": ""
       }
     },
     "/session/signout": {
       "delete": {
-        "summary": "Your GET endpoint",
+        "summary": "AP Server Session 登出",
         "tags": [
           "session"
         ],
