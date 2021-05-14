@@ -9,6 +9,9 @@
     "description": "",
     "version": "1.0.0",
     "title": "中華 Api",
+    "contact": {
+      "email": "apiteam@swagger.io"
+    },
     "license": {
       "name": "Sysage"
     }
@@ -118,7 +121,7 @@
       },
       "parameters": []
     },
-    "/user/{orgId}/vdc": {
+    "/user/org/{orgId}/vdc": {
       "post": {
         "summary": "新增組織 Virtual Data Center",
         "tags": [
@@ -233,7 +236,7 @@
         }
       ]
     },
-    "/user/{orgId}/account": {
+    "/user/org/{orgId}/account": {
       "parameters": [
         {
           "schema": {
@@ -408,7 +411,7 @@
     },
     "/maintenance/org": {
       "put": {
-        "summary": "update lease time",
+        "summary": "Update Lease Time",
         "tags": [
           "maintenance"
         ],
@@ -484,7 +487,88 @@
         }
       }
     },
-    "/maintenance/{orgId}/vdc": {
+    "/maintenance/org/{orgId}/status/{status}": {
+      "put": {
+        "summary": "客戶帳號狀態變更",
+        "tags": [
+          "maintenance"
+        ],
+        "operationId": "updateOrgStatus",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "taskInfo": {
+                      "$ref": "#/components/schemas/taskInfo"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "maintenance:0000",
+                        "message": "更新狀態成功",
+                        "success": true
+                      }
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "taskInfo": {
+                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
+                        "createTime": "2021-05-12 11:10:55"
+                      },
+                      "info": {
+                        "code": "maintenance:0500",
+                        "message": "更新狀態失敗",
+                        "exception": {
+                          "message": " 更新狀態失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  更新狀態失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                        },
+                        "success": false
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": ""
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "orgId",
+          "in": "path",
+          "required": true,
+          "description": "組織名稱"
+        },
+        {
+          "schema": {
+            "type": "string",
+            "enum": [
+              "id_enable",
+              "id_disable"
+            ]
+          },
+          "name": "status",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/maintenance/org/{orgId}/vdc": {
       "parameters": [
         {
           "name": "orgId",
@@ -585,7 +669,7 @@
         "description": "VDC 加購"
       }
     },
-    "/user/{orgId}/vdc/network": {
+    "/user/org/{orgId}/vdc/network": {
       "parameters": [
         {
           "schema": {
@@ -676,7 +760,7 @@
         }
       }
     },
-    "/user/{orgId}/vdc/{vdcId}/edge": {
+    "/user/org/{orgId}/vdc/{vdcId}/edge": {
       "parameters": [
         {
           "schema": {
@@ -801,7 +885,7 @@
         }
       }
     },
-    "/maintenance/{orgId}/vdc/{vdcId}/edge": {
+    "/maintenance/org/{orgId}/vdc/{vdcId}/edge": {
       "parameters": [
         {
           "schema": {
@@ -1334,7 +1418,230 @@
           }
         ]
       }
+    },
+    "/maintenance/org/{orgId}/vdc/{vdcId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "orgId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "vdcId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "delete": {
+        "summary": "刪除 vdc",
+        "tags": [
+          "maintenance"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "taskInfo": {
+                      "$ref": "#/components/schemas/taskInfo"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "maintenance:0000",
+                        "message": "刪除 vdc 成功",
+                        "success": true
+                      }
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "taskInfo": {
+                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
+                        "createTime": "2021-05-12 11:10:55"
+                      },
+                      "info": {
+                        "code": "maintenance:0800",
+                        "message": "刪除組織 vdc 失敗",
+                        "exception": {
+                          "message": "刪除組織 vdc 失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  刪除組織 vdc 失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                        },
+                        "success": false
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-maintenance-orgId-vdc-vdcId"
+      }
+    },
+    "/session/signin": {
+      "post": {
+        "summary": "",
+        "operationId": "sessionSignin",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "token": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "session:0000",
+                        "message": "登入成功",
+                        "success": true
+                      },
+                      "data": {
+                        "token": "string"
+                      }
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "info": {
+                        "code": "session:0900",
+                        "message": "登入失敗",
+                        "success": false
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "accountId": {
+                        "type": "string"
+                      },
+                      "password": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "SignIn": {
+                  "value": {
+                    "data": {
+                      "accountId": "admin@vcpp.com.tw",
+                      "password": "xxxx"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        },
+        "tags": [
+          "session"
+        ]
+      }
+    },
+    "/session/signout": {
+      "delete": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "into": {
+                        "code": "session:0000",
+                        "message": "登出成功",
+                        "success": true
+                      }
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "info": {
+                        "code": "session:0900",
+                        "message": "登出失敗",
+                        "success": false
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "sessionSingout",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "auth",
+            "description": "JWT Token"
+          }
+        ]
+      }
     }
+  },
+  "externalDocs": {
+    "description": "See AsyncAPI example",
+    "url": "https://mermade.github.io/shins/asyncapi.html"
   },
   "components": {
     "schemas": {
