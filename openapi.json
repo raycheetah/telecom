@@ -10,7 +10,7 @@
     "version": "1.0.0",
     "title": "中華 Api",
     "contact": {
-      "email": "apiteam@swagger.io"
+      "email": "rayshih@sysage.com.tw"
     },
     "license": {
       "name": "Sysage"
@@ -28,6 +28,10 @@
     {
       "name": "usage",
       "description": "billing metrics"
+    },
+    {
+      "name": "session",
+      "description": "登入登出"
     },
     {
       "name": "maintenance",
@@ -118,8 +122,7 @@
           },
           "description": ""
         }
-      },
-      "parameters": []
+      }
     },
     "/user/org/{orgId}/vdc": {
       "post": {
@@ -1587,7 +1590,9 @@
     "/session/signout": {
       "delete": {
         "summary": "Your GET endpoint",
-        "tags": [],
+        "tags": [
+          "session"
+        ],
         "responses": {
           "200": {
             "description": "OK",
