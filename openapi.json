@@ -672,7 +672,7 @@
         "description": "VDC 加購"
       },
       "get": {
-        "summary": "",
+        "summary": "抓取 vdc 資訊",
         "operationId": "getVdcInfos",
         "responses": {
           "200": {
@@ -757,7 +757,8 @@
         },
         "tags": [
           "maintenance"
-        ]
+        ],
+        "description": ""
       }
     },
     "/user/org/{orgId}/vdc/network": {
@@ -1585,7 +1586,7 @@
         "operationId": "get-maintenance-orgId-vdc-vdcId"
       },
       "get": {
-        "summary": "",
+        "summary": "抓取 vdc 資訊",
         "operationId": "getSingleVdcInfo",
         "responses": {
           "200": {
