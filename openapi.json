@@ -121,7 +121,12 @@
             }
           },
           "description": ""
-        }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
       }
     },
     "/user/org/{orgId}/vdc": {
@@ -225,7 +230,12 @@
             }
           },
           "description": ""
-        }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
       },
       "parameters": [
         {
@@ -330,6 +340,11 @@
             "name": "AccId",
             "description": "帳號名稱",
             "required": true
+          }
+        ],
+        "security": [
+          {
+            "Authorization": []
           }
         ]
       },
@@ -487,7 +502,13 @@
               }
             }
           }
-        }
+        },
+        "parameters": [],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
       }
     },
     "/maintenance/org/{orgId}/status/{status}": {
@@ -545,7 +566,13 @@
             }
           }
         },
-        "description": ""
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": []
       },
       "parameters": [
         {
@@ -758,7 +785,12 @@
         "tags": [
           "maintenance"
         ],
-        "description": ""
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
       }
     },
     "/user/org/{orgId}/vdc/network": {
@@ -849,7 +881,12 @@
             }
           },
           "description": ""
-        }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
       }
     },
     "/user/org/{orgId}/vdc/{vdcId}/edge": {
@@ -974,7 +1011,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
       }
     },
     "/maintenance/org/{orgId}/vdc/{vdcId}/edge": {
@@ -1099,7 +1141,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
       }
     },
     "/usage/list": {
@@ -1306,7 +1353,12 @@
             "description": "13位 timestamp"
           }
         ],
-        "description": ""
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
       }
     },
     "/usage/list/snapshot": {
@@ -1401,6 +1453,11 @@
             "in": "query",
             "name": "monthTime",
             "description": "13位timestamp, 程式自動 mod 月開始時間"
+          }
+        ],
+        "security": [
+          {
+            "Authorization": []
           }
         ]
       }
@@ -1507,6 +1564,11 @@
             "in": "query",
             "name": "vdcId",
             "description": "組織vdc名稱"
+          }
+        ],
+        "security": [
+          {
+            "Authorization": []
           }
         ]
       }
@@ -1662,6 +1724,11 @@
         },
         "tags": [
           "maintenance"
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
         ]
       }
     },
@@ -1753,7 +1820,12 @@
         "tags": [
           "session"
         ],
-        "description": ""
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
       }
     },
     "/session/signout": {
@@ -1808,6 +1880,11 @@
             "in": "query",
             "name": "auth",
             "description": "JWT Token"
+          }
+        ],
+        "security": [
+          {
+            "Authorization": []
           }
         ]
       }
@@ -1891,7 +1968,12 @@
             }
           }
         },
-        "operationId": "getOrgInfo"
+        "operationId": "getOrgInfo",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
       }
     }
   },
@@ -2712,10 +2794,19 @@
         }
       }
     },
-    "securitySchemes": {},
+    "securitySchemes": {
+      "Authorization": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
     "links": {},
     "callbacks": {},
     "parameters": {}
   },
-  "security": []
+  "security": [
+    {
+      "Authorization": []
+    }
+  ]
 }
