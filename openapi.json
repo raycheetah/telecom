@@ -122,11 +122,6 @@
           },
           "description": ""
         },
-        "security": [
-          {
-            "Authorization": []
-          }
-        ],
         "parameters": [
           {
             "schema": {
@@ -241,11 +236,6 @@
           },
           "description": ""
         },
-        "security": [
-          {
-            "Authorization": []
-          }
-        ],
         "parameters": [
           {
             "schema": {
@@ -368,11 +358,6 @@
             "in": "header",
             "name": "Authorization",
             "description": "Bearer"
-          }
-        ],
-        "security": [
-          {
-            "Authorization": []
           }
         ]
       },
@@ -540,11 +525,6 @@
             "name": "Authorization",
             "description": "Bearer"
           }
-        ],
-        "security": [
-          {
-            "Authorization": []
-          }
         ]
       }
     },
@@ -604,11 +584,6 @@
           }
         },
         "description": "",
-        "security": [
-          {
-            "Authorization": []
-          }
-        ],
         "parameters": [
           {
             "schema": {
@@ -832,11 +807,6 @@
           "maintenance"
         ],
         "description": "",
-        "security": [
-          {
-            "Authorization": []
-          }
-        ],
         "parameters": [
           {
             "schema": {
@@ -938,11 +908,6 @@
           },
           "description": ""
         },
-        "security": [
-          {
-            "Authorization": []
-          }
-        ],
         "parameters": [
           {
             "schema": {
@@ -1078,11 +1043,6 @@
             }
           }
         },
-        "security": [
-          {
-            "Authorization": []
-          }
-        ],
         "parameters": [
           {
             "schema": {
@@ -1218,11 +1178,6 @@
             }
           }
         },
-        "security": [
-          {
-            "Authorization": []
-          }
-        ],
         "parameters": [
           {
             "schema": {
@@ -1447,12 +1402,7 @@
             "description": "Bearer"
           }
         ],
-        "description": "",
-        "security": [
-          {
-            "Authorization": []
-          }
-        ]
+        "description": ""
       }
     },
     "/usage/list/snapshot": {
@@ -1555,11 +1505,6 @@
             "in": "header",
             "name": "Authorization",
             "description": "Bearer"
-          }
-        ],
-        "security": [
-          {
-            "Authorization": []
           }
         ]
       }
@@ -1674,11 +1619,6 @@
             "in": "header",
             "name": "Authorization",
             "description": "Bearer"
-          }
-        ],
-        "security": [
-          {
-            "Authorization": []
           }
         ]
       }
@@ -1835,11 +1775,6 @@
         "tags": [
           "maintenance"
         ],
-        "security": [
-          {
-            "Authorization": []
-          }
-        ],
         "parameters": [
           {
             "schema": {
@@ -1941,11 +1876,6 @@
           "session"
         ],
         "description": "",
-        "security": [
-          {
-            "Authorization": []
-          }
-        ],
         "parameters": [
           {
             "schema": {
@@ -2018,11 +1948,6 @@
             "in": "header",
             "name": "Authorization",
             "description": "Bearer"
-          }
-        ],
-        "security": [
-          {
-            "Authorization": []
           }
         ]
       }
@@ -2107,11 +2032,6 @@
           }
         },
         "operationId": "getOrgInfo",
-        "security": [
-          {
-            "Authorization": []
-          }
-        ],
         "parameters": [
           {
             "schema": {
@@ -2942,12 +2862,7 @@
         }
       }
     },
-    "securitySchemes": {
-      "Authorization": {
-        "type": "http",
-        "scheme": "bearer"
-      }
-    },
+    "securitySchemes": {},
     "links": {},
     "callbacks": {},
     "parameters": {}
