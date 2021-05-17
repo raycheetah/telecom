@@ -126,6 +126,16 @@
           {
             "Authorization": []
           }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer"
+          }
         ]
       }
     },
@@ -235,6 +245,16 @@
           {
             "Authorization": []
           }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer"
+          }
         ]
       },
       "parameters": [
@@ -340,6 +360,14 @@
             "name": "AccId",
             "description": "帳號名稱",
             "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer"
           }
         ],
         "security": [
@@ -503,7 +531,16 @@
             }
           }
         },
-        "parameters": [],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer"
+          }
+        ],
         "security": [
           {
             "Authorization": []
@@ -572,7 +609,16 @@
             "Authorization": []
           }
         ],
-        "parameters": []
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer"
+          }
+        ]
       },
       "parameters": [
         {
@@ -790,6 +836,16 @@
           {
             "Authorization": []
           }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer"
+          }
         ]
       }
     },
@@ -885,6 +941,16 @@
         "security": [
           {
             "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer"
           }
         ]
       }
@@ -1016,6 +1082,16 @@
           {
             "Authorization": []
           }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer"
+          }
         ]
       }
     },
@@ -1145,6 +1221,16 @@
         "security": [
           {
             "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer"
           }
         ]
       }
@@ -1351,6 +1437,14 @@
             "in": "query",
             "name": "endTime",
             "description": "13位 timestamp"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer"
           }
         ],
         "description": "",
@@ -1453,6 +1547,14 @@
             "in": "query",
             "name": "monthTime",
             "description": "13位timestamp, 程式自動 mod 月開始時間"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer"
           }
         ],
         "security": [
@@ -1564,6 +1666,14 @@
             "in": "query",
             "name": "vdcId",
             "description": "組織vdc名稱"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer"
           }
         ],
         "security": [
@@ -1729,6 +1839,16 @@
           {
             "Authorization": []
           }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer"
+          }
         ]
       }
     },
@@ -1825,6 +1945,16 @@
           {
             "Authorization": []
           }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer"
+          }
         ]
       }
     },
@@ -1880,6 +2010,14 @@
             "in": "query",
             "name": "auth",
             "description": "JWT Token"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer"
           }
         ],
         "security": [
@@ -1972,6 +2110,16 @@
         "security": [
           {
             "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer"
           }
         ]
       }
