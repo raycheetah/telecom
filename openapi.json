@@ -1906,16 +1906,7 @@
           "session"
         ],
         "description": "",
-        "parameters": [
-          {
-            "schema": {
-              "type": "string"
-            },
-            "in": "header",
-            "name": "Authorization",
-            "description": "Bearer"
-          }
-        ]
+        "parameters": []
       }
     },
     "/session/signout": {
@@ -1963,14 +1954,6 @@
         },
         "operationId": "sessionSingout",
         "parameters": [
-          {
-            "schema": {
-              "type": "string"
-            },
-            "in": "query",
-            "name": "auth",
-            "description": "JWT Token"
-          },
           {
             "schema": {
               "type": "string"
