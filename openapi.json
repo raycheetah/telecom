@@ -189,7 +189,7 @@
           }
         },
         "operationId": "createvdc",
-        "description": "1 cpu 換算成2GHz\n設定CPU resources guaranteed:固定為 0%\n設定Memory resources guaranteed:固定為 0%\n1 cpu = 1VM數\nRPP包裝增加SSD儲存空間，RPG包裝增加SAS儲存空間，從 storeage policy 去分",
+        "description": "1 cpu 換算成2GHz<br/>\n設定CPU resources guaranteed:固定為 0%<br/>\n設定Memory resources guaranteed:固定為 0%<br/>\n2 cpu = 1VM數<br/>\nRPP包裝增加SSD儲存空間，RPG包裝增加SAS儲存空間，從 storeage policy 去分",
         "requestBody": {
           "content": {
             "application/json": {
