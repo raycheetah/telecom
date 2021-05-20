@@ -1148,7 +1148,7 @@
           }
         },
         "operationId": "updateEdge",
-        "description": "1. vcd edge 是 T1, vcd 外部網路是 T0, vcd 不能設置 T0, T0 只能由 nsx-t 去設定<br.>\n2. 所以更新 T0 的 uplink 等同更新 vcd 外部網路的 uplink, 設定 vcd edge 的 uplink 等於是設置 T1 的uplink",
+        "description": "1. vcd edge 是 T1, vcd 外部網路是 T0, vcd 不能設置 T0, T0 只能由 nsx-t 去設定<br/>\n2. 所以更新 T0 的 uplink 等同更新 vcd 外部網路的 uplink, 設定 vcd edge 的 uplink 等於是設置 T1 的uplink",
         "requestBody": {
           "content": {
             "application/json": {
