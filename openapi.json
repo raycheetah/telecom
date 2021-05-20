@@ -437,7 +437,17 @@
           },
           "description": ""
         },
-        "description": "新增使用者"
+        "description": "新增使用者",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer"
+          }
+        ]
       }
     },
     "/maintenance/org": {
@@ -717,7 +727,17 @@
           },
           "description": ""
         },
-        "description": "VDC 加購"
+        "description": "VDC 加購",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer"
+          }
+        ]
       },
       "get": {
         "summary": "抓取 vdc 資訊",
@@ -1695,7 +1715,17 @@
             }
           }
         },
-        "operationId": "get-maintenance-orgId-vdc-vdcId"
+        "operationId": "get-maintenance-orgId-vdc-vdcId",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer"
+          }
+        ]
       },
       "get": {
         "summary": "抓取 vdc 資訊",
