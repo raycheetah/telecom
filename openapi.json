@@ -189,7 +189,7 @@
           }
         },
         "operationId": "createvdc",
-        "description": "1 cpu 換算成2GHz<br/>\n設定CPU resources guaranteed:固定為 0%<br/>\n設定Memory resources guaranteed:固定為 0%<br/>\n2 cpu = 1VM數<br/>\nRPP包裝增加SSD儲存空間，RPG包裝增加SAS儲存空間，從 storeage policy 去分",
+        "description": "1.  cpu 換算成2GHz<br/>\n設定CPU resources guaranteed:固定為 0%<br/>\n2.  設定Memory resources guaranteed:固定為 0%<br/>\n   cpu = 1VM數<br/>\n3.  RPP包裝增加SSD儲存空間，RPG包裝增加SAS儲存空間，從 storeage policy 去分",
         "requestBody": {
           "content": {
             "application/json": {
@@ -885,7 +885,7 @@
           }
         },
         "operationId": "addVdcNetwork",
-        "description": "1. vcd portal 已經沒有是否使用 edge dns 的 checkbox boolean 欄位，若不填 vdc network 的 dns, 是否會直接用 edge 的 dns 未來要測試過\n2. vcd portal 已經沒有設定 vdc network 在組織vdc內可以共享的 boolean 欄位，若要共享網路，在 vcd 10.2 nsx-t 的結構之下只能使用 vdc group, vdc group 遇到技術問題還在測試中",
+        "description": "1. vcd portal 已經沒有是否使用 edge dns 的 checkbox boolean 欄位，若不填 vdc network 的 dns, 是否會直接用 edge 的 dns 未來要測試過 <br/>\n2. vcd portal 已經沒有設定 vdc network 在組織vdc內可以共享的 boolean 欄位，若要共享網路，在 vcd 10.2 nsx-t 的結構之下只能使用 vdc group, vdc group 遇到技術問題還在測試中",
         "requestBody": {
           "content": {
             "application/json": {
@@ -993,7 +993,7 @@
           }
         },
         "operationId": "addEdge",
-        "description": "1. vcd edge 是 T1, vcd 外部網路是 T0, vcd 不能設置 T0, T0 只能由 nsx-t 去設定\n2. 所以更新 T0 的 uplink 等同更新 vcd 外部網路的 uplink, 設定 vcd edge 的 uplink 等於是設置 T1 的uplink\n3. 所謂設定 esg 外部網路介面的 ip 是?  \n4. vcd Api/UI 已經沒有 configure default gateway checkbox/設定, 原則上 vcd edge/T1 已經是 底下的 org network 的 gateway\n5. vcd Api/UI 已經沒有 Use default gateway for DNS Relay checkbox/設定, \n要設 edge dns, 經由另一個新的 vcd10.2 openapi",
+        "description": "1. vcd edge 是 T1, vcd 外部網路是 T0, vcd 不能設置 T0, T0 只能由 nsx-t 去設定<br/>\n2. 所以更新 T0 的 uplink 等同更新 vcd 外部網路的 uplink, 設定 vcd edge 的 uplink 等於是設置 T1 的uplink<br/>\n3. 所謂設定 esg 外部網路介面的 ip 是?<br/>\n4. vcd Api/UI 已經沒有 configure default gateway checkbox/設定, 原則上 vcd edge/T1 已經是 底下的 org network 的 gateway<br/>\n5. vcd Api/UI 已經沒有 Use default gateway for DNS Relay checkbox/設定, \n要設 edge dns, 經由另一個新的 vcd10.2 openapi",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1128,7 +1128,7 @@
           }
         },
         "operationId": "updateEdge",
-        "description": "1. vcd edge 是 T1, vcd 外部網路是 T0, vcd 不能設置 T0, T0 只能由 nsx-t 去設定\n2. 所以更新 T0 的 uplink 等同更新 vcd 外部網路的 uplink, 設定 vcd edge 的 uplink 等於是設置 T1 的uplink",
+        "description": "1. vcd edge 是 T1, vcd 外部網路是 T0, vcd 不能設置 T0, T0 只能由 nsx-t 去設定<br.>\n2. 所以更新 T0 的 uplink 等同更新 vcd 外部網路的 uplink, 設定 vcd edge 的 uplink 等於是設置 T1 的uplink",
         "requestBody": {
           "content": {
             "application/json": {
