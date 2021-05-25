@@ -125,11 +125,13 @@
         "parameters": [
           {
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "每個 Api 均要帶入 Authorization Bearer Token "
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer"
+            "description": "Bearer",
+            "required": true
           }
         ]
       }
@@ -239,11 +241,13 @@
         "parameters": [
           {
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "每個 Api 均要帶入 Authorization Bearer Token "
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer"
+            "description": "Bearer",
+            "required": true
           }
         ]
       },
@@ -344,7 +348,8 @@
         "parameters": [
           {
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "每個 Api 均要帶入 Authorization Bearer Token"
             },
             "in": "query",
             "name": "AccId",
@@ -529,11 +534,13 @@
         "parameters": [
           {
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "每個 Api 均要帶入 Authorization Bearer Token "
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer"
+            "description": "Bearer",
+            "required": true
           }
         ]
       }
@@ -597,11 +604,13 @@
         "parameters": [
           {
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "每個 Api 均要帶入 Authorization Bearer Token "
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer"
+            "description": "Bearer",
+            "required": true
           }
         ]
       },
@@ -830,11 +839,13 @@
         "parameters": [
           {
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "每個 Api 均要帶入 Authorization Bearer Token "
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer"
+            "description": "Bearer",
+            "required": true
           }
         ]
       }
@@ -931,11 +942,13 @@
         "parameters": [
           {
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "每個 Api 均要帶入 Authorization Bearer Token"
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer"
+            "description": "Bearer",
+            "required": true
           }
         ]
       }
@@ -1066,11 +1079,13 @@
         "parameters": [
           {
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "每個 Api 均要帶入 Authorization Bearer Token"
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer"
+            "description": "Bearer",
+            "required": true
           }
         ]
       }
@@ -1155,7 +1170,15 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/resource_edge"
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/resource_edge_addressPool"
+                    },
+                    {
+                      "$ref": "#/components/schemas/resource_edge_qos"
+                    }
+                  ],
+                  "description": "設置子配置IP集區 / 設定速率限制"
                 }
               },
               "examples": {
@@ -1183,10 +1206,6 @@
                 "加購 IP": {
                   "value": [
                     {
-                      "type": "static",
-                      "ipAddress": "10.9.57.103"
-                    },
-                    {
                       "type": "addressPool",
                       "pools": [
                         "10.9.57.104 - 10.9.57.104"
@@ -1201,11 +1220,13 @@
         "parameters": [
           {
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "每個 Api 均要帶入 Authorization Bearer Token "
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer"
+            "description": "Bearer",
+            "required": true
           }
         ]
       }
@@ -1415,11 +1436,13 @@
           },
           {
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "每個 Api 均要帶入 Authorization Bearer Token"
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer"
+            "description": "Bearer",
+            "required": true
           }
         ],
         "description": ""
@@ -1520,13 +1543,16 @@
           },
           {
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "每個 Api 均要帶入 Authorization Bearer Token"
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer"
+            "description": "Bearer",
+            "required": true
           }
-        ]
+        ],
+        "description": ""
       }
     },
     "/usage/list/vm": {
@@ -1634,11 +1660,13 @@
           },
           {
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "每個 Api 均要帶入 Authorization Bearer Token"
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer"
+            "description": "Bearer",
+            "required": true
           }
         ]
       }
@@ -1719,11 +1747,13 @@
         "parameters": [
           {
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "每個 Api 均要帶入 Authorization Bearer Token "
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer"
+            "description": "Bearer",
+            "required": true
           }
         ]
       },
@@ -1956,11 +1986,13 @@
         "parameters": [
           {
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "每個 Api 均要帶入 Authorization Bearer Token "
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer"
+            "description": "Bearer",
+            "required": true
           }
         ]
       }
@@ -2048,11 +2080,13 @@
         "parameters": [
           {
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "每個 Api 均要帶入 Authorization Bearer Token "
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer"
+            "description": "Bearer",
+            "required": true
           }
         ]
       }
@@ -2106,22 +2140,35 @@
       },
       "account": {
         "type": "object",
+        "x-examples": {
+          "Account": {
+            "id": "admin",
+            "active": true,
+            "role": "Tenant Admin",
+            "contactName": "tester",
+            "contactMail": "tester@test.com.tw",
+            "contactPhone": "0901-234-567"
+          }
+        },
+        "description": "使用者管理",
         "properties": {
           "id": {
             "type": "string",
-            "description": "admin"
+            "description": "User name",
+            "example": "admin"
           },
           "active": {
             "type": "boolean",
-            "description": "true"
+            "description": "是否啟用"
           },
           "role": {
             "type": "string",
-            "description": "Tenant Admin"
+            "description": "全域角色",
+            "example": "Tenant Admin"
           },
           "contactName": {
             "type": "string",
-            "description": "tester"
+            "description": "聯絡名稱"
           },
           "contactMail": {
             "type": "string",
@@ -2132,16 +2179,11 @@
             "description": "0901-234-567"
           }
         },
-        "x-examples": {
-          "Account": {
-            "id": "admin",
-            "active": true,
-            "role": "Tenant Admin",
-            "contactName": "tester",
-            "contactMail": "tester@test.com.tw",
-            "contactPhone": "0901-234-567"
-          }
-        }
+        "required": [
+          "id",
+          "active",
+          "role"
+        ]
       },
       "quota": {
         "title": "auota",
@@ -2276,62 +2318,84 @@
             "resources": [
               {
                 "type": "static",
-                "ipAddress": "string",
+                "ipAddress": "10.9.57.102"
+              },
+              {
+                "type": "addressPool",
                 "pools": [
-                  "string"
-                ],
+                  "10.9.57.102 - 10.9.57.102"
+                ]
+              },
+              {
+                "type": "qos",
                 "limitSettings": [
                   {
-                    "id": "string",
+                    "id": "RayTryIn",
                     "type": "inbound",
-                    "bandwidth": 0,
-                    "bps": 0
+                    "bandwidth": 1,
+                    "bps": 200
+                  },
+                  {
+                    "id": "RayTryOut",
+                    "type": "outbound",
+                    "bandwidth": 2,
+                    "bps": 100
                   }
                 ]
+              },
+              {
+                "type": "dns",
+                "defaultForwarderZone": {
+                  "displayName": "RayTryDns",
+                  "upstreamServers": [
+                    "10.9.57.31"
+                  ]
+                }
               }
             ]
           }
         },
+        "description": "",
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "description": "Edge名稱"
           },
           "publicNetworkId": {
-            "type": "string"
+            "type": "string",
+            "description": "外部網路名稱"
           },
           "resources": {
             "type": "array",
+            "description": "類型有 static addressPool qos dns",
             "items": {
-              "$ref": "#/components/schemas/resource_edge"
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/resource_edge_static"
+                },
+                {
+                  "$ref": "#/components/schemas/resource_edge_addressPool"
+                },
+                {
+                  "$ref": "#/components/schemas/resource_edge_qos"
+                },
+                {
+                  "$ref": "#/components/schemas/resource_edge_dns"
+                }
+              ]
             }
           }
-        }
+        },
+        "required": [
+          "id",
+          "publicNetworkId",
+          "resources"
+        ]
       },
-      "resource_edge": {
+      "resource_edge_dns": {
         "title": "resource_edge",
         "type": "object",
         "x-examples": {
-          "static": {
-            "type": "static",
-            "ipAddress": "10.9.57.102"
-          },
-          "dynamic": {
-            "type": "addressPool",
-            "pools": [
-              "10.9.57.102 - 10.9.57.102"
-            ]
-          },
-          "qos": {
-            "type": "qos",
-            "limitSettings": [
-              {
-                "id": "RayTryIn",
-                "type": "inbound",
-                "bandwidth": 1,
-                "bps": 1
-              }
-            ]
-          },
           "dns": {
             "type": "dns",
             "defaultForwarderZone": {
@@ -2342,61 +2406,156 @@
             }
           }
         },
+        "description": "",
         "properties": {
           "type": {
             "type": "string",
             "enum": [
-              "static",
-              "addressPool",
-              "qos",
               "dns"
-            ]
-          },
-          "ipAddress": {
-            "type": "string",
-            "description": "static 專用，設在其他無效",
-            "pattern": "^(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}$"
-          },
-          "pools": {
-            "type": "array",
-            "description": "addressPool 專用，設在其他無效",
-            "items": {
-              "type": "string"
-            }
-          },
-          "limitSettings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/qos"
-            }
+            ],
+            "description": "DNS 型態"
           },
           "defaultForwarderZone": {
             "$ref": "#/components/schemas/dns"
           }
         },
-        "description": ""
+        "required": [
+          "type",
+          "defaultForwarderZone"
+        ]
+      },
+      "resource_edge_qos": {
+        "title": "resource_edge_qos",
+        "type": "object",
+        "x-examples": {
+          "qos": {
+            "type": "qos",
+            "limitSettings": [
+              {
+                "id": "RayTryIn",
+                "type": "inbound",
+                "bandwidth": 1,
+                "bps": 200
+              },
+              {
+                "id": "RayTryOut",
+                "type": "outbound",
+                "bandwidth": 2,
+                "bps": 100
+              }
+            ]
+          }
+        },
+        "description": "",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "qos"
+            ],
+            "description": "設定速率限制"
+          },
+          "limitSettings": {
+            "type": "array",
+            "description": "設定 inbound 與 outbound limit",
+            "items": {
+              "$ref": "#/components/schemas/qos"
+            }
+          }
+        },
+        "required": [
+          "type",
+          "limitSettings"
+        ]
+      },
+      "resource_edge_addressPool": {
+        "title": "resource_edge_addressPool",
+        "type": "object",
+        "x-examples": {
+          "dynamic": {
+            "type": "addressPool",
+            "pools": [
+              "10.9.57.102 - 10.9.57.102"
+            ]
+          }
+        },
+        "description": "",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "addressPool"
+            ],
+            "description": "子配置IP集區"
+          },
+          "pools": {
+            "type": "array",
+            "description": "IP 區間",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "type",
+          "pools"
+        ]
+      },
+      "resource_edge_static": {
+        "title": "resource_edge_static",
+        "type": "object",
+        "x-examples": {
+          "static": {
+            "type": "static",
+            "ipAddress": "10.9.57.102"
+          }
+        },
+        "description": "",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "static"
+            ],
+            "description": "Primary IP"
+          },
+          "ipAddress": {
+            "type": "string",
+            "description": "static 專用，設在其他無效",
+            "pattern": "^(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}$"
+          }
+        }
       },
       "qos": {
         "title": "qos",
         "type": "object",
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "description": "qos"
           },
           "type": {
             "type": "string",
             "enum": [
               "inbound",
               "outbound"
-            ]
+            ],
+            "description": "Inbound Outbound 兩種型態"
           },
           "bandwidth": {
-            "type": "number"
+            "type": "number",
+            "description": "單位Ｍbps"
           },
           "bps": {
             "type": "integer"
           }
-        }
+        },
+        "required": [
+          "id",
+          "type",
+          "bandwidth",
+          "bps"
+        ]
       },
       "info": {
         "title": "info",
@@ -2647,17 +2806,6 @@
       "dns": {
         "title": "dns",
         "type": "object",
-        "properties": {
-          "displayName": {
-            "type": "string"
-          },
-          "upstreamServers": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        },
         "x-examples": {
           "dns": {
             "displayName": "RayTryDns",
@@ -2665,7 +2813,24 @@
               "10.9.57.31"
             ]
           }
-        }
+        },
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "description": "dns名稱"
+          },
+          "upstreamServers": {
+            "type": "array",
+            "description": "上游 dns",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "displayName",
+          "upstreamServers"
+        ]
       },
       "usage": {
         "title": "resource_usage",
