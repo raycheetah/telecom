@@ -1876,7 +1876,7 @@
     },
     "/usage/list/poweron": {
       "get": {
-        "summary": "以每天為單位查詢每日max vm數量",
+        "summary": "以每日為單位查詢vm開機時數",
         "tags": [
           "usage"
         ],
