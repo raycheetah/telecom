@@ -2995,33 +2995,34 @@
             "contactPhone": "0901-234-567"
           }
         },
-        "description": "使用者管理",
+        "description": "編輯使用者",
+        "title": "編輯使用者",
         "properties": {
           "id": {
             "type": "string",
-            "description": "User name",
+            "description": "使用者名稱",
             "example": "admin"
           },
           "active": {
             "type": "boolean",
-            "description": "是否啟用"
+            "description": "啟用"
           },
           "role": {
             "type": "string",
-            "description": "全域角色",
+            "description": "可用角色",
             "example": "Tenant Admin"
           },
           "contactName": {
             "type": "string",
-            "description": "聯絡名稱"
+            "description": "全名"
           },
           "contactMail": {
             "type": "string",
-            "description": "tester@test.com.tw"
+            "description": "電子郵件地址"
           },
           "contactPhone": {
             "type": "string",
-            "description": "0901-234-567"
+            "description": "電話號碼"
           }
         },
         "required": [
@@ -3260,7 +3261,7 @@
         }
       },
       "resource_vdc_modelType": {
-        "title": "Allocation Model Type",
+        "title": "application_model_type",
         "type": "object",
         "x-examples": {
           "modeltype": {
