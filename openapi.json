@@ -70,7 +70,7 @@
                     "value": {
                       "info": {
                         "code": "user:0000",
-                        "message": "進件成功",
+                        "message": "新增組織成功",
                         "success": true
                       }
                     }
@@ -79,13 +79,14 @@
                     "value": {
                       "taskInfo": {
                         "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
-                        "createTime": "2021-05-12 11:10:55"
+                        "createTime": "2021-05-12 11:10:55",
+                        "type": "AP"
                       },
                       "info": {
                         "code": "user:0900",
-                        "message": "進件失敗 重複進件！此件已於 2021-05-06 12:14:55 成功進過",
+                        "message": "新增組織失敗",
                         "exception": {
-                          "message": " 重複進件！此件已於 2021-05-06 12:14:55 成功進過",
+                          "message": " 新增組織失敗",
                           "stackTrace": "com.sysage.web.model.error.RestApiException:  重複進件！此件已於 2021-05-06 12:14:55 成功進過\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
                         },
                         "success": false
@@ -125,12 +126,11 @@
         "parameters": [
           {
             "schema": {
-              "type": "string",
-              "example": "每個 Api 均要帶入 Authorization Bearer Token "
+              "type": "string"
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer",
+            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
             "required": true
           }
         ]
@@ -172,7 +172,8 @@
                     "value": {
                       "taskInfo": {
                         "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
-                        "createTime": "2021-05-12 11:10:55"
+                        "createTime": "2021-05-12 11:10:55",
+                        "type": "AP"
                       },
                       "info": {
                         "code": "user:0800",
@@ -220,7 +221,7 @@
                       {
                         "type": "disk",
                         "limit": 30000,
-                        "storageId": ""
+                        "storageId": "VCD-StoragePolicy"
                       },
                       {
                         "type": "memory",
@@ -241,12 +242,11 @@
         "parameters": [
           {
             "schema": {
-              "type": "string",
-              "example": "每個 Api 均要帶入 Authorization Bearer Token "
+              "type": "string"
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer",
+            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
             "required": true
           }
         ]
@@ -271,101 +271,10 @@
           },
           "name": "orgId",
           "in": "path",
-          "required": true
+          "required": true,
+          "description": "組織名稱"
         }
       ],
-      "get": {
-        "summary": "製作使用者帳號之權限表",
-        "tags": [
-          "user"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "info": {
-                      "$ref": "#/components/schemas/info"
-                    },
-                    "taskInfo": {
-                      "$ref": "#/components/schemas/taskInfo"
-                    },
-                    "data": {
-                      "$ref": "#/components/schemas/rights"
-                    }
-                  }
-                },
-                "examples": {
-                  "Fail": {
-                    "value": {
-                      "taskInfo": {
-                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
-                        "createTime": "2021-05-12 11:10:55"
-                      },
-                      "info": {
-                        "code": "user:0600",
-                        "message": "帳號查詢失敗",
-                        "exception": {
-                          "message": " 帳號查詢失敗",
-                          "url": null,
-                          "stackTrace": "com.sysage.web.model.error.RestApiException:  帳號查詢失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
-                        },
-                        "success": false
-                      }
-                    }
-                  },
-                  "Success": {
-                    "value": {
-                      "info": {
-                        "code": "string",
-                        "message": "string",
-                        "success": true,
-                        "exception": {
-                          "message": "string",
-                          "url": "string",
-                          "stackTrace": "string"
-                        }
-                      },
-                      "data": [
-                        {
-                          "name": "Organization vDC Named Disk",
-                          "type": "VIEW",
-                          "rights": []
-                        }
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "operationId": "getrights",
-        "description": "製作使用者帳號之權限表",
-        "parameters": [
-          {
-            "schema": {
-              "type": "string",
-              "example": "每個 Api 均要帶入 Authorization Bearer Token"
-            },
-            "in": "query",
-            "name": "AccId",
-            "description": "帳號名稱",
-            "required": true
-          },
-          {
-            "schema": {
-              "type": "string"
-            },
-            "in": "header",
-            "name": "Authorization",
-            "description": "Bearer"
-          }
-        ]
-      },
       "post": {
         "summary": "新增使用者",
         "tags": [
@@ -392,7 +301,7 @@
                     "value": {
                       "info": {
                         "code": "user:0000",
-                        "message": "新增成功",
+                        "message": "新增帳號成功",
                         "success": true
                       }
                     }
@@ -401,7 +310,8 @@
                     "value": {
                       "taskInfo": {
                         "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
-                        "createTime": "2021-05-12 11:10:55"
+                        "createTime": "2021-05-12 11:10:55",
+                        "type": "AP"
                       },
                       "info": {
                         "code": "user:0700",
@@ -450,7 +360,8 @@
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer"
+            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
+            "required": true
           }
         ]
       }
@@ -492,7 +403,8 @@
                     "value": {
                       "taskInfo": {
                         "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
-                        "createTime": "2021-05-12 11:10:55"
+                        "createTime": "2021-05-12 11:10:55",
+                        "type": "AP"
                       },
                       "info": {
                         "code": "maintenance:0500",
@@ -518,10 +430,9 @@
                 "$ref": "#/components/schemas/tenant"
               },
               "examples": {
-                "vdc": {
+                "Tenant": {
                   "value": {
-                    "id": "string",
-                    "active": true,
+                    "id": "ray@test.com.tw",
                     "vAppRuntimeLease": 0,
                     "vAppStorageLease": 0,
                     "vAppTemplateLease": 0
@@ -534,12 +445,11 @@
         "parameters": [
           {
             "schema": {
-              "type": "string",
-              "example": "每個 Api 均要帶入 Authorization Bearer Token "
+              "type": "string"
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer",
+            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
             "required": true
           }
         ]
@@ -582,7 +492,8 @@
                     "value": {
                       "taskInfo": {
                         "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
-                        "createTime": "2021-05-12 11:10:55"
+                        "createTime": "2021-05-12 11:10:55",
+                        "type": "AP"
                       },
                       "info": {
                         "code": "maintenance:0500",
@@ -604,12 +515,11 @@
         "parameters": [
           {
             "schema": {
-              "type": "string",
-              "example": "每個 Api 均要帶入 Authorization Bearer Token "
+              "type": "string"
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer",
+            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
             "required": true
           }
         ]
@@ -634,7 +544,8 @@
           },
           "name": "status",
           "in": "path",
-          "required": true
+          "required": true,
+          "description": "狀態有 id_enable id_disable"
         }
       ]
     },
@@ -646,7 +557,8 @@
           "required": true,
           "schema": {
             "type": "string"
-          }
+          },
+          "description": "組織名稱"
         }
       ],
       "put": {
@@ -684,7 +596,8 @@
                     "value": {
                       "taskInfo": {
                         "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
-                        "createTime": "2021-05-12 11:10:55"
+                        "createTime": "2021-05-12 11:10:55",
+                        "type": "AP"
                       },
                       "info": {
                         "code": "user:0800",
@@ -717,16 +630,29 @@
                     "resources": [
                       {
                         "type": "cpu",
-                        "limit": 3
+                        "limit": 2
+                      },
+                      {
+                        "type": "vm",
+                        "limit": 10
+                      },
+                      {
+                        "type": "network",
+                        "limit": 100,
+                        "networkPoolId": "NP-Overlay"
                       },
                       {
                         "type": "disk",
-                        "limit": 30001,
+                        "limit": 30000,
                         "storageId": ""
                       },
                       {
                         "type": "memory",
-                        "limit": 8193
+                        "limit": 8192
+                      },
+                      {
+                        "type": "vcpu",
+                        "limit": 2
                       }
                     ]
                   }
@@ -744,7 +670,7 @@
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer"
+            "description": "每個 Api 均要帶入 Authorization Bearer Token "
           }
         ]
       },
@@ -794,7 +720,7 @@
                             {
                               "type": "disk",
                               "limit": 1024,
-                              "storageId": ""
+                              "storageId": "VCD-StoragePolicy"
                             },
                             {
                               "type": "vm",
@@ -802,7 +728,7 @@
                             },
                             {
                               "type": "network",
-                              "networkPoolId": "",
+                              "networkPoolId": "NV-OverLay",
                               "limit": 100
                             }
                           ]
@@ -814,7 +740,8 @@
                     "value": {
                       "taskInfo": {
                         "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
-                        "createTime": "2021-05-12 11:10:55"
+                        "createTime": "2021-05-12 11:10:55",
+                        "type": "AP"
                       },
                       "info": {
                         "code": "maintenance:0700",
@@ -839,18 +766,17 @@
         "parameters": [
           {
             "schema": {
-              "type": "string",
-              "example": "每個 Api 均要帶入 Authorization Bearer Token "
+              "type": "string"
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer",
+            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
             "required": true
           }
         ]
       }
     },
-    "/user/org/{orgId}/vdc/network": {
+    "/user/org/{orgId}/vdc/{vdcId}/edge/{edgeId}/network": {
       "parameters": [
         {
           "schema": {
@@ -860,6 +786,24 @@
           "in": "path",
           "required": true,
           "description": "組織名稱"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "edgeId",
+          "in": "path",
+          "required": true,
+          "description": "edge名稱"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "vdcId",
+          "in": "path",
+          "required": true,
+          "description": "vdc名稱"
         }
       ],
       "post": {
@@ -897,7 +841,8 @@
                     "value": {
                       "taskInfo": {
                         "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
-                        "createTime": "2021-05-12 11:10:55"
+                        "createTime": "2021-05-12 11:10:55",
+                        "type": "AP"
                       },
                       "info": {
                         "code": "user:0400",
@@ -930,8 +875,7 @@
                     "gatewayCidr": "192.168.1.254/24",
                     "staticIpPools": [
                       "192.168.1.1 - 192.168.1.253"
-                    ],
-                    "edgeId": "kubernetes"
+                    ]
                   }
                 }
               }
@@ -942,12 +886,11 @@
         "parameters": [
           {
             "schema": {
-              "type": "string",
-              "example": "每個 Api 均要帶入 Authorization Bearer Token"
+              "type": "string"
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer",
+            "description": "每個 Api 均要帶入 Authorization Bearer Token",
             "required": true
           }
         ]
@@ -961,7 +904,8 @@
           },
           "name": "orgId",
           "in": "path",
-          "required": true
+          "required": true,
+          "description": "組織名稱"
         },
         {
           "schema": {
@@ -969,7 +913,8 @@
           },
           "name": "vdcId",
           "in": "path",
-          "required": true
+          "required": true,
+          "description": "vdc名稱"
         }
       ],
       "post": {
@@ -1007,7 +952,8 @@
                     "value": {
                       "taskInfo": {
                         "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
-                        "createTime": "2021-05-12 11:10:55"
+                        "createTime": "2021-05-12 11:10:55",
+                        "type": "VCD"
                       },
                       "info": {
                         "code": "user:0300",
@@ -1057,6 +1003,12 @@
                             "type": "inbound",
                             "bandwidth": 1,
                             "bps": 1
+                          },
+                          {
+                            "id": "RayTryOut",
+                            "type": "outbound",
+                            "bandwidth": 1,
+                            "bps": 1
                           }
                         ]
                       },
@@ -1079,18 +1031,17 @@
         "parameters": [
           {
             "schema": {
-              "type": "string",
-              "example": "每個 Api 均要帶入 Authorization Bearer Token"
+              "type": "string"
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer",
+            "description": "每個 Api 均要帶入 Authorization Bearer Token",
             "required": true
           }
         ]
       }
     },
-    "/maintenance/org/{orgId}/vdc/{vdcId}/edge": {
+    "/maintenance/org/{orgId}/vdc/{vdcId}/edge/{edgeId}": {
       "parameters": [
         {
           "schema": {
@@ -1098,7 +1049,8 @@
           },
           "name": "orgId",
           "in": "path",
-          "required": true
+          "required": true,
+          "description": "組織名稱"
         },
         {
           "schema": {
@@ -1106,7 +1058,17 @@
           },
           "name": "vdcId",
           "in": "path",
-          "required": true
+          "required": true,
+          "description": "vdc名稱"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "edgeId",
+          "in": "path",
+          "required": true,
+          "description": "edge名稱"
         }
       ],
       "put": {
@@ -1135,7 +1097,7 @@
                     "value": {
                       "info": {
                         "code": "maintenance:0000",
-                        "message": "更新 edge 成功",
+                        "message": "加購成功",
                         "success": true
                       }
                     }
@@ -1144,7 +1106,8 @@
                     "value": {
                       "taskInfo": {
                         "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
-                        "createTime": "2021-05-12 11:10:55"
+                        "createTime": "2021-05-12 11:10:55",
+                        "type": "AP"
                       },
                       "info": {
                         "code": "maintenance:0200",
@@ -1168,64 +1131,57 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "array",
-                "items": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/resource_edge_addressPool"
-                    },
-                    {
-                      "$ref": "#/components/schemas/resource_edge_qos"
-                    }
-                  ],
-                  "description": "設置子配置IP集區 / 設定速率限制"
-                }
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/resource_edge_addressPool"
+                  },
+                  {
+                    "$ref": "#/components/schemas/resource_edge_qos"
+                  }
+                ],
+                "description": "設置子配置IP集區 / 設定速率限制"
               },
               "examples": {
                 "加購頻寬": {
-                  "value": [
-                    {
-                      "type": "qos",
-                      "limitSettings": [
-                        {
-                          "id": "RayTryIn",
-                          "type": "inbound",
-                          "bandwidth": 2,
-                          "bps": 2
-                        },
-                        {
-                          "id": "RayTryOut",
-                          "type": "outbound",
-                          "bandwidth": 2,
-                          "bps": 2
-                        }
-                      ]
-                    }
-                  ]
+                  "value": {
+                    "type": "qos",
+                    "limitSettings": [
+                      {
+                        "id": "RayTryIn",
+                        "type": "inbound",
+                        "bandwidth": 2,
+                        "bps": 2
+                      },
+                      {
+                        "id": "RayTryOut",
+                        "type": "outbound",
+                        "bandwidth": 2,
+                        "bps": 2
+                      }
+                    ]
+                  }
                 },
                 "加購 IP": {
-                  "value": [
-                    {
-                      "type": "addressPool",
-                      "pools": [
-                        "10.9.57.104 - 10.9.57.104"
-                      ]
-                    }
-                  ]
+                  "value": {
+                    "type": "addressPool",
+                    "pools": [
+                      "10.9.57.104 - 10.9.57.104"
+                    ]
+                  }
                 }
               }
             }
-          }
+          },
+          "description": ""
         },
         "parameters": [
           {
             "schema": {
-              "type": "string",
-              "example": "每個 Api 均要帶入 Authorization Bearer Token "
+              "type": "string"
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer",
+            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
             "required": true
           }
         ]
@@ -1263,27 +1219,24 @@
                       "statistics": [
                         {
                           "tenantId": "admin@jimmytest0624.com",
-                          "vmId": "vm:068646f6-9af4-4b6a-b925-ff8181465f9d",
-                          "vmName": "antony-test-0308",
+                          "vmId": "antony-test-0308",
                           "info": {
-                            "name": "antony-test-0308",
                             "vCore": 1,
                             "vRam": 2048,
                             "vDisk": [
                               {
-                                "diskId": "2000",
                                 "diskName": "Hard disk 1",
                                 "storagePolicyName": "VCD-StoragePolicy",
                                 "isIndependent": false,
                                 "quantity": 16
                               }
                             ],
-                            "ipList": [
-                              "172.16.10.11"
-                            ],
                             "os": "CentOS 7 (64-bit)",
                             "status": "ON"
                           },
+                          "ipList": [
+                            "172.16.10.11"
+                          ],
                           "timestamp": 1616550300000,
                           "timeString": "2021-03-24 09:45:00"
                         }
@@ -1299,7 +1252,6 @@
                           "tenantId": "jimmytest0624.com",
                           "disks": [
                             {
-                              "diskId": "disk:201be1fb-1392-46ec-8184-04f8cffed5c3",
                               "diskName": "jimmy0624-disk1",
                               "storagePolicyName": "VCD-StoragePolicy",
                               "isIndependent": true,
@@ -1319,8 +1271,7 @@
                       "statistics": [
                         {
                           "tenantId": "jimmytest0624.com",
-                          "vmId": "vm:6c4e94b2-33d3-4d7c-934f-5139f8eeb765",
-                          "vmName": "antony-vm-1203",
+                          "vmId": "antony-vm-1203",
                           "quantity": 40,
                           "timestamp": 1616550300000,
                           "timeString": "2021-03-24 09:45:00"
@@ -1335,11 +1286,11 @@
                       "statistics": [
                         {
                           "tenantId": "admin@jimmytest0624.com",
-                          "edgeId": "gateway:b03f80d1-4108-41ac-b6a2-6e2bcfeebb29",
+                          "edgeId": "gateway:RayEdge",
                           "quantity": 298898.646336,
                           "usages": [
                             {
-                              "id": "0",
+                              "index": "0",
                               "ipAddress": "192.168.30.37"
                             }
                           ],
@@ -1398,7 +1349,8 @@
               ]
             },
             "in": "query",
-            "name": "resourceType"
+            "name": "resourceType",
+            "required": true
           },
           {
             "schema": {
@@ -1406,7 +1358,8 @@
             },
             "in": "query",
             "name": "tenantId",
-            "description": "組織名稱"
+            "description": "組織名稱",
+            "required": true
           },
           {
             "schema": {
@@ -1423,7 +1376,8 @@
             },
             "in": "query",
             "name": "startTime",
-            "description": "13位 timestamp"
+            "description": "13位 timestamp",
+            "required": true
           },
           {
             "schema": {
@@ -1432,7 +1386,8 @@
             },
             "in": "query",
             "name": "endTime",
-            "description": "13位 timestamp"
+            "description": "13位 timestamp",
+            "required": true
           },
           {
             "schema": {
@@ -1441,7 +1396,7 @@
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer",
+            "description": "每個 Api 均要帶入 Authorization Bearer Token",
             "required": true
           }
         ],
@@ -1450,7 +1405,7 @@
     },
     "/usage/list/snapshot": {
       "get": {
-        "summary": "統計某月有幾台 VM 做過 snapshot",
+        "summary": "統計每小時有幾台 VM 做過 snapshot",
         "tags": [
           "usage"
         ],
@@ -1468,12 +1423,41 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/statistic"
+                        "type": "object",
+                        "properties": {
+                          "vdcid": {
+                            "type": "string",
+                            "description": "vdc名稱"
+                          },
+                          "element": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/statistic_snapshots_template"
+                            }
+                          },
+                          "sum": {
+                            "type": "integer",
+                            "description": "總和"
+                          }
+                        }
                       }
                     }
                   }
                 },
                 "examples": {
+                  "Fail": {
+                    "value": {
+                      "info": {
+                        "code": "user:9999",
+                        "message": "抓取snapshot區間失敗",
+                        "exception": {
+                          "message": "抓取snapshot區間失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  帳號查詢失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
+                        },
+                        "success": false
+                      }
+                    }
+                  },
                   "Success": {
                     "value": {
                       "info": {
@@ -1483,31 +1467,24 @@
                       },
                       "data": [
                         {
-                          "tenantId": "RayOrg",
-                          "timestamp": 1619798400000,
-                          "timeString": "2021-05-01 00:00:00",
-                          "vmId": "RayVmOne"
-                        },
-                        {
-                          "tenantId": "RayOrg",
-                          "timestamp": 1619798400000,
-                          "timeString": "2021-05-01 00:00:00",
-                          "vmId": "RayVmTwo"
+                          "id": "RayVdc",
+                          "element": [
+                            {
+                              "tenantId": "RayOrg@test.com.tw",
+                              "timestamp": 1619798400000,
+                              "timeString": "2021-05-01 00:00:00",
+                              "vmId": "RayVmOne"
+                            },
+                            {
+                              "tenantId": "RayOrg@test.com.tw",
+                              "timestamp": 1619798400000,
+                              "timeString": "2021-05-01 01:00:00",
+                              "vmId": "RayVmTwo"
+                            }
+                          ],
+                          "sum": 2
                         }
                       ]
-                    }
-                  },
-                  "Fail": {
-                    "value": {
-                      "info": {
-                        "code": "user:9999",
-                        "message": "抓取snapshot時間失敗",
-                        "exception": {
-                          "message": "抓取snapshot時間失敗",
-                          "stackTrace": "com.sysage.web.model.error.RestApiException:  帳號查詢失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
-                        },
-                        "success": false
-                      }
                     }
                   }
                 }
@@ -1538,8 +1515,9 @@
               "type": "string"
             },
             "in": "query",
-            "name": "monthTime",
-            "description": "13位timestamp, 程式自動 mod 月開始時間"
+            "name": "startTime",
+            "description": "13位timestamp, 程式自動 mod 月開始時間",
+            "required": true
           },
           {
             "schema": {
@@ -1550,6 +1528,28 @@
             "name": "Authorization",
             "description": "Bearer",
             "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "endTime",
+            "description": "13位timestamp, 程式自動 mod 月開始時間",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "HR",
+                "FIVE",
+                "DAY"
+              ]
+            },
+            "in": "query",
+            "name": "frequency",
+            "description": "取樣單位，不填 HR"
           }
         ],
         "description": ""
@@ -1557,7 +1557,7 @@
     },
     "/usage/list/vm": {
       "get": {
-        "summary": "1個月內VM開機的時間",
+        "summary": "以每天為單位查詢每日max vm數量",
         "tags": [
           "usage"
         ],
@@ -1575,44 +1575,28 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/statistic"
+                        "type": "object",
+                        "properties": {
+                          "vdcId": {
+                            "type": "string",
+                            "description": "vdc名稱"
+                          },
+                          "element": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/statistic_vminfo"
+                            }
+                          },
+                          "sum": {
+                            "type": "integer",
+                            "description": "總計"
+                          }
+                        }
                       }
                     }
                   }
                 },
                 "examples": {
-                  "Success": {
-                    "value": {
-                      "info": {
-                        "code": "string",
-                        "message": "string",
-                        "success": true,
-                        "exception": {
-                          "message": "string",
-                          "url": "string",
-                          "stackTrace": "string"
-                        }
-                      },
-                      "data": [
-                        {
-                          "tenantId": "RayOrg",
-                          "timestamp": 1619798400000,
-                          "timeString": "2021-05-01 00:00:00",
-                          "vmId": "RayVmOne",
-                          "quantity": 73,
-                          "unit": "Hours"
-                        },
-                        {
-                          "tenantId": "RayOrg",
-                          "timestamp": 1619798400000,
-                          "timeString": "2021-05-01 00:00:00",
-                          "vmId": "RayVmTwo",
-                          "quantity": 123,
-                          "unit": "Hours"
-                        }
-                      ]
-                    }
-                  },
                   "Fail": {
                     "value": {
                       "info": {
@@ -1624,6 +1608,46 @@
                         },
                         "success": false
                       }
+                    }
+                  },
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "usage:0000",
+                        "message": "擷取 vm info 成功",
+                        "success": true
+                      },
+                      "data": [
+                        {
+                          "vdcId": "RayVdc",
+                          "element": [
+                            {
+                              "tenantId": "string",
+                              "timestamp": 0,
+                              "timeString": "string",
+                              "vmId": "string",
+                              "info": {
+                                "vCore": 0,
+                                "vRam": 0,
+                                "vDisk": [
+                                  {
+                                    "diskName": "string",
+                                    "isIndependent": true,
+                                    "quantity": 0,
+                                    "storageId": "string"
+                                  }
+                                ],
+                                "os": "string",
+                                "status": true
+                              },
+                              "ipList": [
+                                "string"
+                              ]
+                            }
+                          ],
+                          "sum": 1
+                        }
+                      ]
                     }
                   }
                 }
@@ -1639,8 +1663,9 @@
               "type": "string"
             },
             "in": "query",
-            "name": "monthTime",
-            "description": "13位timestamp, 程式自動 mod 月開始時間"
+            "name": "startTime",
+            "description": "13位timestamp, 程式自動 mod 月開始時間",
+            "required": true
           },
           {
             "schema": {
@@ -1667,6 +1692,29 @@
             "name": "Authorization",
             "description": "Bearer",
             "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "endTime",
+            "description": "13位timestamp, 程式自動 mod 月開始時間",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "HR",
+                "DAY",
+                "FIVE"
+              ]
+            },
+            "in": "query",
+            "name": "frequency",
+            "description": "單位區間，不填預設 DAY",
+            "required": true
           }
         ]
       }
@@ -1679,7 +1727,8 @@
           },
           "name": "orgId",
           "in": "path",
-          "required": true
+          "required": true,
+          "description": "組織名稱"
         },
         {
           "schema": {
@@ -1687,7 +1736,8 @@
           },
           "name": "vdcId",
           "in": "path",
-          "required": true
+          "required": true,
+          "description": "vdc名稱"
         }
       ],
       "delete": {
@@ -1725,7 +1775,8 @@
                     "value": {
                       "taskInfo": {
                         "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
-                        "createTime": "2021-05-12 11:10:55"
+                        "createTime": "2021-05-12 11:10:55",
+                        "type": "AP"
                       },
                       "info": {
                         "code": "maintenance:0800",
@@ -1747,12 +1798,11 @@
         "parameters": [
           {
             "schema": {
-              "type": "string",
-              "example": "每個 Api 均要帶入 Authorization Bearer Token "
+              "type": "string"
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer",
+            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
             "required": true
           }
         ]
@@ -1799,7 +1849,7 @@
                           {
                             "type": "disk",
                             "limit": 1024,
-                            "storageId": ""
+                            "storageId": "VCD-StoragePolicy"
                           },
                           {
                             "type": "vm",
@@ -1807,7 +1857,7 @@
                           },
                           {
                             "type": "network",
-                            "networkPoolId": "",
+                            "networkPoolId": "NP-OverLay",
                             "limit": 100
                           }
                         ]
@@ -1842,7 +1892,8 @@
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer"
+            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
+            "required": true
           }
         ]
       }
@@ -1866,9 +1917,13 @@
                       "type": "object",
                       "properties": {
                         "token": {
-                          "type": "string"
+                          "type": "string",
+                          "description": "準備用在 Api Authorization 的 Header"
                         }
                       }
+                    },
+                    "taskInfo": {
+                      "$ref": "#/components/schemas/Ray_TaskInfo"
                     }
                   }
                 },
@@ -1881,12 +1936,17 @@
                         "success": true
                       },
                       "data": {
-                        "token": "string"
+                        "token": "SDFSFGSEG$%$#VWTV123..."
                       }
                     }
                   },
                   "Fail": {
                     "value": {
+                      "taskInfo": {
+                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
+                        "createTime": "2021-05-12 11:10:55",
+                        "type": "AP"
+                      },
                       "info": {
                         "code": "session:0900",
                         "message": "登入失敗",
@@ -1907,6 +1967,10 @@
                 "properties": {
                   "data": {
                     "type": "object",
+                    "required": [
+                      "accountId",
+                      "password"
+                    ],
                     "properties": {
                       "accountId": {
                         "type": "string"
@@ -1916,7 +1980,10 @@
                       }
                     }
                   }
-                }
+                },
+                "required": [
+                  "data"
+                ]
               },
               "examples": {
                 "SignIn": {
@@ -1986,12 +2053,94 @@
         "parameters": [
           {
             "schema": {
-              "type": "string",
-              "example": "每個 Api 均要帶入 Authorization Bearer Token "
+              "type": "string"
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer",
+            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/session/account/{accountId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "accountId",
+          "in": "path",
+          "required": true,
+          "description": "使用者@組織名稱"
+        }
+      ],
+      "get": {
+        "summary": "取得帳號資訊",
+        "tags": [
+          "session"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/account"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "session:0000",
+                        "message": "抓取組織成功",
+                        "success": true
+                      },
+                      "data": {
+                        "id": "admin",
+                        "active": true,
+                        "role": "Tenant Admin",
+                        "contactName": "kubernetes",
+                        "contactMail": "kubernetes@kubernetes.com",
+                        "contactPhone": "1234567890"
+                      }
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "info": {
+                        "code": "session:0700",
+                        "message": "抓取帳號失敗",
+                        "success": false,
+                        "exception": {
+                          "message": "抓取帳號失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  抓取組織 vdc 失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getAccountInfo",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
             "required": true
           }
         ]
@@ -2005,7 +2154,8 @@
           },
           "name": "orgId",
           "in": "path",
-          "required": true
+          "required": true,
+          "description": "組織名稱"
         }
       ],
       "get": {
@@ -2044,17 +2194,7 @@
                         "active": true,
                         "vAppRuntimeLease": 0,
                         "vAppStorageLease": 0,
-                        "vAppTemplateLease": 0,
-                        "account": [
-                          {
-                            "id": "admin",
-                            "active": true,
-                            "role": "Tenant Admin",
-                            "contactName": "kubernetes",
-                            "contactMail": "kubernetes@kubernetes.com",
-                            "contactPhone": "1234567890"
-                          }
-                        ]
+                        "vAppTemplateLease": 0
                       }
                     }
                   },
@@ -2080,12 +2220,112 @@
         "parameters": [
           {
             "schema": {
-              "type": "string",
-              "example": "每個 Api 均要帶入 Authorization Bearer Token "
+              "type": "string"
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer",
+            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/user/org/{orgId}/rights/{accid}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "orgId",
+          "in": "path",
+          "required": true,
+          "description": "組織名稱"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "accid",
+          "in": "path",
+          "required": true,
+          "description": "使用者名稱"
+        }
+      ],
+      "get": {
+        "summary": "使用者帳號之權限表",
+        "tags": [
+          "user"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "taskInfo": {
+                      "$ref": "#/components/schemas/taskInfo"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/rights"
+                    }
+                  }
+                },
+                "examples": {
+                  "Fail": {
+                    "value": {
+                      "taskInfo": {
+                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
+                        "createTime": "2021-05-12 11:10:55",
+                        "type": "AP"
+                      },
+                      "info": {
+                        "code": "user:0600",
+                        "message": "帳號查詢失敗",
+                        "exception": {
+                          "message": " 帳號查詢失敗",
+                          "url": null,
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  帳號查詢失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                        },
+                        "success": false
+                      }
+                    }
+                  },
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "user:0000",
+                        "message": "權限查詢成功",
+                        "success": true
+                      },
+                      "data": [
+                        {
+                          "name": "Organization vDC Named Disk",
+                          "type": "VIEW",
+                          "rights": []
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getrights",
+        "description": "製作使用者帳號之權限表",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
             "required": true
           }
         ]
@@ -2102,41 +2342,58 @@
         "type": "object",
         "x-examples": {
           "Tenant": {
-            "id": "kubernetes",
+            "id": "vcpp.com.tw",
             "name": "VCPP Org",
             "description": "VCPP test tenant",
-            "active": true
+            "active": true,
+            "vAppRuntimeLease": 0,
+            "vAppStorageLease": 0,
+            "vAppTemplateLease": 0,
+            "account": [
+              {
+                "id": "admin",
+                "active": true,
+                "role": "Tenant Admin",
+                "contactName": "tester",
+                "contactMail": "tester@test.com.tw",
+                "contactPhone": "0987654321"
+              }
+            ]
           }
         },
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "description": "組織名稱"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "description": "組織全名，不填跟 Id 一樣"
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "description": "組織說明，不填跟 Id 一樣"
           },
           "active": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "不填預設 enabled"
           },
           "vAppRuntimeLease": {
-            "type": "integer"
+            "type": "integer",
+            "description": "vApp租用期限．不填預設無限制"
           },
           "vAppStorageLease": {
-            "type": "integer"
+            "type": "integer",
+            "description": "vApp存儲區租用期限，不填預設無限制"
           },
           "vAppTemplateLease": {
-            "type": "integer"
-          },
-          "account": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/account"
-            }
+            "type": "integer",
+            "description": "vApp template 租用期限，不填預設無限制"
           }
-        }
+        },
+        "required": [
+          "id"
+        ]
       },
       "account": {
         "type": "object",
@@ -2188,20 +2445,6 @@
       "quota": {
         "title": "auota",
         "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "providerId": {
-            "type": "string"
-          },
-          "resources": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/resource"
-            }
-          }
-        },
         "x-examples": {
           "Quota Example": {
             "id": "kubernetes",
@@ -2235,33 +2478,193 @@
               }
             ]
           }
-        }
+        },
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "vdc名稱"
+          },
+          "providerId": {
+            "type": "string",
+            "description": "提供者vdc名稱"
+          },
+          "resources": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/resource_vdc_cpu"
+                },
+                {
+                  "$ref": "#/components/schemas/resource_vdc_memory"
+                },
+                {
+                  "$ref": "#/components/schemas/resource_vdc_vm"
+                },
+                {
+                  "$ref": "#/components/schemas/resource_vdc_network"
+                },
+                {
+                  "$ref": "#/components/schemas/resource_vdc_disk"
+                },
+                {
+                  "$ref": "#/components/schemas/resource_vdc_vcpu"
+                }
+              ]
+            }
+          }
+        },
+        "required": [
+          "id",
+          "providerId"
+        ]
       },
-      "resource": {
-        "title": "resources",
+      "resource_vdc_vm": {
+        "title": "resources_vdc_vm",
         "type": "object",
+        "x-examples": {
+          "vm": {
+            "type": "vm",
+            "limit": 10
+          }
+        },
         "properties": {
           "type": {
             "type": "string",
             "enum": [
-              "cpu",
-              "vm",
-              "network",
-              "disk",
-              "memory",
+              "vm"
+            ],
+            "description": "vm型態"
+          },
+          "limit": {
+            "type": "number",
+            "description": "vm上限，原則上 1VM 配一個 1cpu"
+          }
+        }
+      },
+      "resource_vdc_vcpu": {
+        "title": "resources_vdc_vcpu",
+        "type": "object",
+        "x-examples": {
+          "vcpu": {
+            "type": "vcpu",
+            "limit": 2
+          }
+        },
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
               "vcpu"
-            ]
+            ],
+            "description": "vcpu 型態"
+          },
+          "limit": {
+            "type": "number",
+            "description": "進件時如果不填預設 2G"
+          }
+        },
+        "description": ""
+      },
+      "resource_vdc_disk": {
+        "title": "resources_vdc_disk",
+        "type": "object",
+        "x-examples": {
+          "disk": {
+            "type": "disk",
+            "limit": 1024,
+            "storageId": "vSAN Default Storage Policy"
+          }
+        },
+        "description": "",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "disk"
+            ],
+            "description": "storage型態"
+          },
+          "limit": {
+            "type": "number",
+            "description": "單位是 MB"
+          },
+          "storageId": {
+            "type": "string",
+            "description": "StoragePolicy名稱"
+          }
+        }
+      },
+      "resource_vdc_network": {
+        "title": "resources_vdc_network",
+        "type": "object",
+        "x-examples": {
+          "Network": {
+            "type": "network",
+            "limit": 10,
+            "networkPoolId": "NP-Overlay"
+          }
+        },
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "network"
+            ],
+            "description": "Network 型態"
           },
           "limit": {
             "type": "number"
           },
           "networkPoolId": {
             "type": "string",
-            "description": "network 專用，其他設值無意義"
-          },
-          "storageId": {
+            "description": "網路集區名稱"
+          }
+        }
+      },
+      "resource_vdc_memory": {
+        "title": "resources_vdc_memory",
+        "type": "object",
+        "x-examples": {
+          "memory": {
+            "type": "memory",
+            "limit": 4096
+          }
+        },
+        "properties": {
+          "type": {
             "type": "string",
-            "description": "disk 專用，其他設值無意義"
+            "enum": [
+              "memory"
+            ],
+            "description": "memory型態"
+          },
+          "limit": {
+            "type": "number",
+            "description": "單位為 MB"
+          }
+        }
+      },
+      "resource_vdc_cpu": {
+        "title": "resources_cpu",
+        "type": "object",
+        "x-examples": {
+          "cpu": {
+            "type": "cpu",
+            "limit": 2
+          }
+        },
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "cpu"
+            ],
+            "description": "cpu型態"
+          },
+          "limit": {
+            "type": "number",
+            "description": "Default 1cpu=2G"
           }
         }
       },
@@ -2270,21 +2673,23 @@
         "type": "object",
         "x-examples": {
           "vdc network": {
-            "id": "kubernetes",
+            "id": "RayVdcNetwork",
             "gatewayCidr": "192.168.1.254/24",
             "staticIpPools": [
               "192.168.1.1 - 192.168.1.253"
-            ],
-            "edgeId": "kubernetes"
+            ]
           }
         },
+        "description": "",
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "description": "vdc network name"
           },
           "gatewayCidr": {
             "type": "string",
-            "pattern": "^([0-9]{1,3}\\.){3}[0-9]{1,3}(/([0-9]|[1-2][0-9]|3[0-2]))?$"
+            "pattern": "^([0-9]{1,3}\\.){3}[0-9]{1,3}(/([0-9]|[1-2][0-9]|3[0-2]))?$",
+            "description": "網路 CIDR"
           },
           "dns1": {
             "type": "string",
@@ -2296,17 +2701,25 @@
           },
           "staticIpPools": {
             "type": "array",
+            "description": "靜態子 IP 集區",
             "items": {
               "type": "string"
             }
           },
           "vdcGroup": {
-            "type": "string"
+            "type": "string",
+            "description": "若有使用 Cross Vdc Network"
           },
-          "edgeId": {
-            "type": "string"
+          "defaultEdgeDns": {
+            "type": "boolean",
+            "description": "是否使用 edge 的 dns"
           }
-        }
+        },
+        "required": [
+          "id",
+          "gatewayCidr",
+          "staticIpPools"
+        ]
       },
       "edge": {
         "title": "edge",
@@ -2393,7 +2806,7 @@
         ]
       },
       "resource_edge_dns": {
-        "title": "resource_edge",
+        "title": "resource_edge_dns",
         "type": "object",
         "x-examples": {
           "dns": {
@@ -2418,11 +2831,7 @@
           "defaultForwarderZone": {
             "$ref": "#/components/schemas/dns"
           }
-        },
-        "required": [
-          "type",
-          "defaultForwarderZone"
-        ]
+        }
       },
       "resource_edge_qos": {
         "title": "resource_edge_qos",
@@ -2462,11 +2871,7 @@
               "$ref": "#/components/schemas/qos"
             }
           }
-        },
-        "required": [
-          "type",
-          "limitSettings"
-        ]
+        }
       },
       "resource_edge_addressPool": {
         "title": "resource_edge_addressPool",
@@ -2495,11 +2900,7 @@
               "type": "string"
             }
           }
-        },
-        "required": [
-          "type",
-          "pools"
-        ]
+        }
       },
       "resource_edge_static": {
         "title": "resource_edge_static",
@@ -2524,7 +2925,11 @@
             "description": "static 專用，設在其他無效",
             "pattern": "^(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}$"
           }
-        }
+        },
+        "required": [
+          "type",
+          "ipAddress"
+        ]
       },
       "qos": {
         "title": "qos",
@@ -2549,13 +2954,7 @@
           "bps": {
             "type": "integer"
           }
-        },
-        "required": [
-          "id",
-          "type",
-          "bandwidth",
-          "bps"
-        ]
+        }
       },
       "info": {
         "title": "info",
@@ -2564,8 +2963,7 @@
           "Success": {
             "code": "user:0000",
             "message": "進件成功",
-            "success": true,
-            "taskId": "nul"
+            "success": true
           },
           "Fail": {
             "code": "user:0900",
@@ -2580,79 +2978,541 @@
         },
         "properties": {
           "code": {
-            "type": "string"
+            "type": "string",
+            "description": "成功/失敗代碼"
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "description": "訊息內文"
           },
           "success": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "是否成功"
           },
           "exception": {
             "$ref": "#/components/schemas/exception"
           }
         }
       },
-      "statistic": {
-        "title": "statistic",
+      "statistic_unused_disk": {
+        "title": "statistic_unused_disk",
         "type": "object",
-        "x-examples": {},
+        "x-examples": {
+          "unused_disk": {
+            "tenantId": "twmadmin@c2.com",
+            "timestamp": 1580353200000,
+            "timeString": "2020-01-30 11:00:00.000",
+            "disks": [
+              {
+                "diskName": "disk1",
+                "isIndependent": true,
+                "quantity": 50,
+                "storageId": "VCD-StoragePolicy"
+              }
+            ]
+          }
+        },
+        "description": "",
         "properties": {
           "tenantId": {
-            "type": "string"
+            "type": "string",
+            "description": "使用者＠組織"
           },
           "timestamp": {
-            "type": "integer"
+            "type": "integer",
+            "description": "13為時間戳"
           },
           "timeString": {
-            "type": "string"
-          },
-          "vmId": {
-            "type": "string"
-          },
-          "quantity": {
-            "type": "number"
-          },
-          "info": {
-            "$ref": "#/components/schemas/vmInfo"
-          },
-          "edgeId": {
-            "type": "string"
-          },
-          "ipList": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": "string",
+            "description": "humanization time string, zoneId:+0800"
           },
           "disks": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/vDisk"
             }
+          }
+        }
+      },
+      "statistic_network": {
+        "title": "statistic_network",
+        "type": "object",
+        "x-examples": {
+          "network": {
+            "tenantId": "ray@test.com.tw",
+            "timestamp": 1565776800000,
+            "timeString": "2019-08-14 18:00:00.000",
+            "quantity": 356.72,
+            "edgeId": "string",
+            "usages": [
+              {
+                "index": "0",
+                "ipAddress": "10.9.57.102"
+              }
+            ]
+          }
+        },
+        "description": "",
+        "properties": {
+          "tenantId": {
+            "type": "string",
+            "description": "使用者＠組織名稱"
           },
-          "Usages": {
+          "timestamp": {
+            "type": "integer",
+            "description": "13為時間戳"
+          },
+          "timeString": {
+            "type": "string",
+            "description": "humanization time string, zoneId:+0800"
+          },
+          "quantity": {
+            "type": "number",
+            "description": "流量，單位 bytes"
+          },
+          "edgeId": {
+            "type": "string",
+            "description": "Edge Id"
+          },
+          "usages": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ipUsages"
             }
+          }
+        }
+      },
+      "statistic_vminfo": {
+        "title": "statistic_vminfo",
+        "type": "object",
+        "x-examples": {
+          "VmInfo": {
+            "tenantId": "ray@test.com.tw",
+            "timestamp": 1565604000000,
+            "timeString": "2019-08-12 18:00:00.000",
+            "vmId": "ea3c250b-9b54-4e73-be68-83ce03f24aa4",
+            "info": {
+              "name": "vApp-01",
+              "vCore": 19.5,
+              "vRam": 4096,
+              "vDisk": [
+                {
+                  "diskName": "jimmy0624-disk1",
+                  "storagePolicyName": "VCD-StoragePolicy",
+                  "isIndependent": true,
+                  "quantity": 0.029296875
+                }
+              ],
+              "os": "CentOS 7 (64-bit)",
+              "status": true
+            },
+            "ipList": [
+              "172.16.10.11"
+            ]
+          }
+        },
+        "description": "",
+        "properties": {
+          "tenantId": {
+            "type": "string",
+            "description": "使用者＠組織名稱"
+          },
+          "timestamp": {
+            "type": "integer",
+            "description": "13為時間戳"
+          },
+          "timeString": {
+            "type": "string",
+            "description": "humanization time string, zoneId:+0800"
+          },
+          "vmId": {
+            "type": "string",
+            "description": "virtual machine identity"
+          },
+          "info": {
+            "$ref": "#/components/schemas/vmInfo"
+          },
+          "ipList": {
+            "type": "array",
+            "description": "vm 的 IP",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "statistic_loadBalance": {
+        "title": "statistic_loadbalance",
+        "type": "object",
+        "x-examples": {
+          "LoadBalance": {
+            "tenantId": "ray@test.com.tw",
+            "timestamp": 1565604000000,
+            "timeString": "2019-08-12 18:00:00.000",
+            "name": "internal_lb",
+            "ipList": [
+              "192.168.100.2",
+              "192.168.100.3"
+            ]
+          }
+        },
+        "description": "",
+        "properties": {
+          "tenantId": {
+            "type": "string",
+            "description": "使用者@組織名稱"
+          },
+          "timestamp": {
+            "type": "integer",
+            "description": "13位時間戳"
+          },
+          "timeString": {
+            "type": "string",
+            "description": "humanization time string, zoneId:+0800"
+          },
+          "name": {
+            "description": "loadbalance name",
+            "type": "string"
+          },
+          "ipList": {
+            "type": "array",
+            "description": "vm 的 IP",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "statistic_snapshots_template": {
+        "title": "statistic_snapshots",
+        "type": "object",
+        "x-examples": {
+          "Snapshots": {
+            "tenantId": "ray@test.com.tw",
+            "timestamp": 1565604000000,
+            "timeString": "2019-08-12 18:00:00.000",
+            "vmId": "ea3c250b-9b54-4e73-be68-83ce03f24aa4",
+            "quantity": 1000
+          }
+        },
+        "description": "",
+        "properties": {
+          "tenantId": {
+            "type": "string",
+            "description": "使用者@組織名稱"
+          },
+          "timestamp": {
+            "type": "integer",
+            "description": "13位時間戳"
+          },
+          "timeString": {
+            "type": "string",
+            "description": "humanization time string, zoneId:+0800"
+          },
+          "vmId": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number",
+            "description": "snaphost大小，單位G"
+          }
+        }
+      },
+      "resource_snapshots": {
+        "title": "statistic_snapshot",
+        "type": "object",
+        "x-examples": {
+          "SnapShots": {
+            "resourceType": "Snapshots",
+            "unit": "GB",
+            "statistics": [
+              {
+                "tenantId": "ray@test.com.tw",
+                "timestamp": 1565604000000,
+                "timeString": "2019-08-12 18:00:00.000",
+                "vmId": "ea3c250b-9b54-4e73-be68-83ce03f24aa4",
+                "quantity": 1000
+              }
+            ]
+          }
+        },
+        "description": "",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "enum": [
+              "Snapshots"
+            ],
+            "description": "Snapshots型態"
           },
           "unit": {
             "type": "string",
             "enum": [
-              "GB",
-              "Bytes",
-              "Hours"
+              "GB"
+            ],
+            "description": "GB"
+          },
+          "statistics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/statistic_snapshots_template"
+            }
+          }
+        },
+        "required": [
+          "resourceType",
+          "unit"
+        ]
+      },
+      "resource_unused_disk": {
+        "title": "resource_unused_disk",
+        "type": "object",
+        "x-examples": {
+          "Unused_disks": {
+            "resourceType": "Unused_disks",
+            "unit": "GB",
+            "statistics": [
+              {
+                "tenantId": "ray@test.com.tw",
+                "timestamp": 1565604000000,
+                "timeString": "2019-08-12 18:00:00.000",
+                "disks": [
+                  {
+                    "diskName": "disk1",
+                    "isIndependent": true,
+                    "quantity": 50,
+                    "storageId": "VCD-StoragePolicy"
+                  }
+                ]
+              }
             ]
           }
-        }
+        },
+        "description": "",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "description": "Unused disk 型態",
+            "enum": [
+              "Unused_disks"
+            ]
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "GB"
+            ],
+            "description": "GB"
+          },
+          "statistics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/statistic_unused_disk"
+            }
+          }
+        },
+        "required": [
+          "resourceType",
+          "unit"
+        ]
+      },
+      "resource_loadbalancer": {
+        "title": "statistic_loadbalancer",
+        "type": "object",
+        "x-examples": {
+          "Load Balance": {
+            "resourceType": "LoadBalance_Info",
+            "statistics": [
+              {
+                "tenantId": "ray@test.com.tw",
+                "timestamp": 1565604000000,
+                "timeString": "2019-08-12 18:00:00.000",
+                "name": "internal_lb",
+                "ipList": [
+                  "192.168.100.2",
+                  "192.168.100.3"
+                ]
+              }
+            ]
+          }
+        },
+        "description": "",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "description": "Load Balance 型態",
+            "enum": [
+              "LoadBalance_Info"
+            ]
+          },
+          "statistics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/statistic_loadBalance"
+            }
+          }
+        },
+        "required": [
+          "resourceType"
+        ]
+      },
+      "resource_vappTemplate": {
+        "title": "statistic_vappTemplate",
+        "type": "object",
+        "x-examples": {
+          "vAppTemplate": {
+            "resourceType": "VM_Template",
+            "unit": "GB",
+            "statistics": [
+              {
+                "tenantId": "ray@test.com.tw",
+                "timestamp": 1565604000000,
+                "timeString": "2019-08-12 18:00:00.000",
+                "vmId": "ea3c250b-9b54-4e73-be68-83ce03f24aa4",
+                "quantity": 1000
+              }
+            ]
+          }
+        },
+        "description": "",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "description": "vAppTemplate型態",
+            "enum": [
+              "VM_Template"
+            ]
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "GB"
+            ],
+            "description": "GB"
+          },
+          "statistics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/statistic_snapshots_template"
+            }
+          }
+        },
+        "required": [
+          "resourceType",
+          "unit"
+        ]
+      },
+      "resource_network": {
+        "title": "statistic_network",
+        "type": "object",
+        "x-examples": {
+          "Network": {
+            "resourceType": "Network",
+            "unit": "bytes",
+            "statistics": [
+              {
+                "tenantId": "ray@test.com.tw",
+                "timestamp": 1565776800000,
+                "timeString": "2019-08-14 18:00:00.000",
+                "quantity": 356.72,
+                "edgeId": "string",
+                "usages": [
+                  {
+                    "index": "0",
+                    "ipAddress": "10.9.57.102"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "description": "",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "description": "Network 型態",
+            "enum": [
+              "Network"
+            ]
+          },
+          "unit": {
+            "type": "string",
+            "description": "單位 bytes",
+            "enum": [
+              "bytes"
+            ]
+          },
+          "statistics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/statistic_network"
+            }
+          }
+        },
+        "required": [
+          "resourceType",
+          "unit"
+        ]
+      },
+      "resource_vminfo": {
+        "title": "statistic_vmInfo",
+        "type": "object",
+        "x-examples": {
+          "VM_Info": {
+            "resourceType": "VM_Info",
+            "statistics": [
+              {
+                "tenantId": "ray@test.com.tw",
+                "timestamp": 1565604000000,
+                "timeString": "2019-08-12 18:00:00.000",
+                "vmId": "ea3c250b-9b54-4e73-be68-83ce03f24aa4",
+                "info": {
+                  "name": "vApp-01",
+                  "vCore": 19.5,
+                  "vRam": 4096,
+                  "vDisk": [
+                    {
+                      "diskName": "jimmy0624-disk1",
+                      "isIndependent": true,
+                      "quantity": 0.029296875,
+                      "storageId": "VCD-StoragePolicy"
+                    }
+                  ],
+                  "os": "CentOS 7 (64-bit)",
+                  "status": true
+                },
+                "ipList": [
+                  "172.16.10.11"
+                ]
+              }
+            ]
+          }
+        },
+        "description": "",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "description": "Snapshots型態",
+            "enum": [
+              "VM_Info"
+            ]
+          },
+          "statistics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/statistic_vminfo"
+            }
+          }
+        },
+        "required": [
+          "resourceType"
+        ]
       },
       "vDisk": {
         "title": "vDisk",
         "type": "object",
         "x-examples": {
           "vDisk": {
-            "diskId": "disk:201be1fb-1392-46ec-8184-04f8cffed5c3",
             "diskName": "jimmy0624-disk1",
             "storagePolicyName": "VCD-StoragePolicy",
             "isIndependent": true,
@@ -2664,49 +3524,53 @@
             "type": "string"
           },
           "isIndependent": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "是否是獨立硬碟"
           },
           "quantity": {
-            "type": "number"
+            "type": "number",
+            "description": "單位GB"
           },
-          "storagePolicyName": {
-            "type": "string"
+          "storageId": {
+            "type": "string",
+            "description": "Storage Policy Name"
           }
-        }
+        },
+        "required": [
+          "diskName",
+          "isIndependent",
+          "quantity",
+          "storageId"
+        ]
       },
       "vmInfo": {
         "title": "vmInfo",
         "type": "object",
         "x-examples": {
           "vmInfo": {
-            "name": "antony-test-0308",
             "vCore": 1,
             "vRam": 2048,
             "vDisk": [
               {
-                "diskId": "2000",
                 "diskName": "Hard disk 1",
                 "storagePolicyName": "VCD-StoragePolicy",
                 "isIndependent": false,
                 "quantity": 16
               }
             ],
-            "ipList": [
-              "172.16.10.11"
-            ],
             "os": "CentOS 7 (64-bit)",
-            "status": "ON"
+            "status": true
           }
         },
+        "description": "",
         "properties": {
-          "name": {
-            "type": "string"
-          },
           "vCore": {
-            "type": "number"
+            "type": "number",
+            "description": "cpu usage, unit: core"
           },
           "vRam": {
-            "type": "number"
+            "type": "number",
+            "description": "memory size usage, unit: MB"
           },
           "vDisk": {
             "type": "array",
@@ -2715,57 +3579,98 @@
             }
           },
           "os": {
-            "type": "string"
+            "type": "string",
+            "description": "os name"
           },
           "status": {
-            "type": "boolean"
-          },
-          "ipList": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": "boolean",
+            "description": "vm of power status"
           }
         },
-        "description": ""
+        "required": [
+          "vCore",
+          "vRam",
+          "os",
+          "status"
+        ]
       },
       "exception": {
         "title": "exception",
         "type": "object",
+        "x-examples": {
+          "Exception": {
+            "message": "重複進件！此件已於 2021-05-06 12:14:55 成功進過",
+            "url": "/user",
+            "stackTrace": "java.net.UnknownHostException..."
+          }
+        },
         "properties": {
           "message": {
-            "type": "string"
+            "type": "string",
+            "description": "Exception 內文"
           },
           "url": {
             "type": "string"
           },
           "stackTrace": {
-            "type": "string"
+            "type": "string",
+            "description": "Java exception stack"
           }
         },
-        "x-examples": {
-          "Exception": {
-            "message": "重複進件！此件已於 2021-05-06 12:14:55 成功進過",
-            "url": "string",
-            "stackTrace": "string"
-          }
-        }
+        "required": [
+          "message",
+          "stackTrace"
+        ]
       },
       "taskInfo": {
         "title": "taskInfo",
         "type": "object",
+        "x-examples": {
+          "Success": {
+            "taskInfo": {
+              "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
+              "createTime": "2021-05-12 11:10:55",
+              "type": "AP",
+              "info": {
+                "code": "maintenance:0000",
+                "message": "加購成功",
+                "success": true
+              }
+            }
+          },
+          "Fail": {
+            "taskInfo": {
+              "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
+              "createTime": "2021-05-12 11:10:55",
+              "type": "AP",
+              "info": {
+                "code": "maintenance:0200",
+                "message": "加購失敗",
+                "exception": {
+                  "message": "加購失敗",
+                  "stackTrace": "com.sysage.web.model.error.RestApiException:  加購失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                },
+                "success": false
+              }
+            }
+          }
+        },
+        "description": "",
         "properties": {
           "taskId": {
-            "type": "string"
+            "type": "string",
+            "description": "Api task UUID"
           },
           "createTime": {
             "type": "string"
-          }
-        },
-        "x-examples": {
-          "example-1": {
-            "taskId": "string",
-            "createTime": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "AP",
+              "VCD"
+            ],
+            "description": "若有Exception從AP來還是從VCD來"
           }
         }
       },
@@ -2775,18 +3680,19 @@
         "x-examples": {
           "rights": [
             {
-              "name": "string",
-              "type": "string",
+              "name": "General",
+              "type": "READ",
               "rights": [
                 {
-                  "name": "string",
-                  "type": "string",
+                  "name": "檢視組織網路",
+                  "type": "READ",
                   "rights": []
                 }
               ]
             }
           ]
         },
+        "description": "權限表",
         "items": {
           "type": "object",
           "properties": {
@@ -2794,14 +3700,23 @@
               "type": "string"
             },
             "type": {
-              "type": "string"
+              "type": "string",
+              "enum": [
+                "READ",
+                "MODIFY"
+              ],
+              "description": "兩個型態 唯讀 與 修改"
             },
             "rights": {
               "$ref": "#/components/schemas/rights"
             }
-          }
-        },
-        "description": ""
+          },
+          "required": [
+            "name",
+            "type",
+            "rights"
+          ]
+        }
       },
       "dns": {
         "title": "dns",
@@ -2826,68 +3741,34 @@
               "type": "string"
             }
           }
-        },
-        "required": [
-          "displayName",
-          "upstreamServers"
-        ]
+        }
       },
       "usage": {
         "title": "resource_usage",
-        "type": "object",
-        "properties": {
-          "resourceType": {
-            "type": "string",
-            "enum": [
-              "Snapshots",
-              "VM_Info",
-              "VM_Template",
-              "Network",
-              "LoadBalance_Info",
-              "Unused_disks"
-            ]
-          },
-          "unit": {
-            "type": "string",
-            "enum": [
-              "GB",
-              "bytes"
-            ]
-          },
-          "statistics": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/statistic"
-            }
-          }
-        },
         "x-examples": {
           "VM_Info": {
             "resourceType": "VM_Info",
             "statistics": [
               {
                 "tenantId": "admin@jimmytest0624.com",
-                "vmId": "vm:068646f6-9af4-4b6a-b925-ff8181465f9d",
-                "vmName": "antony-test-0308",
+                "vmId": "antony-vm-1203",
                 "info": {
-                  "name": "antony-test-0308",
                   "vCore": 1,
                   "vRam": 2048,
                   "vDisk": [
                     {
-                      "diskId": "2000",
                       "diskName": "Hard disk 1",
                       "storagePolicyName": "VCD-StoragePolicy",
                       "isIndependent": false,
                       "quantity": 16
                     }
                   ],
-                  "ipList": [
-                    "172.16.10.11"
-                  ],
                   "os": "CentOS 7 (64-bit)",
                   "status": "ON"
                 },
+                "ipList": [
+                  "172.16.10.11"
+                ],
                 "timestamp": 1616550300000,
                 "timeString": "2021-03-24 09:45:00"
               }
@@ -2901,7 +3782,6 @@
                 "tenantId": "jimmytest0624.com",
                 "disks": [
                   {
-                    "diskId": "disk:201be1fb-1392-46ec-8184-04f8cffed5c3",
                     "diskName": "jimmy0624-disk1",
                     "storagePolicyName": "VCD-StoragePolicy",
                     "isIndependent": true,
@@ -2919,8 +3799,7 @@
             "statistics": [
               {
                 "tenantId": "jimmytest0624.com",
-                "vmId": "vm:6c4e94b2-33d3-4d7c-934f-5139f8eeb765",
-                "vmName": "antony-vm-1203",
+                "vmId": "antony-vm-12035",
                 "quantity": 40,
                 "timestamp": 1616550300000,
                 "timeString": "2021-03-24 09:45:00"
@@ -2960,26 +3839,64 @@
                 "name": "vip-1@jimmytest0624-com-EDGE"
               }
             ]
+          },
+          "vAppTemplate": {
+            "resourceType": "VM_Template",
+            "unit": "GB",
+            "statistics": [
+              {
+                "tenantId": "jimmytest0624.com",
+                "vmId": "antony-vm-1203",
+                "quantity": 40,
+                "timestamp": 1616550300000,
+                "timeString": "2021-03-24 09:45:00"
+              }
+            ]
           }
-        }
+        },
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/resource_snapshots"
+          },
+          {
+            "$ref": "#/components/schemas/resource_vappTemplate"
+          },
+          {
+            "$ref": "#/components/schemas/resource_network"
+          },
+          {
+            "$ref": "#/components/schemas/resource_vminfo"
+          },
+          {
+            "$ref": "#/components/schemas/resource_loadbalancer"
+          },
+          {
+            "$ref": "#/components/schemas/resource_unused_disk"
+          }
+        ]
       },
       "ipUsages": {
         "title": "ipUsages",
         "type": "object",
         "x-examples": {
           "ipUsage": {
-            "id": "0",
+            "index": "0",
             "ipAddress": "192.168.30.37"
           }
         },
         "properties": {
-          "id": {
-            "type": "string"
+          "index": {
+            "type": "string",
+            "description": "Public Ip 序號，順序為 Primary Secondary(區間) EdgeDefault "
           },
           "ipAddress": {
             "type": "string"
           }
-        }
+        },
+        "required": [
+          "index",
+          "ipAddress"
+        ]
       },
       "Ray_Exception": {
         "title": "exception",
@@ -3036,6 +3953,24 @@
           },
           "exception": {
             "$ref": "#/components/schemas/Ray_Exception"
+          }
+        }
+      },
+      "Ray_TaskInfo": {
+        "title": "taskInfo",
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "type": "string"
+          },
+          "createTime": {
+            "type": "string"
+          }
+        },
+        "x-examples": {
+          "example-1": {
+            "taskId": "string",
+            "createTime": "string"
           }
         }
       }
