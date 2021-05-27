@@ -992,10 +992,6 @@
                     "publicNetworkId": "EN-External",
                     "resources": [
                       {
-                        "type": "static",
-                        "ipAddress": "10.9.57.102"
-                      },
-                      {
                         "type": "addressPool",
                         "pools": [
                           "10.9.57.102 - 10.9.57.102"
@@ -1021,6 +1017,7 @@
                       {
                         "type": "dns",
                         "defaultForwarderZone": {
+                          "active": true,
                           "displayName": "RayTryDns",
                           "upstreamServers": [
                             "10.9.57.31"
@@ -2767,10 +2764,6 @@
                             "publicNetworkId": "EN-External",
                             "resources": [
                               {
-                                "type": "static",
-                                "ipAddress": "10.9.57.102"
-                              },
-                              {
                                 "type": "addressPool",
                                 "pools": [
                                   "10.9.57.102 - 10.9.57.102"
@@ -3342,7 +3335,7 @@
         ]
       },
       "edge": {
-        "title": "edge",
+        "title": "Edge 閘道",
         "type": "object",
         "x-examples": {
           "edge": {
@@ -3388,24 +3381,21 @@
             ]
           }
         },
-        "description": "",
+        "description": "Edge 閘道",
         "properties": {
           "id": {
             "type": "string",
-            "description": "Edge名稱"
+            "description": "名稱"
           },
           "publicNetworkId": {
             "type": "string",
-            "description": "外部網路名稱"
+            "description": "外部網路"
           },
           "resources": {
             "type": "array",
             "description": "類型有 static addressPool qos dns",
             "items": {
               "anyOf": [
-                {
-                  "$ref": "#/components/schemas/resource_edge_static"
-                },
                 {
                   "$ref": "#/components/schemas/resource_edge_addressPool"
                 },
@@ -3494,7 +3484,7 @@
         }
       },
       "resource_edge_addressPool": {
-        "title": "resource_edge_addressPool",
+        "title": "IP 管理",
         "type": "object",
         "x-examples": {
           "dynamic": {
@@ -3504,18 +3494,18 @@
             ]
           }
         },
-        "description": "",
+        "description": "IP 管理",
         "properties": {
           "type": {
             "type": "string",
             "enum": [
               "addressPool"
             ],
-            "description": "子配置IP集區"
+            "description": "IP 配置"
           },
           "pools": {
             "type": "array",
-            "description": "IP 區間",
+            "description": "輸入 IP 範圍",
             "items": {
               "type": "string"
             }
@@ -3552,12 +3542,13 @@
         ]
       },
       "qos": {
-        "title": "qos",
+        "title": "閘道 QOS 設定檔",
         "type": "object",
+        "description": "閘道 QOS 設定檔",
         "properties": {
           "id": {
             "type": "string",
-            "description": "qos"
+            "description": "名稱"
           },
           "type": {
             "type": "string",
@@ -3565,16 +3556,18 @@
               "inbound",
               "outbound"
             ],
-            "description": "Inbound Outbound 兩種型態"
+            "description": "入口 QoS / 出口 QoS"
           },
           "bandwidth": {
             "type": "number",
-            "description": "單位Ｍbps"
+            "description": "認可的頻寬 (Mbps)"
           },
           "bps": {
-            "type": "integer"
+            "type": "integer",
+            "description": "高載大小 (位元組)"
           }
-        }
+        },
+        "x-examples": {}
       },
       "info": {
         "title": "info",
