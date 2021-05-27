@@ -3111,7 +3111,7 @@
         "description": "組織 VDC"
       },
       "resource_vdc_vm": {
-        "title": "resources_vdc_vm",
+        "title": "虛擬機器",
         "type": "object",
         "x-examples": {
           "vm": {
@@ -3119,6 +3119,7 @@
             "limit": 10
           }
         },
+        "description": "1 cpu = 1VM數",
         "properties": {
           "type": {
             "type": "string",
@@ -3129,7 +3130,7 @@
           },
           "limit": {
             "type": "number",
-            "description": "vm上限，原則上 1VM 配一個 1cpu"
+            "description": "虛擬機器虛擬機器數目上限"
           }
         }
       },
@@ -3214,7 +3215,7 @@
         }
       },
       "resource_vdc_memory": {
-        "title": "resources_vdc_memory",
+        "title": "記憶體",
         "type": "object",
         "x-examples": {
           "memory": {
@@ -3222,17 +3223,18 @@
             "limit": 4096
           }
         },
+        "description": "記憶體",
         "properties": {
           "type": {
             "type": "string",
             "enum": [
               "memory"
             ],
-            "description": "memory型態"
+            "description": "記憶體"
           },
           "limit": {
             "type": "number",
-            "description": "單位為 MB"
+            "description": "記憶體配額"
           }
         }
       },
@@ -3258,7 +3260,7 @@
             "description": "CPU 配額"
           }
         },
-        "description": "CPU"
+        "description": "1 cpu 換算成2GHz"
       },
       "resource_vdc_modelType": {
         "title": "配置模型",
