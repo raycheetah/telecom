@@ -3237,7 +3237,7 @@
         }
       },
       "resource_vdc_cpu": {
-        "title": "resources_cpu",
+        "title": "CPU",
         "type": "object",
         "x-examples": {
           "cpu": {
@@ -3257,10 +3257,11 @@
             "type": "number",
             "description": "CPU 配額"
           }
-        }
+        },
+        "description": "CPU"
       },
       "resource_vdc_modelType": {
-        "title": "application_model_type",
+        "title": "配置模型",
         "type": "object",
         "x-examples": {
           "modeltype": {
@@ -3285,7 +3286,8 @@
               "RESERVATIONPOOL"
             ]
           }
-        }
+        },
+        "description": "配置模型"
       },
       "vdcNet": {
         "title": "vdcNet",
