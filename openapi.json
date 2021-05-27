@@ -3271,6 +3271,7 @@
             "model": "ALLOCATIONVAPP"
           }
         },
+        "description": "配置模型",
         "properties": {
           "type": {
             "type": "string",
@@ -3281,15 +3282,14 @@
           },
           "model": {
             "type": "string",
-            "description": "配置集區 隨收隨付 保留集區",
+            "description": "隨收隨付 配置集區 保留集區",
             "enum": [
               "ALLOCATIONVAPP",
               "ALLOCATIONPOOL",
               "RESERVATIONPOOL"
             ]
           }
-        },
-        "description": "配置模型"
+        }
       },
       "vdcNet": {
         "title": "vdcNet",
