@@ -206,6 +206,10 @@
                     "providerId": "pVDC-DEV",
                     "resources": [
                       {
+                        "type": "allocation",
+                        "model": "ALLOCATIONVAPP"
+                      },
+                      {
                         "type": "cpu",
                         "limit": 2
                       },
@@ -994,7 +998,7 @@
                       {
                         "type": "addressPool",
                         "pools": [
-                          "10.9.57.102 - 10.9.57.102"
+                          "10.9.57.102 - 10.9.57.103"
                         ]
                       },
                       {
@@ -3025,13 +3029,14 @@
         ]
       },
       "quota": {
-        "title": "quota",
+        "title": "組織 VDC",
         "type": "object",
         "x-examples": {
           "Quota Example": {
             "id": "kubernetes",
             "providerId": "pVDC-DEV",
             "resources": [
+              {},
               {
                 "type": "cpu",
                 "limit": 2
@@ -3064,11 +3069,11 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "vdc名稱"
+            "description": "組織 VDC 名稱"
           },
           "providerId": {
             "type": "string",
-            "description": "提供者vdc名稱"
+            "description": "提供者 VDC 名稱"
           },
           "resources": {
             "type": "array",
@@ -3102,7 +3107,8 @@
         "required": [
           "id",
           "providerId"
-        ]
+        ],
+        "description": "組織 VDC"
       },
       "resource_vdc_vm": {
         "title": "resources_vdc_vm",
@@ -3245,11 +3251,11 @@
             "enum": [
               "cpu"
             ],
-            "description": "cpu型態"
+            "description": "CPU"
           },
           "limit": {
             "type": "number",
-            "description": "Default 1cpu=2G"
+            "description": "CPU 配額"
           }
         }
       },
@@ -3258,21 +3264,21 @@
         "type": "object",
         "x-examples": {
           "modeltype": {
-            "type": "modeltype",
+            "type": "allocation",
             "model": "ALLOCATIONVAPP"
           }
         },
         "properties": {
           "type": {
             "type": "string",
-            "description": "租用型態",
+            "description": "配置模型",
             "enum": [
-              "modeltype"
+              "allocation"
             ]
           },
           "model": {
             "type": "string",
-            "description": "如果不填為 ALLOCATIONVAPP (Pay-As-You-Go)",
+            "description": "配置集區 隨收隨付 保留集區",
             "enum": [
               "ALLOCATIONVAPP",
               "ALLOCATIONPOOL",
