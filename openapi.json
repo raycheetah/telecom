@@ -4339,7 +4339,7 @@
         }
       },
       "dns": {
-        "title": "dns",
+        "title": "編輯 DNS",
         "type": "object",
         "x-examples": {
           "dns": {
@@ -4352,16 +4352,21 @@
         "properties": {
           "displayName": {
             "type": "string",
-            "description": "dns名稱"
+            "description": "名稱"
           },
           "upstreamServers": {
             "type": "array",
-            "description": "上游 dns",
+            "description": "上游伺服器",
             "items": {
               "type": "string"
             }
+          },
+          "active": {
+            "type": "boolean",
+            "description": "狀態"
           }
-        }
+        },
+        "description": "編輯 DNS"
       },
       "usage": {
         "title": "resource_usage",
