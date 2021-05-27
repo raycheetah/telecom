@@ -2943,6 +2943,8 @@
             }
           }
         },
+        "title": "組織",
+        "description": "組織",
         "properties": {
           "id": {
             "type": "string",
@@ -2950,27 +2952,27 @@
           },
           "name": {
             "type": "string",
-            "description": "組織全名，不填跟 Id 一樣"
+            "description": "組織全名"
           },
           "description": {
             "type": "string",
-            "description": "組織說明，不填跟 Id 一樣"
+            "description": "說明"
           },
           "active": {
             "type": "boolean",
-            "description": "不填預設 enabled"
+            "description": "啟用狀態"
           },
           "vAppRuntimeLease": {
             "type": "integer",
-            "description": "vApp租用期限．不填預設無限制"
+            "description": "vApp 執行階段租用上限"
           },
           "vAppStorageLease": {
             "type": "integer",
-            "description": "vApp存儲區租用期限，不填預設無限制"
+            "description": "vApp 儲存空間租用上限"
           },
           "vAppTemplateLease": {
             "type": "integer",
-            "description": "vApp template 租用期限，不填預設無限制"
+            "description": "vApp 範本儲存空間租用上限"
           },
           "account": {
             "$ref": "#/components/schemas/account"
@@ -3844,7 +3846,7 @@
         }
       },
       "resource_snapshots": {
-        "title": "statistic_snapshot",
+        "title": "usage_snapshot",
         "type": "object",
         "x-examples": {
           "SnapShots": {
@@ -3890,7 +3892,7 @@
         ]
       },
       "resource_unused_disk": {
-        "title": "resource_unused_disk",
+        "title": "usage_unused_disk",
         "type": "object",
         "x-examples": {
           "Unused_disks": {
@@ -3942,7 +3944,7 @@
         ]
       },
       "resource_loadbalancer": {
-        "title": "statistic_loadbalancer",
+        "title": "usage_loadbalancer",
         "type": "object",
         "x-examples": {
           "Load Balance": {
@@ -3982,7 +3984,7 @@
         ]
       },
       "resource_vappTemplate": {
-        "title": "statistic_vappTemplate",
+        "title": "usage_vappTemplate",
         "type": "object",
         "x-examples": {
           "vAppTemplate": {
@@ -4028,7 +4030,7 @@
         ]
       },
       "resource_network": {
-        "title": "statistic_network",
+        "title": "usage_network",
         "type": "object",
         "x-examples": {
           "Network": {
