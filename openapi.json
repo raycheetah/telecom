@@ -457,7 +457,7 @@
     },
     "/maintenance/org/{orgId}/status/{status}": {
       "put": {
-        "summary": "客戶帳號狀態變更",
+        "summary": "客戶帳號刪除/狀態變更",
         "tags": [
           "maintenance"
         ],
@@ -481,6 +481,11 @@
                 "examples": {
                   "Success": {
                     "value": {
+                      "taskInfo": {
+                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
+                        "createTime": "2021-05-12 11:10:55",
+                        "type": "AP"
+                      },
                       "info": {
                         "code": "maintenance:0000",
                         "message": "更新狀態成功",
@@ -539,13 +544,14 @@
             "type": "string",
             "enum": [
               "id_enable",
-              "id_disable"
+              "id_disable",
+              "delete"
             ]
           },
           "name": "status",
           "in": "path",
           "required": true,
-          "description": "狀態有 id_enable id_disable"
+          "description": "狀態有 id_enable id_disable delete"
         }
       ]
     },
@@ -2813,7 +2819,103 @@
               }
             }
           }
+        },
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/maintenance/user/{accountId}/usages": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "accountId",
+          "in": "path",
+          "required": true,
+          "description": "使用者@組織名稱"
         }
+      ],
+      "delete": {
+        "summary": "監控usage數據定期清理",
+        "tags": [
+          "maintenance"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "taskInfo": {
+                      "$ref": "#/components/schemas/taskInfo"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "maintenance:0000",
+                        "message": "刪除 usage 成功",
+                        "success": true
+                      },
+                      "taskInfo": {
+                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
+                        "createTime": "2021-05-12 11:10:55",
+                        "type": "AP"
+                      }
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "info": {
+                        "code": "maintenance:0500",
+                        "message": "刪除 usage 失敗",
+                        "success": false,
+                        "exception": {
+                          "message": "刪除 usage 失敗",
+                          "url": "",
+                          "stackTrace": "string"
+                        }
+                      },
+                      "taskInfo": {
+                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
+                        "createTime": "2021-05-12 11:10:55",
+                        "type": "AP"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "deleteUsages",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "startTime",
+            "description": "13位時間戳"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "endTime",
+            "description": "13位時間戳"
+          }
+        ]
       }
     }
   },
@@ -2929,7 +3031,7 @@
         ]
       },
       "quota": {
-        "title": "auota",
+        "title": "quota",
         "type": "object",
         "x-examples": {
           "Quota Example": {
@@ -2995,6 +3097,9 @@
                 },
                 {
                   "$ref": "#/components/schemas/resource_vdc_vcpu"
+                },
+                {
+                  "$ref": "#/components/schemas/resource_vdc_modelType"
                 }
               ]
             }
@@ -3151,6 +3256,34 @@
           "limit": {
             "type": "number",
             "description": "Default 1cpu=2G"
+          }
+        }
+      },
+      "resource_vdc_modelType": {
+        "title": "Allocation Model Type",
+        "type": "object",
+        "x-examples": {
+          "modeltype": {
+            "type": "modeltype",
+            "model": "ALLOCATIONVAPP"
+          }
+        },
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "租用型態",
+            "enum": [
+              "modeltype"
+            ]
+          },
+          "model": {
+            "type": "string",
+            "description": "如果不填為 ALLOCATIONVAPP (Pay-As-You-Go)",
+            "enum": [
+              "ALLOCATIONVAPP",
+              "ALLOCATIONPOOL",
+              "RESERVATIONPOOL"
+            ]
           }
         }
       },
