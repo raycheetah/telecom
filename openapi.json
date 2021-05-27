@@ -224,8 +224,8 @@
                       },
                       {
                         "type": "disk",
-                        "limit": 30000,
-                        "storageId": "VCD-StoragePolicy"
+                        "limit": 1024,
+                        "storageId": "vSAN Default Storage Policy"
                       },
                       {
                         "type": "memory",
@@ -3159,7 +3159,7 @@
         "description": ""
       },
       "resource_vdc_disk": {
-        "title": "resources_vdc_disk",
+        "title": "具名磁碟",
         "type": "object",
         "x-examples": {
           "disk": {
@@ -3168,22 +3168,22 @@
             "storageId": "vSAN Default Storage Policy"
           }
         },
-        "description": "",
+        "description": "具名磁碟",
         "properties": {
           "type": {
             "type": "string",
             "enum": [
               "disk"
             ],
-            "description": "storage型態"
+            "description": "具名磁碟"
           },
           "limit": {
             "type": "number",
-            "description": "單位是 MB"
+            "description": "磁碟大小"
           },
           "storageId": {
             "type": "string",
-            "description": "StoragePolicy名稱"
+            "description": "儲存區原則"
           }
         }
       },
