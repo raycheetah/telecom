@@ -7,7 +7,7 @@
   ],
   "info": {
     "description": "",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "title": "中華 Api",
     "contact": {
       "email": "rayshih@sysage.com.tw"
@@ -1405,7 +1405,7 @@
     },
     "/usage/list/snapshot": {
       "get": {
-        "summary": "統計每小時有幾台 VM 做過 snapshot",
+        "summary": "以每小時為單位查詢快照數量",
         "tags": [
           "usage"
         ],
@@ -1431,11 +1431,12 @@
                           },
                           "element": {
                             "type": "array",
+                            "description": "原則上 element 每小時 取五分鐘metrics db table snapshot 的 max",
                             "items": {
                               "$ref": "#/components/schemas/statistic_snapshots_template"
                             }
                           },
-                          "sum": {
+                          "count": {
                             "type": "integer",
                             "description": "總和"
                           }
@@ -1482,7 +1483,7 @@
                               "vmId": "RayVmTwo"
                             }
                           ],
-                          "sum": 2
+                          "count": 2
                         }
                       ]
                     }
@@ -1492,7 +1493,160 @@
             }
           }
         },
-        "operationId": "getMonthSnapshot",
+        "operationId": "getHourSnapshot",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "tenantId",
+            "description": "組織名稱"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "vdcId",
+            "description": "vdc名稱"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "startTime",
+            "description": "13位timestamp, 程式自動 mod 月開始時間",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "example": "每個 Api 均要帶入 Authorization Bearer Token"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "endTime",
+            "description": "13位timestamp, 程式自動 mod 月開始時間",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "HR",
+                "FIVE",
+                "DAY"
+              ]
+            },
+            "in": "query",
+            "name": "frequency",
+            "description": "取樣單位，不填 HR"
+          }
+        ],
+        "description": ""
+      }
+    },
+    "/usage/list/disk": {
+      "get": {
+        "summary": "以每小時為單位查詢使用的儲存空間",
+        "tags": [
+          "usage"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "vdcid": {
+                            "type": "string",
+                            "description": "vdc名稱"
+                          },
+                          "element": {
+                            "type": "array",
+                            "description": "原則上 element 每小時 取五分鐘metrics db table disk 的 max",
+                            "items": {
+                              "$ref": "#/components/schemas/vDisk"
+                            }
+                          },
+                          "sum": {
+                            "type": "number",
+                            "description": "總和"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Fail": {
+                    "value": {
+                      "info": {
+                        "code": "user:9999",
+                        "message": "抓取snapshot區間失敗",
+                        "exception": {
+                          "message": "抓取snapshot區間失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  帳號查詢失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
+                        },
+                        "success": false
+                      }
+                    }
+                  },
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "usage:0000",
+                        "message": "抓取 disk info 成功",
+                        "success": true
+                      },
+                      "data": [
+                        {
+                          "id": "RayVdc",
+                          "element": [
+                            {
+                              "diskName": "jimmy0624-disk1",
+                              "storageId": "VCD-StoragePolicy",
+                              "isIndependent": true,
+                              "quantity": 0.029296875
+                            },
+                            {
+                              "diskName": "jimmy0624-disk2",
+                              "storageId": "VCD-StoragePolicy",
+                              "isIndependent": true,
+                              "quantity": 0.029296875
+                            }
+                          ],
+                          "sum": 0.05
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getHourDisk",
         "parameters": [
           {
             "schema": {
@@ -1583,11 +1737,12 @@
                           },
                           "element": {
                             "type": "array",
+                            "description": "原則上 element 每天 取五分鐘metrics db table vmInfo 的 max",
                             "items": {
                               "$ref": "#/components/schemas/statistic_vminfo"
                             }
                           },
-                          "sum": {
+                          "count": {
                             "type": "integer",
                             "description": "總計"
                           }
@@ -1622,30 +1777,30 @@
                           "vdcId": "RayVdc",
                           "element": [
                             {
-                              "tenantId": "string",
-                              "timestamp": 0,
-                              "timeString": "string",
-                              "vmId": "string",
+                              "tenantId": "ray@test.com.tw",
+                              "timestamp": 1565604000000,
+                              "timeString": "2019-08-12 18:00:00.000",
+                              "vmId": "vApp-01",
                               "info": {
-                                "vCore": 0,
-                                "vRam": 0,
+                                "vCore": 19.5,
+                                "vRam": 4096,
                                 "vDisk": [
                                   {
-                                    "diskName": "string",
+                                    "diskName": "jimmy0624-disk1",
+                                    "storageId": "VCD-StoragePolicy",
                                     "isIndependent": true,
-                                    "quantity": 0,
-                                    "storageId": "string"
+                                    "quantity": 0.029296875
                                   }
                                 ],
-                                "os": "string",
+                                "os": "CentOS 7 (64-bit)",
                                 "status": true
                               },
                               "ipList": [
-                                "string"
+                                "172.16.10.11"
                               ]
                             }
                           ],
-                          "sum": 1
+                          "count": 1
                         }
                       ]
                     }
@@ -1655,7 +1810,172 @@
             }
           }
         },
-        "operationId": "openVmMonth",
+        "operationId": "openVmDay",
+        "description": "",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "startTime",
+            "description": "13位timestamp, 程式自動 mod 月開始時間",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "tenantId",
+            "description": "組織名稱"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "vdcId",
+            "description": "組織vdc名稱"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "example": "每個 Api 均要帶入 Authorization Bearer Token"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "endTime",
+            "description": "13位timestamp, 程式自動 mod 月開始時間",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "HR",
+                "DAY",
+                "FIVE"
+              ]
+            },
+            "in": "query",
+            "name": "frequency",
+            "description": "單位區間，不填預設 DAY",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/usage/list/poweron": {
+      "get": {
+        "summary": "以每天為單位查詢每日max vm數量",
+        "tags": [
+          "usage"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "vdcId": {
+                            "type": "string",
+                            "description": "vdc名稱"
+                          },
+                          "element": {
+                            "type": "array",
+                            "description": "原則上 element 每天 算五分鐘metrics db table poweron 到 poweroff 的分鐘數 ",
+                            "items": {
+                              "$ref": "#/components/schemas/statistic_vminfo"
+                            }
+                          },
+                          "sum": {
+                            "type": "integer",
+                            "description": "單位分鐘"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Fail": {
+                    "value": {
+                      "info": {
+                        "code": "user:9999",
+                        "message": "抓取開機時間失敗",
+                        "exception": {
+                          "message": "抓取開機時間失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  帳號查詢失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
+                        },
+                        "success": false
+                      }
+                    }
+                  },
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "usage:0000",
+                        "message": "擷取 vm info 成功",
+                        "success": true
+                      },
+                      "data": [
+                        {
+                          "vdcId": "RayVdc",
+                          "element": [
+                            {
+                              "tenantId": "ray@test.com.tw",
+                              "timestamp": 1565604000000,
+                              "timeString": "2019-08-12 18:00:00.000",
+                              "vmId": "vApp-01",
+                              "info": {
+                                "vCore": 19.5,
+                                "vRam": 4096,
+                                "vDisk": [
+                                  {
+                                    "diskName": "jimmy0624-disk1",
+                                    "storageId": "VCD-StoragePolicy",
+                                    "isIndependent": true,
+                                    "quantity": 0.029296875
+                                  }
+                                ],
+                                "os": "CentOS 7 (64-bit)",
+                                "status": true
+                              },
+                              "ipList": [
+                                "172.16.10.11"
+                              ]
+                            }
+                          ],
+                          "sum": 1440
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "openPowerOnDay",
         "description": "",
         "parameters": [
           {
@@ -3515,7 +3835,7 @@
           "vDisk": {
             "diskName": "jimmy0624-disk1",
             "storagePolicyName": "VCD-StoragePolicy",
-            "isIndependent": true,
+            "isIndependent": false,
             "quantity": 0.029296875
           }
         },
