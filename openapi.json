@@ -1675,12 +1675,11 @@
           },
           {
             "schema": {
-              "type": "string",
-              "example": "每個 Api 均要帶入 Authorization Bearer Token"
+              "type": "string"
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer",
+            "description": "每個 Api 均要帶入 Authorization Bearer Token",
             "required": true
           },
           {
@@ -2005,12 +2004,11 @@
           },
           {
             "schema": {
-              "type": "string",
-              "example": "每個 Api 均要帶入 Authorization Bearer Token"
+              "type": "string"
             },
             "in": "header",
             "name": "Authorization",
-            "description": "Bearer",
+            "description": "每個 Api 均要帶入 Authorization Bearer Token",
             "required": true
           },
           {
@@ -2650,6 +2648,173 @@
           }
         ]
       }
+    },
+    "/user/tenant": {
+      "post": {
+        "summary": "進件加一個綜合設定的 api",
+        "operationId": "post-user-tenant",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "每個 Api 均要帶入 Authorization Bearer Token"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "provisionId": {
+                    "type": "string",
+                    "description": "進件流水號"
+                  },
+                  "tenant": {
+                    "$ref": "#/components/schemas/tenant"
+                  },
+                  "vdc": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "quota": {
+                          "$ref": "#/components/schemas/quota"
+                        },
+                        "network": {
+                          "$ref": "#/components/schemas/provisionNetwork"
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "provisionId"
+                ]
+              },
+              "examples": {
+                "Provision": {
+                  "value": {
+                    "provisionId": "sdfafda324235",
+                    "tenant": {
+                      "id": "vcpp.com.tw",
+                      "name": "VCPP Org",
+                      "description": "VCPP test tenant",
+                      "active": true,
+                      "vAppRuntimeLease": 0,
+                      "vAppStorageLease": 0,
+                      "vAppTemplateLease": 0,
+                      "account": {
+                        "id": "admin",
+                        "active": true,
+                        "role": "Tenant Admin",
+                        "contactName": "tester",
+                        "contactMail": "tester@test.com.tw",
+                        "contactPhone": "0987654321"
+                      }
+                    },
+                    "vdc": [
+                      {
+                        "quota": {
+                          "id": "kubernetes",
+                          "providerId": "pVDC-DEV",
+                          "resources": [
+                            {
+                              "type": "cpu",
+                              "limit": 2
+                            },
+                            {
+                              "type": "vm",
+                              "limit": 10
+                            },
+                            {
+                              "type": "network",
+                              "limit": 100,
+                              "networkPoolId": "NP-Overlay"
+                            },
+                            {
+                              "type": "disk",
+                              "limit": 30000,
+                              "storageId": "Vcd-StoragePolicy"
+                            },
+                            {
+                              "type": "memory",
+                              "limit": 8192
+                            },
+                            {
+                              "type": "vcpu",
+                              "limit": 2
+                            }
+                          ]
+                        },
+                        "network": {
+                          "edge": {
+                            "id": "kubernetes",
+                            "publicNetworkId": "EN-External",
+                            "resources": [
+                              {
+                                "type": "static",
+                                "ipAddress": "10.9.57.102"
+                              },
+                              {
+                                "type": "addressPool",
+                                "pools": [
+                                  "10.9.57.102 - 10.9.57.102"
+                                ]
+                              },
+                              {
+                                "type": "qos",
+                                "limitSettings": [
+                                  {
+                                    "id": "RayTryIn",
+                                    "type": "inbound",
+                                    "bandwidth": 1,
+                                    "bps": 200
+                                  },
+                                  {
+                                    "id": "RayTryOut",
+                                    "type": "outbound",
+                                    "bandwidth": 2,
+                                    "bps": 100
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "dns",
+                                "defaultForwarderZone": {
+                                  "displayName": "RayTryDns",
+                                  "upstreamServers": [
+                                    "10.9.57.31"
+                                  ]
+                                }
+                              }
+                            ]
+                          },
+                          "vdcNet": {
+                            "id": "RayVdcNetwork",
+                            "gatewayCidr": "192.168.1.254/24",
+                            "staticIpPools": [
+                              "192.168.1.1 - 192.168.1.253"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "externalDocs": {
@@ -2669,16 +2834,14 @@
             "vAppRuntimeLease": 0,
             "vAppStorageLease": 0,
             "vAppTemplateLease": 0,
-            "account": [
-              {
-                "id": "admin",
-                "active": true,
-                "role": "Tenant Admin",
-                "contactName": "tester",
-                "contactMail": "tester@test.com.tw",
-                "contactPhone": "0987654321"
-              }
-            ]
+            "account": {
+              "id": "admin",
+              "active": true,
+              "role": "Tenant Admin",
+              "contactName": "tester",
+              "contactMail": "tester@test.com.tw",
+              "contactPhone": "0987654321"
+            }
           }
         },
         "properties": {
@@ -2709,6 +2872,9 @@
           "vAppTemplateLease": {
             "type": "integer",
             "description": "vApp template 租用期限，不填預設無限制"
+          },
+          "account": {
+            "$ref": "#/components/schemas/account"
           }
         },
         "required": [
@@ -4217,6 +4383,19 @@
           "index",
           "ipAddress"
         ]
+      },
+      "provisionNetwork": {
+        "title": "provisionNetwork",
+        "type": "object",
+        "properties": {
+          "edge": {
+            "$ref": "#/components/schemas/edge"
+          },
+          "vdcNet": {
+            "$ref": "#/components/schemas/vdcNet"
+          }
+        },
+        "x-examples": {}
       },
       "Ray_Exception": {
         "title": "exception",
