@@ -3188,7 +3188,7 @@
         }
       },
       "resource_vdc_network": {
-        "title": "resources_vdc_network",
+        "title": "網路集區",
         "type": "object",
         "x-examples": {
           "Network": {
@@ -3197,16 +3197,18 @@
             "networkPoolId": "NP-Overlay"
           }
         },
+        "description": "網路集區",
         "properties": {
           "type": {
             "type": "string",
             "enum": [
               "network"
             ],
-            "description": "Network 型態"
+            "description": "型態"
           },
           "limit": {
-            "type": "number"
+            "type": "number",
+            "description": "配額"
           },
           "networkPoolId": {
             "type": "string",
