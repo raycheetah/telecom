@@ -3296,7 +3296,7 @@
         }
       },
       "vdcNet": {
-        "title": "vdcNet",
+        "title": "組織 VDC 網路",
         "type": "object",
         "x-examples": {
           "vdc network": {
@@ -3307,39 +3307,41 @@
             ]
           }
         },
-        "description": "",
+        "description": "組織 VDC 網路 ",
         "properties": {
           "id": {
             "type": "string",
-            "description": "vdc network name"
+            "description": "名稱"
           },
           "gatewayCidr": {
             "type": "string",
             "pattern": "^([0-9]{1,3}\\.){3}[0-9]{1,3}(/([0-9]|[1-2][0-9]|3[0-2]))?$",
-            "description": "網路 CIDR"
+            "description": "閘道 CIDR"
           },
           "dns1": {
             "type": "string",
-            "pattern": "^$|^(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}$"
+            "pattern": "^$|^(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}$",
+            "description": "主要 DNS"
           },
           "dns2": {
             "type": "string",
-            "pattern": "^$|^(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}$"
+            "pattern": "^$|^(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}$",
+            "description": "次要 DNS"
           },
           "staticIpPools": {
             "type": "array",
-            "description": "靜態子 IP 集區",
+            "description": "靜態 IP 集區",
             "items": {
               "type": "string"
             }
           },
           "vdcGroup": {
             "type": "string",
-            "description": "若有使用 Cross Vdc Network"
+            "description": "研究中"
           },
           "defaultEdgeDns": {
             "type": "boolean",
-            "description": "是否使用 edge 的 dns"
+            "description": "使用 Edge DNS"
           }
         },
         "required": [
