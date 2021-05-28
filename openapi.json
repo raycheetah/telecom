@@ -882,9 +882,9 @@
                 "vdc network": {
                   "value": {
                     "id": "kubernetes",
-                    "gatewayCidr": "192.168.1.254/24",
+                    "gatewayCidr": "192.168.1.250/24",
                     "staticIpPools": [
-                      "192.168.1.1 - 192.168.1.253"
+                      "192.168.1.1 - 192.168.1.149"
                     ]
                   }
                 }
