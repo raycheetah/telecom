@@ -997,6 +997,10 @@
                     "publicNetworkId": "EN-External",
                     "resources": [
                       {
+                        "type": "static",
+                        "ipAddress": "10.9.57.101"
+                      },
+                      {
                         "type": "addressPool",
                         "pools": [
                           "10.9.57.102 - 10.9.57.103"
@@ -2769,6 +2773,10 @@
                             "publicNetworkId": "EN-External",
                             "resources": [
                               {
+                                "type": "static",
+                                "ipAddress": "10.9.57.101"
+                              },
+                              {
                                 "type": "addressPool",
                                 "pools": [
                                   "10.9.57.102 - 10.9.57.102"
@@ -3421,6 +3429,9 @@
                 },
                 {
                   "$ref": "#/components/schemas/resource_edge_dns"
+                },
+                {
+                  "$ref": "#/components/schemas/resource_edge_static"
                 }
               ]
             }
