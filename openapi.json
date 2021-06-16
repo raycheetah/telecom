@@ -6,8 +6,8 @@
     }
   ],
   "info": {
-    "description": "",
-    "version": "1.0.1",
+    "description": "1.0.2 把 bps 改成 burstsize, 貼近 nsx-t 的原意",
+    "version": "1.0.2",
     "title": "中華 Api",
     "contact": {
       "email": "rayshih@sysage.com.tw"
@@ -1013,13 +1013,13 @@
                             "id": "RayTryIn",
                             "type": "inbound",
                             "bandwidth": 1,
-                            "bps": 1
+                            "burstsize": 1
                           },
                           {
                             "id": "RayTryOut",
                             "type": "outbound",
                             "bandwidth": 1,
-                            "bps": 1
+                            "burstsize": 1
                           }
                         ]
                       },
@@ -1162,13 +1162,13 @@
                         "id": "RayTryIn",
                         "type": "inbound",
                         "bandwidth": 2,
-                        "bps": 2
+                        "burstsize": 2
                       },
                       {
                         "id": "RayTryOut",
                         "type": "outbound",
                         "bandwidth": 2,
-                        "bps": 2
+                        "burstsize": 2
                       }
                     ]
                   }
@@ -2789,13 +2789,13 @@
                                     "id": "RayTryIn",
                                     "type": "inbound",
                                     "bandwidth": 1,
-                                    "bps": 200
+                                    "burstsize": 200
                                   },
                                   {
                                     "id": "RayTryOut",
                                     "type": "outbound",
                                     "bandwidth": 2,
-                                    "bps": 100
+                                    "burstsize": 100
                                   }
                                 ]
                               },
@@ -3384,13 +3384,13 @@
                     "id": "RayTryIn",
                     "type": "inbound",
                     "bandwidth": 1,
-                    "bps": 200
+                    "burstsize": 200
                   },
                   {
                     "id": "RayTryOut",
                     "type": "outbound",
                     "bandwidth": 2,
-                    "bps": 100
+                    "burstsize": 100
                   }
                 ]
               },
@@ -3482,13 +3482,13 @@
                 "id": "RayTryIn",
                 "type": "inbound",
                 "bandwidth": 1,
-                "bps": 200
+                "burstsize": 200
               },
               {
                 "id": "RayTryOut",
                 "type": "outbound",
                 "bandwidth": 2,
-                "bps": 100
+                "burstsize": 100
               }
             ]
           }
@@ -3590,7 +3590,7 @@
             "type": "number",
             "description": "認可的頻寬 (Mbps)"
           },
-          "bps": {
+          "burstsize": {
             "type": "integer",
             "description": "高載大小 (位元組)"
           }
