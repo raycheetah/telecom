@@ -6,7 +6,7 @@
     }
   ],
   "info": {
-    "description": "1.0.3 <br/>\n增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> \n增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}\n<br/>\n增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗\n<br/>\n1.0.2 <br/> \n把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>\n<br/>",
+    "description": "1.0.3 <br/>\n增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> \n增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}\n<br/>\n增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗\n<br/>\n<br/>\n1.0.2 <br/> \n把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>\n<br/>",
     "version": "1.0.3",
     "title": "中華 Api",
     "contact": {
