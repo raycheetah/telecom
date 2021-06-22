@@ -6,8 +6,8 @@
     }
   ],
   "info": {
-    "description": "1.0.2 把 bps 改成 burstsize, 貼近 nsx-t 的原意",
-    "version": "1.0.2",
+    "description": "1.0.3 <br/>\n增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> \n增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}\n<br/>\n增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗\n<br/>\n1.0.2 <br/> \n把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>\n<br/>",
+    "version": "1.0.3",
     "title": "中華 Api",
     "contact": {
       "email": "rayshih@sysage.com.tw"
@@ -18,28 +18,19 @@
   },
   "tags": [
     {
-      "name": "user",
-      "description": "進件",
-      "externalDocs": {
-        "description": "",
-        "url": "http://swagger.io"
-      }
+      "name": "maintenance"
     },
     {
-      "name": "usage",
-      "description": "billing metrics"
+      "name": "notify"
     },
     {
-      "name": "session",
-      "description": "登入登出"
+      "name": "session"
     },
     {
-      "name": "maintenance",
-      "description": "維護",
-      "externalDocs": {
-        "description": "",
-        "url": "http://swagger.io"
-      }
+      "name": "usage"
+    },
+    {
+      "name": "user"
     }
   ],
   "paths": {
@@ -459,7 +450,7 @@
         ]
       }
     },
-    "/maintenance/org/{orgId}/status/{status}": {
+    "/maintenance/org/{accountId}/status/{status}": {
       "put": {
         "summary": "客戶帳號刪除/狀態變更",
         "tags": [
@@ -520,7 +511,7 @@
             }
           }
         },
-        "description": "",
+        "description": "1. 此 api 乃非同步，執行完轉發 /notify/maintenance/user/{accountId} 通知 Api",
         "parameters": [
           {
             "schema": {
@@ -536,15 +527,6 @@
       "parameters": [
         {
           "schema": {
-            "type": "string"
-          },
-          "name": "orgId",
-          "in": "path",
-          "required": true,
-          "description": "組織名稱"
-        },
-        {
-          "schema": {
             "type": "string",
             "enum": [
               "id_enable",
@@ -556,6 +538,15 @@
           "in": "path",
           "required": true,
           "description": "狀態有 id_enable id_disable delete"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "accountId",
+          "in": "path",
+          "required": true,
+          "description": "使用者＠組織"
         }
       ]
     },
@@ -2828,8 +2819,399 @@
         },
         "tags": [
           "user"
+        ],
+        "description": "1. 此 api 為非同步，進件完會啟動 /notify/user/tenant 通知"
+      }
+    },
+    "/notify/user/tenant": {
+      "post": {
+        "summary": "帳號申裝 (進件完成通知)：推送進件處理結果",
+        "operationId": "notify-user-tenant",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "user:0000",
+                        "message": "進件通知成功",
+                        "success": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "provisionId": {
+                        "type": "string",
+                        "description": "進件流水號"
+                      },
+                      "tenant": {
+                        "$ref": "#/components/schemas/tenant"
+                      },
+                      "vdc": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "quota": {
+                              "$ref": "#/components/schemas/quota"
+                            },
+                            "network": {
+                              "$ref": "#/components/schemas/provisionNetwork"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "taskInfo": {
+                    "$ref": "#/components/schemas/taskInfo"
+                  }
+                }
+              },
+              "examples": {
+                "Provision": {
+                  "value": {
+                    "data": {
+                      "provisionId": "sdfafda324235",
+                      "tenant": {
+                        "id": "vcpp.com.tw",
+                        "name": "VCPP Org",
+                        "description": "VCPP test tenant",
+                        "active": true,
+                        "vAppRuntimeLease": 0,
+                        "vAppStorageLease": 0,
+                        "vAppTemplateLease": 0,
+                        "account": {
+                          "id": "admin",
+                          "active": true,
+                          "role": "Tenant Admin",
+                          "contactName": "tester",
+                          "contactMail": "tester@test.com.tw",
+                          "contactPhone": "0987654321"
+                        }
+                      },
+                      "vdc": [
+                        {
+                          "quota": {
+                            "id": "kubernetes",
+                            "providerId": "pVDC-DEV",
+                            "resources": [
+                              {
+                                "type": "cpu",
+                                "limit": 2
+                              },
+                              {
+                                "type": "vm",
+                                "limit": 10
+                              },
+                              {
+                                "type": "network",
+                                "limit": 100,
+                                "networkPoolId": "NP-Overlay"
+                              },
+                              {
+                                "type": "disk",
+                                "limit": 30000,
+                                "storageId": "Vcd-StoragePolicy"
+                              },
+                              {
+                                "type": "memory",
+                                "limit": 8192
+                              },
+                              {
+                                "type": "vcpu",
+                                "limit": 2
+                              }
+                            ]
+                          },
+                          "network": {
+                            "edge": {
+                              "id": "kubernetes",
+                              "publicNetworkId": "EN-External",
+                              "resources": [
+                                {
+                                  "type": "static",
+                                  "ipAddress": "10.9.57.101"
+                                },
+                                {
+                                  "type": "addressPool",
+                                  "pools": [
+                                    "10.9.57.102 - 10.9.57.102"
+                                  ]
+                                },
+                                {
+                                  "type": "qos",
+                                  "limitSettings": [
+                                    {
+                                      "id": "RayTryIn",
+                                      "type": "inbound",
+                                      "bandwidth": 1,
+                                      "burstsize": 200
+                                    },
+                                    {
+                                      "id": "RayTryOut",
+                                      "type": "outbound",
+                                      "bandwidth": 2,
+                                      "burstsize": 100
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "dns",
+                                  "defaultForwarderZone": {
+                                    "displayName": "RayTryDns",
+                                    "upstreamServers": [
+                                      "10.9.57.31"
+                                    ]
+                                  }
+                                }
+                              ]
+                            },
+                            "vdcNet": {
+                              "id": "RayVdcNetwork",
+                              "gatewayCidr": "192.168.1.254/24",
+                              "staticIpPools": [
+                                "192.168.1.1 - 192.168.1.253"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "taskInfo": {
+                      "code": "user:0000",
+                      "message": "進件成功",
+                      "taskId": "379f66a4-c3d5-44b3-be88-5f456fbfc222"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        },
+        "tags": [
+          "notify"
         ]
       }
+    },
+    "/notify/maintenance/user/{accountId}": {
+      "post": {
+        "summary": "客戶帳號狀態變更通知",
+        "operationId": "notify-maintenance-tenant",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "maintenance:0000",
+                        "message": "狀態變更通知成功",
+                        "success": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "suspend",
+                          "id_enable",
+                          "id_disable",
+                          "delete"
+                        ],
+                        "description": "suspend    id_enable    id_disable    delete"
+                      },
+                      "taskInfo": {
+                        "$ref": "#/components/schemas/taskInfo"
+                      }
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "Status": {
+                  "value": {
+                    "data": {
+                      "status": "suspend",
+                      "taskInfo": {
+                        "taskId": "379f66a4-c3d5-44b3-be88-5f456fbfc222",
+                        "code": "maintenance:0000",
+                        "message": "變更通知成功"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        },
+        "tags": [
+          "notify"
+        ]
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "accountId",
+          "in": "path",
+          "required": true,
+          "description": "使用者@組織"
+        }
+      ]
+    },
+    "/notify/message/usages/{accountId}": {
+      "post": {
+        "summary": "發送使用量失敗通知",
+        "operationId": "notify-usages-tenant",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "message:0000",
+                        "message": "通知成功",
+                        "success": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "tenant": {
+                          "type": "string",
+                          "description": "使用者@組織"
+                        },
+                        "message": {
+                          "type": "string",
+                          "description": "錯誤訊息"
+                        },
+                        "cause": {
+                          "type": "string",
+                          "description": "java exception stack tree"
+                        },
+                        "timeString": {
+                          "type": "string",
+                          "description": "datetime 字串"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "usage": {
+                  "value": {
+                    "data": [
+                      {
+                        "tenant": "ray@sysage.com.tw",
+                        "message": "沒抓到",
+                        "cause": "NullPointerException",
+                        "timeString": "2019-08-12 18:00:00.000"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        },
+        "tags": [
+          "notify"
+        ],
+        "description": "metric 中途有誤發送 notification"
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "accountId",
+          "in": "path",
+          "required": true,
+          "description": "使用者@組織"
+        }
+      ]
     },
     "/maintenance/user/{accountId}/usages": {
       "parameters": [
@@ -4312,6 +4694,12 @@
               "VCD"
             ],
             "description": "若有Exception從AP來還是從VCD來"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
           }
         }
       },
