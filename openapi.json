@@ -6,8 +6,8 @@
     }
   ],
   "info": {
-    "description": "1.0.3 <br/>\n增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> \n增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}\n<br/>\n增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗\n <br/>\n <br/>\n1.0.2 <br/> \n把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>\n<br/>",
-    "version": "1.0.3",
+    "description": "1.0.4 <br/>\n所有 Authorization 的 header name 全改成 token <br/> \n <br/>\n1.0.3 <br/>\n增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> \n增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}\n<br/>\n增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗\n <br/>\n <br/>\n1.0.2 <br/> \n把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>\n<br/>",
+    "version": "1.0.4",
     "title": "中華 Api",
     "contact": {
       "email": "rayshih@sysage.com.tw"
@@ -120,8 +120,8 @@
               "type": "string"
             },
             "in": "header",
-            "name": "Authorization",
-            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
+            "name": "token",
+            "description": "每個 Api 均要帶入 token ",
             "required": true
           }
         ]
@@ -240,8 +240,8 @@
               "type": "string"
             },
             "in": "header",
-            "name": "Authorization",
-            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
+            "name": "token",
+            "description": "每個 Api 均要帶入 token ",
             "required": true
           }
         ]
@@ -354,8 +354,8 @@
               "type": "string"
             },
             "in": "header",
-            "name": "Authorization",
-            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
+            "name": "token",
+            "description": "每個 Api 均要帶入 token ",
             "required": true
           }
         ]
@@ -443,8 +443,8 @@
               "type": "string"
             },
             "in": "header",
-            "name": "Authorization",
-            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
+            "name": "token",
+            "description": "每個 Api 均要帶入 token ",
             "required": true
           }
         ]
@@ -518,8 +518,8 @@
               "type": "string"
             },
             "in": "header",
-            "name": "Authorization",
-            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
+            "name": "token",
+            "description": "每個 Api 均要帶入 token ",
             "required": true
           }
         ]
@@ -670,8 +670,8 @@
               "type": "string"
             },
             "in": "header",
-            "name": "Authorization",
-            "description": "每個 Api 均要帶入 Authorization Bearer Token "
+            "name": "token",
+            "description": "每個 Api 均要帶入 token "
           }
         ]
       },
@@ -770,8 +770,8 @@
               "type": "string"
             },
             "in": "header",
-            "name": "Authorization",
-            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
+            "name": "token",
+            "description": "每個 Api 均要帶入 token ",
             "required": true
           }
         ]
@@ -891,8 +891,8 @@
               "type": "string"
             },
             "in": "header",
-            "name": "Authorization",
-            "description": "每個 Api 均要帶入 Authorization Bearer Token",
+            "name": "token",
+            "description": "每個 Api 均要帶入 token",
             "required": true
           }
         ]
@@ -1037,8 +1037,8 @@
               "type": "string"
             },
             "in": "header",
-            "name": "Authorization",
-            "description": "每個 Api 均要帶入 Authorization Bearer Token",
+            "name": "token",
+            "description": "每個 Api 均要帶入 token",
             "required": true
           }
         ]
@@ -1183,8 +1183,8 @@
               "type": "string"
             },
             "in": "header",
-            "name": "Authorization",
-            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
+            "name": "token",
+            "description": "每個 Api 均要帶入 token ",
             "required": true
           }
         ]
@@ -1395,11 +1395,11 @@
           {
             "schema": {
               "type": "string",
-              "example": "每個 Api 均要帶入 Authorization Bearer Token"
+              "example": "每個 Api 均要帶入 token"
             },
             "in": "header",
-            "name": "Authorization",
-            "description": "每個 Api 均要帶入 Authorization Bearer Token",
+            "name": "token",
+            "description": "每個 Api 均要帶入 token",
             "required": true
           }
         ],
@@ -1526,10 +1526,10 @@
           {
             "schema": {
               "type": "string",
-              "example": "每個 Api 均要帶入 Authorization Bearer Token"
+              "example": "每個 Api 均要帶入 token"
             },
             "in": "header",
-            "name": "Authorization",
+            "name": "token",
             "description": "Bearer",
             "required": true
           },
@@ -1681,8 +1681,8 @@
               "type": "string"
             },
             "in": "header",
-            "name": "Authorization",
-            "description": "每個 Api 均要帶入 Authorization Bearer Token",
+            "name": "token",
+            "description": "每個 Api 均要帶入 token",
             "required": true
           },
           {
@@ -1843,10 +1843,10 @@
           {
             "schema": {
               "type": "string",
-              "example": "每個 Api 均要帶入 Authorization Bearer Token"
+              "example": "每個 Api 均要帶入 token"
             },
             "in": "header",
-            "name": "Authorization",
+            "name": "token",
             "description": "Bearer",
             "required": true
           },
@@ -2010,8 +2010,8 @@
               "type": "string"
             },
             "in": "header",
-            "name": "Authorization",
-            "description": "每個 Api 均要帶入 Authorization Bearer Token",
+            "name": "token",
+            "description": "每個 Api 均要帶入 token",
             "required": true
           },
           {
@@ -2122,8 +2122,8 @@
               "type": "string"
             },
             "in": "header",
-            "name": "Authorization",
-            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
+            "name": "token",
+            "description": "每個 Api 均要帶入 token ",
             "required": true
           }
         ]
@@ -2212,8 +2212,8 @@
               "type": "string"
             },
             "in": "header",
-            "name": "Authorization",
-            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
+            "name": "token",
+            "description": "每個 Api 均要帶入 token ",
             "required": true
           }
         ]
@@ -2377,8 +2377,8 @@
               "type": "string"
             },
             "in": "header",
-            "name": "Authorization",
-            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
+            "name": "token",
+            "description": "每個 Api 均要帶入 token ",
             "required": true
           }
         ]
@@ -2460,8 +2460,8 @@
               "type": "string"
             },
             "in": "header",
-            "name": "Authorization",
-            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
+            "name": "token",
+            "description": "每個 Api 均要帶入 token ",
             "required": true
           }
         ]
@@ -2544,8 +2544,8 @@
               "type": "string"
             },
             "in": "header",
-            "name": "Authorization",
-            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
+            "name": "token",
+            "description": "每個 Api 均要帶入 token ",
             "required": true
           }
         ]
@@ -2645,8 +2645,8 @@
               "type": "string"
             },
             "in": "header",
-            "name": "Authorization",
-            "description": "每個 Api 均要帶入 Authorization Bearer Token ",
+            "name": "token",
+            "description": "每個 Api 均要帶入 token ",
             "required": true
           }
         ]
@@ -2667,8 +2667,8 @@
               "type": "string"
             },
             "in": "header",
-            "name": "Authorization",
-            "description": "每個 Api 均要帶入 Authorization Bearer Token"
+            "name": "token",
+            "description": "每個 Api 均要帶入 token"
           }
         ],
         "requestBody": {
