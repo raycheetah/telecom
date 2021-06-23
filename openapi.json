@@ -1530,7 +1530,7 @@
             },
             "in": "header",
             "name": "token",
-            "description": "Bearer",
+            "description": "Token",
             "required": true
           },
           {
@@ -1847,7 +1847,7 @@
             },
             "in": "header",
             "name": "token",
-            "description": "Bearer",
+            "description": "Token",
             "required": true
           },
           {
