@@ -127,6 +127,173 @@
         ]
       }
     },
+    "/user/tier-0s": {
+      "post": {
+        "summary": "新增T0",
+        "tags": [
+          "user"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "taskInfo": {
+                      "$ref": "#/components/schemas/taskInfo"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "user:0000",
+                        "message": "新增T0成功",
+                        "success": true
+                      }
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "taskInfo": {
+                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
+                        "createTime": "2021-05-12 11:10:55",
+                        "type": "VCD"
+                      },
+                      "info": {
+                        "code": "user:0100",
+                        "message": "新增T0失敗",
+                        "exception": {
+                          "message": " 新增T0失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  重複進件！此件已於 2021-05-06 12:14:55 成功進過\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                        },
+                        "success": false
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "createtier0",
+        "description": "1. vcd 外部網路有一個 ip range, 他是 nat range <br/>\n2. T0 先提供建身體，外腳 transport node 跟實體網路綁很緊，等測試完 release 下一版 api",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "T0名稱"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "description": "T1上限，不填預設50"
+                  },
+                  "subnets": {
+                    "type": "object",
+                    "properties": {
+                      "values": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "gateway": {
+                              "type": "string",
+                              "description": "外部網路 gateway"
+                            },
+                            "netMask": {
+                              "type": "string",
+                              "description": "外部網路遮罩"
+                            },
+                            "ipRanges": {
+                              "type": "object",
+                              "properties": {
+                                "values": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "startAddress": {
+                                        "type": "string",
+                                        "description": "nat range 起始位置"
+                                      },
+                                      "endAddress": {
+                                        "type": "string",
+                                        "description": "nat range 結束位置"
+                                      }
+                                    },
+                                    "required": [
+                                      "startAddress",
+                                      "endAddress"
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "required": [
+                            "gateway",
+                            "netMask"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "id"
+                ]
+              },
+              "examples": {
+                "T0": {
+                  "value": {
+                    "id": "RayTryT0",
+                    "limit": 50,
+                    "subnets": {
+                      "values": [
+                        {
+                          "gateway": "10.9.57.126",
+                          "netMask": "255.255.255.128",
+                          "ipRanges": {
+                            "values": [
+                              {
+                                "startAddress": "10.9.57.120",
+                                "endAddress": "10.9.57.125"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "token",
+            "description": "每個 Api 均要帶入 token ",
+            "required": true
+          }
+        ]
+      }
+    },
     "/user/org/{orgId}/vdc": {
       "post": {
         "summary": "新增組織 Virtual Data Center",
