@@ -6,8 +6,8 @@
     }
   ],
   "info": {
-    "description": "1.0.5 <br/>\nT0 api 第一版 <br/>\n<br/>\n1.0.4 <br/>\n所有 Authorization 的 header name 全改成 token <br/> \n <br/>\n1.0.3 <br/>\n增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> \n增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}\n<br/>\n增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗\n <br/>\n <br/>\n1.0.2 <br/> \n把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>\n<br/>",
-    "version": "1.0.5",
+    "description": "1.0.7 <br/>\n刪除 /user/org 個別新增組織 <br/>\n刪除 /user/tier-0s 新增 T0 <br/>\n刪除 /usr/org/{orgId}/account 新增使用者 <br/>\n<br/>\n1.0.6 <br/>\n/usr/org/{orgId}/vdc request body 新增 vdcGroup:boolean 欄位 <br/>\n<br/>\n1.0.5 <br/>\nT0 api 第一版 <br/>\n<br/>\n1.0.4 <br/>\n所有 Authorization 的 header name 全改成 token <br/> \n <br/>\n1.0.3 <br/>\n增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> \n增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}\n<br/>\n增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗\n <br/>\n <br/>\n1.0.2 <br/> \n把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>\n<br/>",
+    "version": "1.0.6",
     "title": "中華 Api",
     "contact": {
       "email": "rayshih@sysage.com.tw"
@@ -34,266 +34,6 @@
     }
   ],
   "paths": {
-    "/user/org": {
-      "post": {
-        "summary": "新增組織",
-        "tags": [
-          "user"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "info": {
-                      "$ref": "#/components/schemas/info"
-                    },
-                    "taskInfo": {
-                      "$ref": "#/components/schemas/taskInfo"
-                    }
-                  }
-                },
-                "examples": {
-                  "Success": {
-                    "value": {
-                      "info": {
-                        "code": "user:0000",
-                        "message": "新增組織成功",
-                        "success": true
-                      }
-                    }
-                  },
-                  "Fail": {
-                    "value": {
-                      "taskInfo": {
-                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
-                        "createTime": "2021-05-12 11:10:55",
-                        "type": "AP"
-                      },
-                      "info": {
-                        "code": "user:0900",
-                        "message": "新增組織失敗",
-                        "exception": {
-                          "message": " 新增組織失敗",
-                          "stackTrace": "com.sysage.web.model.error.RestApiException:  重複進件！此件已於 2021-05-06 12:14:55 成功進過\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
-                        },
-                        "success": false
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "operationId": "createorg",
-        "description": "新增組織",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/tenant"
-              },
-              "examples": {
-                "Tenant": {
-                  "value": {
-                    "id": "kubernetes",
-                    "name": "VCPP Org",
-                    "description": "VCPP test tenant",
-                    "active": true,
-                    "vAppRuntimeLease": 0,
-                    "vAppStorageLease": 0,
-                    "vAppTemplateLease": 0
-                  }
-                }
-              }
-            }
-          },
-          "description": ""
-        },
-        "parameters": [
-          {
-            "schema": {
-              "type": "string"
-            },
-            "in": "header",
-            "name": "token",
-            "description": "每個 Api 均要帶入 token ",
-            "required": true
-          }
-        ]
-      }
-    },
-    "/user/tier-0s": {
-      "post": {
-        "summary": "新增T0",
-        "tags": [
-          "user"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "info": {
-                      "$ref": "#/components/schemas/info"
-                    },
-                    "taskInfo": {
-                      "$ref": "#/components/schemas/taskInfo"
-                    }
-                  }
-                },
-                "examples": {
-                  "Success": {
-                    "value": {
-                      "info": {
-                        "code": "user:0000",
-                        "message": "新增T0成功",
-                        "success": true
-                      }
-                    }
-                  },
-                  "Fail": {
-                    "value": {
-                      "taskInfo": {
-                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
-                        "createTime": "2021-05-12 11:10:55",
-                        "type": "VCD"
-                      },
-                      "info": {
-                        "code": "user:0100",
-                        "message": "新增T0失敗",
-                        "exception": {
-                          "message": " 新增T0失敗",
-                          "stackTrace": "com.sysage.web.model.error.RestApiException:  重複進件！此件已於 2021-05-06 12:14:55 成功進過\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
-                        },
-                        "success": false
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "operationId": "createtier0",
-        "description": "1. vcd 外部網路有一個 ip range, 他是 nat range <br/>\n2. T0 先提供建身體，外腳 transport node 跟實體網路綁很緊，等測試完 release 下一版 api",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "string",
-                    "description": "T0名稱"
-                  },
-                  "limit": {
-                    "type": "integer",
-                    "description": "T1上限，不填預設50"
-                  },
-                  "subnets": {
-                    "type": "object",
-                    "properties": {
-                      "values": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "gateway": {
-                              "type": "string",
-                              "description": "外部網路 gateway"
-                            },
-                            "netMask": {
-                              "type": "string",
-                              "description": "外部網路遮罩"
-                            },
-                            "ipRanges": {
-                              "type": "object",
-                              "properties": {
-                                "values": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "properties": {
-                                      "startAddress": {
-                                        "type": "string",
-                                        "description": "nat range 起始位置"
-                                      },
-                                      "endAddress": {
-                                        "type": "string",
-                                        "description": "nat range 結束位置"
-                                      }
-                                    },
-                                    "required": [
-                                      "startAddress",
-                                      "endAddress"
-                                    ]
-                                  }
-                                }
-                              }
-                            }
-                          },
-                          "required": [
-                            "gateway",
-                            "netMask"
-                          ]
-                        }
-                      }
-                    }
-                  }
-                },
-                "required": [
-                  "id"
-                ]
-              },
-              "examples": {
-                "T0": {
-                  "value": {
-                    "id": "RayTryT0",
-                    "limit": 50,
-                    "subnets": {
-                      "values": [
-                        {
-                          "gateway": "10.9.57.126",
-                          "netMask": "255.255.255.128",
-                          "ipRanges": {
-                            "values": [
-                              {
-                                "startAddress": "10.9.57.120",
-                                "endAddress": "10.9.57.125"
-                              }
-                            ]
-                          }
-                        }
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "description": ""
-        },
-        "parameters": [
-          {
-            "schema": {
-              "type": "string"
-            },
-            "in": "header",
-            "name": "token",
-            "description": "每個 Api 均要帶入 token ",
-            "required": true
-          }
-        ]
-      }
-    },
     "/user/org/{orgId}/vdc": {
       "post": {
         "summary": "新增組織 Virtual Data Center",
@@ -424,109 +164,6 @@
           "description": "組織名稱, 完整 URL 中的唯一識別碼，使用者用以登入此組織。只能使用英(小寫)數字元或下列其中一項: '-' '_' '.' '(' ')' ',' '$'"
         }
       ]
-    },
-    "/user/org/{orgId}/account": {
-      "parameters": [
-        {
-          "schema": {
-            "type": "string"
-          },
-          "name": "orgId",
-          "in": "path",
-          "required": true,
-          "description": "組織名稱"
-        }
-      ],
-      "post": {
-        "summary": "新增使用者",
-        "tags": [
-          "user"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "info": {
-                      "$ref": "#/components/schemas/info"
-                    },
-                    "taskInfo": {
-                      "$ref": "#/components/schemas/taskInfo"
-                    }
-                  }
-                },
-                "examples": {
-                  "Success": {
-                    "value": {
-                      "info": {
-                        "code": "user:0000",
-                        "message": "新增帳號成功",
-                        "success": true
-                      }
-                    }
-                  },
-                  "Fail": {
-                    "value": {
-                      "taskInfo": {
-                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
-                        "createTime": "2021-05-12 11:10:55",
-                        "type": "AP"
-                      },
-                      "info": {
-                        "code": "user:0700",
-                        "message": "新增帳號失敗",
-                        "exception": {
-                          "message": " 新增帳號失敗",
-                          "stackTrace": "com.sysage.web.model.error.RestApiException:  新增帳號失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
-                        },
-                        "success": false
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "operationId": "addaccount",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/account"
-              },
-              "examples": {
-                "Account": {
-                  "value": {
-                    "id": "admin",
-                    "active": true,
-                    "role": "Tenant Admin",
-                    "contactName": "tester",
-                    "contactMail": "tester@test.com.tw",
-                    "contactPhone": "0901-234-567"
-                  }
-                }
-              }
-            }
-          },
-          "description": ""
-        },
-        "description": "新增使用者",
-        "parameters": [
-          {
-            "schema": {
-              "type": "string"
-            },
-            "in": "header",
-            "name": "token",
-            "description": "每個 Api 均要帶入 token ",
-            "required": true
-          }
-        ]
-      }
     },
     "/maintenance/org": {
       "put": {
@@ -3626,6 +3263,7 @@
             ]
           }
         },
+        "description": "組織 VDC",
         "properties": {
           "id": {
             "type": "string",
@@ -3662,13 +3300,16 @@
                 }
               ]
             }
+          },
+          "vdcGroup": {
+            "type": "boolean",
+            "description": "是否開放共用"
           }
         },
         "required": [
           "id",
           "providerId"
-        ],
-        "description": "組織 VDC"
+        ]
       },
       "resource_vdc_vm": {
         "title": "虛擬機器",
@@ -5115,24 +4756,30 @@
       "Ray_Exception": {
         "title": "exception",
         "type": "object",
+        "x-examples": {
+          "Exception": {
+            "message": "重複進件！此件已於 2021-05-06 12:14:55 成功進過",
+            "url": "/user",
+            "stackTrace": "java.net.UnknownHostException..."
+          }
+        },
         "properties": {
           "message": {
-            "type": "string"
+            "type": "string",
+            "description": "Exception 內文"
           },
           "url": {
             "type": "string"
           },
           "stackTrace": {
-            "type": "string"
+            "type": "string",
+            "description": "Java exception stack"
           }
         },
-        "x-examples": {
-          "Exception": {
-            "message": "重複進件！此件已於 2021-05-06 12:14:55 成功進過",
-            "url": "string",
-            "stackTrace": "string"
-          }
-        }
+        "required": [
+          "message",
+          "stackTrace"
+        ]
       },
       "Ray_Info": {
         "title": "info",
@@ -5141,8 +4788,7 @@
           "Success": {
             "code": "user:0000",
             "message": "進件成功",
-            "success": true,
-            "taskId": "nul"
+            "success": true
           },
           "Fail": {
             "code": "user:0900",
@@ -5157,13 +4803,16 @@
         },
         "properties": {
           "code": {
-            "type": "string"
+            "type": "string",
+            "description": "成功/失敗代碼"
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "description": "訊息內文"
           },
           "success": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "是否成功"
           },
           "exception": {
             "$ref": "#/components/schemas/Ray_Exception"
@@ -5173,18 +4822,58 @@
       "Ray_TaskInfo": {
         "title": "taskInfo",
         "type": "object",
+        "x-examples": {
+          "Success": {
+            "taskInfo": {
+              "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
+              "createTime": "2021-05-12 11:10:55",
+              "type": "AP",
+              "info": {
+                "code": "maintenance:0000",
+                "message": "加購成功",
+                "success": true
+              }
+            }
+          },
+          "Fail": {
+            "taskInfo": {
+              "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
+              "createTime": "2021-05-12 11:10:55",
+              "type": "AP",
+              "info": {
+                "code": "maintenance:0200",
+                "message": "加購失敗",
+                "exception": {
+                  "message": "加購失敗",
+                  "stackTrace": "com.sysage.web.model.error.RestApiException:  加購失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                },
+                "success": false
+              }
+            }
+          }
+        },
+        "description": "",
         "properties": {
           "taskId": {
-            "type": "string"
+            "type": "string",
+            "description": "Api task UUID"
           },
           "createTime": {
             "type": "string"
-          }
-        },
-        "x-examples": {
-          "example-1": {
-            "taskId": "string",
-            "createTime": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "AP",
+              "VCD"
+            ],
+            "description": "若有Exception從AP來還是從VCD來"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
           }
         }
       }
