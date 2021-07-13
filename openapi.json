@@ -6,8 +6,8 @@
     }
   ],
   "info": {
-    "description": "1.0.7 <br/>\n暫時移除 /user/org 個別新增組織 <br/>\n暫時移除 /user/tier-0s 新增 T0 <br/>\n暫時移除 /usr/org/{orgId}/account 新增使用者 <br/>\n<br/>\n1.0.6 <br/>\n/usr/org/{orgId}/vdc request body 新增 vdcGroup:boolean 欄位 <br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge request body 新增 vdcGroup:String 欄位\n<br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge/{edgeId}/network request body 新增 vdcGroup:boolean 欄位\n<br/>\n1.0.5 <br/>\nT0 api 第一版 <br/>\n<br/>\n1.0.4 <br/>\n所有 Authorization 的 header name 全改成 token <br/> \n <br/>\n1.0.3 <br/>\n增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> \n增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}\n<br/>\n增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗\n <br/>\n <br/>\n1.0.2 <br/> \n把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>\n<br/>",
-    "version": "1.0.7",
+    "description": "1.0.8 <br/>\n新增 /user/tenant/{provisionId} 帳號申裝 (進件status查詢) <br/>\n新增 /maintenance/tenant/{tenantId} 客戶帳號狀態變更查詢 <br/>\n新增 /usage/exception/log metrics exception log <br/>\n<br/>\n1.0.7 <br/>\n暫時移除 /user/org 個別新增組織 <br/>\n暫時移除 /user/tier-0s 新增 T0 <br/>\n暫時移除 /usr/org/{orgId}/account 新增使用者 <br/>\n暫時移除 /user/org/{orgId}/rights/{accid} 使用者權限<br/>\n暫時移除 /notify/message/usages/{accountId} 發送 metrics 失敗通知\n<br/>\n1.0.6 <br/>\n/usr/org/{orgId}/vdc request body 新增 vdcGroup:boolean 欄位 <br/>\n<br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge request body 新增 vdcGroup:String 欄位\n<br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge/{edgeId}/network request body 新增 vdcGroup:boolean 欄位\n<br/>\n1.0.5 <br/>\nT0 api 第一版 <br/>\n<br/>\n1.0.4 <br/>\n所有 Authorization 的 header name 全改成 token <br/> \n <br/>\n1.0.3 <br/>\n增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> \n增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}\n<br/>\n增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗\n <br/>\n <br/>\n1.0.2 <br/> \n把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>\n<br/>",
+    "version": "1.0.8",
     "title": "中華 Api",
     "contact": {
       "email": "rayshih@sysage.com.tw"
@@ -315,7 +315,7 @@
             }
           }
         },
-        "description": "1. 此 api 乃非同步，執行完轉發 /notify/maintenance/user/{accountId} 通知 Api",
+        "description": "1. 此 api 乃非同步",
         "parameters": [
           {
             "schema": {
@@ -2624,12 +2624,12 @@
         "tags": [
           "user"
         ],
-        "description": "1. 此 api 為非同步，進件完會啟動 /notify/user/tenant 通知"
+        "description": "1. 此 api 為非同步"
       }
     },
-    "/notify/user/tenant": {
-      "post": {
-        "summary": "帳號申裝 (進件完成通知)：推送進件處理結果",
+    "/user/tenant/{provisionId}": {
+      "get": {
+        "summary": "帳號申裝 (進件status查詢)",
         "operationId": "notify-user-tenant",
         "responses": {
           "200": {
@@ -2641,15 +2641,55 @@
                   "properties": {
                     "info": {
                       "$ref": "#/components/schemas/info"
+                    },
+                    "taskInfo": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/taskInfo"
+                      }
                     }
                   }
                 },
                 "examples": {
-                  "Success": {
+                  "Fail": {
                     "value": {
                       "info": {
+                        "code": "user:0999",
+                        "message": "取得通知失敗",
+                        "success": false
+                      }
+                    }
+                  },
+                  "Success": {
+                    "value": {
+                      "taskInfo": [
+                        {
+                          "message": "進件成功",
+                          "code": "user:0000",
+                          "createTime": "2021-07-11 22:24:57"
+                        },
+                        {
+                          "taskId": "5410f53b-5501-426e-a18b-4b281ac819c8",
+                          "message": "進件處理中",
+                          "code": "user:0000",
+                          "createTime": "2021-07-11 22:19:02"
+                        },
+                        {
+                          "message": "進件失敗",
+                          "code": "user:0999",
+                          "createTime": "2021-07-11 22:15:25",
+                          "cause": "進件失敗[ 3ccc935b-52e2-411a-b640-0401671140eb ] The provided metadata is not a valid SAML 2.0 metadata document."
+                        },
+                        {
+                          "taskId": "a33d60a5-1d56-41aa-a73e-7e6d6c921603",
+                          "message": "進件處理中",
+                          "code": "user:0000",
+                          "createTime": "2021-07-11 22:15:17"
+                        }
+                      ],
+                      "info": {
                         "code": "user:0000",
-                        "message": "進件通知成功",
+                        "message": "進件成功",
                         "success": true
                       }
                     }
@@ -2660,173 +2700,26 @@
           }
         },
         "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "provisionId": {
-                        "type": "string",
-                        "description": "進件流水號"
-                      },
-                      "tenant": {
-                        "$ref": "#/components/schemas/tenant"
-                      },
-                      "vdc": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "quota": {
-                              "$ref": "#/components/schemas/quota"
-                            },
-                            "network": {
-                              "$ref": "#/components/schemas/provisionNetwork"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  },
-                  "taskInfo": {
-                    "$ref": "#/components/schemas/taskInfo"
-                  }
-                }
-              },
-              "examples": {
-                "Provision": {
-                  "value": {
-                    "data": {
-                      "provisionId": "sdfafda324235",
-                      "tenant": {
-                        "id": "vcpp.com.tw",
-                        "name": "VCPP Org",
-                        "description": "VCPP test tenant",
-                        "active": true,
-                        "vAppRuntimeLease": 0,
-                        "vAppStorageLease": 0,
-                        "vAppTemplateLease": 0,
-                        "account": {
-                          "id": "admin",
-                          "active": true,
-                          "role": "vApp User",
-                          "contactName": "tester",
-                          "contactMail": "tester@test.com.tw",
-                          "contactPhone": "0987654321"
-                        }
-                      },
-                      "vdc": [
-                        {
-                          "quota": {
-                            "id": "kubernetes",
-                            "providerId": "pVDC-DEV",
-                            "resources": [
-                              {
-                                "type": "cpu",
-                                "limit": 2
-                              },
-                              {
-                                "type": "vm",
-                                "limit": 10
-                              },
-                              {
-                                "type": "network",
-                                "limit": 100,
-                                "networkPoolId": "NP-Overlay"
-                              },
-                              {
-                                "type": "disk",
-                                "limit": 30000,
-                                "storageId": "Vcd-StoragePolicy"
-                              },
-                              {
-                                "type": "memory",
-                                "limit": 8192
-                              },
-                              {
-                                "type": "vcpu",
-                                "limit": 2
-                              }
-                            ]
-                          },
-                          "network": {
-                            "edge": {
-                              "id": "kubernetes",
-                              "publicNetworkId": "EN-External",
-                              "resources": [
-                                {
-                                  "type": "static",
-                                  "ipAddress": "10.9.57.101"
-                                },
-                                {
-                                  "type": "addressPool",
-                                  "pools": [
-                                    "10.9.57.102 - 10.9.57.102"
-                                  ]
-                                },
-                                {
-                                  "type": "qos",
-                                  "limitSettings": [
-                                    {
-                                      "id": "RayTryIn",
-                                      "type": "inbound",
-                                      "bandwidth": 1,
-                                      "burstsize": 200
-                                    },
-                                    {
-                                      "id": "RayTryOut",
-                                      "type": "outbound",
-                                      "bandwidth": 2,
-                                      "burstsize": 100
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "dns",
-                                  "defaultForwarderZone": {
-                                    "displayName": "RayTryDns",
-                                    "upstreamServers": [
-                                      "10.9.57.31"
-                                    ]
-                                  }
-                                }
-                              ]
-                            },
-                            "vdcNet": {
-                              "id": "RayVdcNetwork",
-                              "gatewayCidr": "192.168.1.254/24",
-                              "staticIpPools": [
-                                "192.168.1.1 - 192.168.1.253"
-                              ]
-                            }
-                          }
-                        }
-                      ]
-                    },
-                    "taskInfo": {
-                      "code": "user:0000",
-                      "message": "進件成功",
-                      "taskId": "379f66a4-c3d5-44b3-be88-5f456fbfc222"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "description": ""
-        },
         "tags": [
-          "notify"
-        ]
-      }
+          "user"
+        ],
+        "description": ""
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "provisionId",
+          "in": "path",
+          "description": "進件單號",
+          "required": true
+        }
+      ]
     },
-    "/notify/maintenance/user/{accountId}": {
-      "post": {
-        "summary": "客戶帳號狀態變更通知",
+    "/maintenance/tenant/{tenantId}": {
+      "get": {
+        "summary": "客戶帳號狀態變更查詢",
         "operationId": "notify-maintenance-tenant",
         "responses": {
           "200": {
@@ -2838,16 +2731,56 @@
                   "properties": {
                     "info": {
                       "$ref": "#/components/schemas/info"
+                    },
+                    "taskInfo": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/taskInfo"
+                      }
                     }
                   }
                 },
                 "examples": {
                   "Success": {
                     "value": {
+                      "taskInfo": [
+                        {
+                          "message": "進件成功",
+                          "code": "user:0000",
+                          "createTime": "2021-07-11 22:24:57"
+                        },
+                        {
+                          "taskId": "5410f53b-5501-426e-a18b-4b281ac819c8",
+                          "message": "進件處理中",
+                          "code": "user:0000",
+                          "createTime": "2021-07-11 22:19:02"
+                        },
+                        {
+                          "message": "進件失敗",
+                          "code": "user:0999",
+                          "createTime": "2021-07-11 22:15:25",
+                          "cause": "進件失敗[ 3ccc935b-52e2-411a-b640-0401671140eb ] The provided metadata is not a valid SAML 2.0 metadata document."
+                        },
+                        {
+                          "taskId": "a33d60a5-1d56-41aa-a73e-7e6d6c921603",
+                          "message": "進件處理中",
+                          "code": "user:0000",
+                          "createTime": "2021-07-11 22:15:17"
+                        }
+                      ],
                       "info": {
-                        "code": "maintenance:0000",
-                        "message": "狀態變更通知成功",
-                        "success": true
+                        "code": "user:0000",
+                        "message": "退租失敗",
+                        "success": false
+                      }
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "info": {
+                        "code": "maintenance:0999",
+                        "message": "更改狀態失敗",
+                        "success": false
                       }
                     }
                   }
@@ -2857,70 +2790,27 @@
           }
         },
         "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "status": {
-                        "type": "string",
-                        "enum": [
-                          "suspend",
-                          "id_enable",
-                          "id_disable",
-                          "delete"
-                        ],
-                        "description": "suspend    id_enable    id_disable    delete"
-                      },
-                      "taskInfo": {
-                        "$ref": "#/components/schemas/taskInfo"
-                      }
-                    }
-                  }
-                }
-              },
-              "examples": {
-                "Status": {
-                  "value": {
-                    "data": {
-                      "status": "suspend",
-                      "taskInfo": {
-                        "taskId": "379f66a4-c3d5-44b3-be88-5f456fbfc222",
-                        "code": "maintenance:0000",
-                        "message": "變更通知成功"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "description": ""
-        },
         "tags": [
-          "notify"
+          "maintenance"
         ]
       },
       "parameters": [
         {
           "schema": {
-            "type": "string"
+            "type": "string",
+            "example": "admin@kubernetes"
           },
-          "name": "accountId",
+          "name": "tenantId",
           "in": "path",
           "required": true,
           "description": "使用者@組織"
         }
       ]
     },
-    "/notify/message/usages/{accountId}": {
-      "post": {
-        "summary": "發送使用量失敗通知",
-        "operationId": "notify-usages-tenant",
+    "/usage/exception/log": {
+      "get": {
+        "summary": "metrics exception log",
+        "operationId": "usage-exception-log",
         "responses": {
           "200": {
             "description": "OK",
@@ -2931,16 +2821,69 @@
                   "properties": {
                     "info": {
                       "$ref": "#/components/schemas/info"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "tenantId": {
+                          "type": "string",
+                          "description": "使用者@組織"
+                        },
+                        "vmId": {
+                          "type": "string",
+                          "description": "VM名稱"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "cause": {
+                          "type": "string",
+                          "description": "java exception stack"
+                        },
+                        "timeString": {
+                          "type": "string"
+                        },
+                        "timestamp": {
+                          "type": "string"
+                        },
+                        "userName": {
+                          "type": "string",
+                          "description": "使用者"
+                        },
+                        "orgName": {
+                          "type": "string",
+                          "description": "組織"
+                        }
+                      }
                     }
                   }
                 },
                 "examples": {
+                  "Fail": {
+                    "value": {
+                      "info": {
+                        "code": "usage:0040",
+                        "message": "查詢失敗",
+                        "success": false
+                      }
+                    }
+                  },
                   "Success": {
                     "value": {
                       "info": {
-                        "code": "message:0000",
-                        "message": "通知成功",
+                        "code": "usage:0000",
+                        "message": "查詢成功",
                         "success": true
+                      },
+                      "data": {
+                        "tenantId": "admin@kubernetes",
+                        "vmId": "RayTryVM",
+                        "message": "有錯誤",
+                        "cause": "java.util.NullException",
+                        "timeString": "2011-1-1 13:13:13",
+                        "timestamp": "1626139571000",
+                        "userName": "admin",
+                        "orgName": "kubernetes"
                       }
                     }
                   }
@@ -2949,73 +2892,40 @@
             }
           }
         },
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "tenant": {
-                          "type": "string",
-                          "description": "使用者@組織"
-                        },
-                        "message": {
-                          "type": "string",
-                          "description": "錯誤訊息"
-                        },
-                        "cause": {
-                          "type": "string",
-                          "description": "java exception stack tree"
-                        },
-                        "timeString": {
-                          "type": "string",
-                          "description": "datetime 字串"
-                        }
-                      }
-                    }
-                  }
-                }
-              },
-              "examples": {
-                "usage": {
-                  "value": {
-                    "data": [
-                      {
-                        "tenant": "ray@sysage.com.tw",
-                        "message": "沒抓到",
-                        "cause": "NullPointerException",
-                        "timeString": "2019-08-12 18:00:00.000"
-                      }
-                    ]
-                  }
-                }
-              }
-            }
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "example": "1616550300000"
+            },
+            "in": "query",
+            "name": "startTime",
+            "description": "13位 timestamp",
+            "required": true
           },
-          "description": ""
-        },
-        "tags": [
-          "notify"
+          {
+            "schema": {
+              "type": "string",
+              "example": "1616550300000"
+            },
+            "in": "query",
+            "name": "endTime",
+            "description": "13位 timestamp",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "tenantId",
+            "description": "組織"
+          }
         ],
-        "description": "metric 中途有誤發送 notification"
-      },
-      "parameters": [
-        {
-          "schema": {
-            "type": "string"
-          },
-          "name": "accountId",
-          "in": "path",
-          "required": true,
-          "description": "使用者@組織"
-        }
-      ]
+        "tags": [
+          "maintenance"
+        ]
+      }
     },
     "/maintenance/user/{accountId}/usages": {
       "parameters": [
