@@ -6,8 +6,8 @@
     }
   ],
   "info": {
-    "description": "1.0.7 <br/>\n刪除 /user/org 個別新增組織 <br/>\n刪除 /user/tier-0s 新增 T0 <br/>\n刪除 /usr/org/{orgId}/account 新增使用者 <br/>\n<br/>\n1.0.6 <br/>\n/usr/org/{orgId}/vdc request body 新增 vdcGroup:boolean 欄位 <br/>\n<br/>\n1.0.5 <br/>\nT0 api 第一版 <br/>\n<br/>\n1.0.4 <br/>\n所有 Authorization 的 header name 全改成 token <br/> \n <br/>\n1.0.3 <br/>\n增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> \n增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}\n<br/>\n增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗\n <br/>\n <br/>\n1.0.2 <br/> \n把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>\n<br/>",
-    "version": "1.0.6",
+    "description": "1.0.7 <br/>\n暫時移除 /user/org 個別新增組織 <br/>\n暫時移除 /user/tier-0s 新增 T0 <br/>\n暫時移除 /usr/org/{orgId}/account 新增使用者 <br/>\n<br/>\n1.0.6 <br/>\n/usr/org/{orgId}/vdc request body 新增 vdcGroup:boolean 欄位 <br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge request body 新增 vdcGroup:String 欄位\n<br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge/{edgeId}/network request body 新增 vdcGroup:boolean 欄位\n<br/>\n1.0.5 <br/>\nT0 api 第一版 <br/>\n<br/>\n1.0.4 <br/>\n所有 Authorization 的 header name 全改成 token <br/> \n <br/>\n1.0.3 <br/>\n增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> \n增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}\n<br/>\n增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗\n <br/>\n <br/>\n1.0.2 <br/> \n把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>\n<br/>",
+    "version": "1.0.7",
     "title": "中華 Api",
     "contact": {
       "email": "rayshih@sysage.com.tw"
@@ -2232,7 +2232,7 @@
                       "data": {
                         "id": "admin",
                         "active": true,
-                        "role": "Tenant Admin",
+                        "role": "vApp User",
                         "contactName": "kubernetes",
                         "contactMail": "kubernetes@kubernetes.com",
                         "contactPhone": "1234567890"
@@ -2522,7 +2522,7 @@
                       "account": {
                         "id": "admin",
                         "active": true,
-                        "role": "Tenant Admin",
+                        "role": "vApp User",
                         "contactName": "tester",
                         "contactMail": "tester@test.com.tw",
                         "contactPhone": "0987654321"
@@ -2713,7 +2713,7 @@
                         "account": {
                           "id": "admin",
                           "active": true,
-                          "role": "Tenant Admin",
+                          "role": "vApp User",
                           "contactName": "tester",
                           "contactMail": "tester@test.com.tw",
                           "contactPhone": "0987654321"
@@ -3131,7 +3131,7 @@
             "account": {
               "id": "admin",
               "active": true,
-              "role": "Tenant Admin",
+              "role": "vApp User",
               "contactName": "tester",
               "contactMail": "tester@test.com.tw",
               "contactPhone": "0987654321"
@@ -3183,7 +3183,7 @@
           "Account": {
             "id": "admin",
             "active": true,
-            "role": "Tenant Admin",
+            "role": "vApp User",
             "contactName": "tester",
             "contactMail": "tester@test.com.tw",
             "contactPhone": "0901-234-567"
@@ -3204,7 +3204,7 @@
           "role": {
             "type": "string",
             "description": "可用角色",
-            "example": "Tenant Admin"
+            "example": "vApp User"
           },
           "contactName": {
             "type": "string",
@@ -3535,12 +3535,8 @@
             }
           },
           "vdcGroup": {
-            "type": "string",
-            "description": "研究中"
-          },
-          "defaultEdgeDns": {
             "type": "boolean",
-            "description": "使用 Edge DNS"
+            "description": "指定跟 vdcGroup 綁定"
           }
         },
         "required": [
@@ -3625,6 +3621,10 @@
                 }
               ]
             }
+          },
+          "vdcGroup": {
+            "type": "string",
+            "description": "將edge設置給 vdc group"
           }
         },
         "required": [
