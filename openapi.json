@@ -6,7 +6,7 @@
     }
   ],
   "info": {
-    "description": "1.0.9 <br/>\n修改 /usage/list/snapshot 以每小時為單位查詢快照數量。將 tenantId, timeStamp 移出 element <br/>\n<br/>\n1.0.8 <br/>\n新增 /user/tenant/{provisionId} 帳號申裝 (進件status查詢) <br/>\n新增 /maintenance/tenant/{tenantId} 客戶帳號狀態變更查詢 <br/>\n新增 /usage/exception/log metrics exception log <br/>\n<br/>\n1.0.7 <br/>\n暫時移除 /user/org 個別新增組織 <br/>\n暫時移除 /user/tier-0s 新增 T0 <br/>\n暫時移除 /usr/org/{orgId}/account 新增使用者 <br/>\n暫時移除 /user/org/{orgId}/rights/{accid} 使用者權限<br/>\n暫時移除 /notify/message/usages/{accountId} 發送 metrics 失敗通知 <br/>\n<br/>\n1.0.6 <br/>\n/usr/org/{orgId}/vdc request body 新增 vdcGroup:boolean 欄位 <br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge request body 新增 vdcGroup:String 欄位\n<br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge/{edgeId}/network request body 新增 vdcGroup:boolean 欄位\n<br/>\n<br/>\n1.0.5 <br/>\nT0 api 第一版 <br/>\n<br/>\n1.0.4 <br/>\n所有 Authorization 的 header name 全改成 token <br/> \n <br/>\n1.0.3 <br/>\n增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> \n增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}\n<br/>\n增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗\n <br/>\n <br/>\n1.0.2 <br/> \n把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>\n<br/>",
+    "description": "1.0.9 <br/>\n修改 /usage/list/snapshot 以每小時為單位查詢快照數量。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/vm 以每天為單位查詢max vm數量。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/disk 以每小時為單位查詢使用的儲存空間。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/poweron 以每日為單位查詢vm開機時數。將 tenantId, timeStamp 移出 element <br/>\n<br/>\n1.0.8 <br/>\n新增 /user/tenant/{provisionId} 帳號申裝 (進件status查詢) <br/>\n新增 /maintenance/tenant/{tenantId} 客戶帳號狀態變更查詢 <br/>\n新增 /usage/exception/log metrics exception log <br/>\n<br/>\n1.0.7 <br/>\n暫時移除 /user/org 個別新增組織 <br/>\n暫時移除 /user/tier-0s 新增 T0 <br/>\n暫時移除 /usr/org/{orgId}/account 新增使用者 <br/>\n暫時移除 /user/org/{orgId}/rights/{accid} 使用者權限<br/>\n暫時移除 /notify/message/usages/{accountId} 發送 metrics 失敗通知 <br/>\n<br/>\n1.0.6 <br/>\n/usr/org/{orgId}/vdc request body 新增 vdcGroup:boolean 欄位 <br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge request body 新增 vdcGroup:String 欄位\n<br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge/{edgeId}/network request body 新增 vdcGroup:boolean 欄位\n<br/>\n<br/>\n1.0.5 <br/>\nT0 api 第一版 <br/>\n<br/>\n1.0.4 <br/>\n所有 Authorization 的 header name 全改成 token <br/> \n <br/>\n1.0.3 <br/>\n增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> \n增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}\n<br/>\n增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗\n <br/>\n <br/>\n1.0.2 <br/> \n把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>\n<br/>",
     "version": "1.0.9",
     "title": "中華 Api",
     "contact": {
@@ -1250,6 +1250,14 @@
                           "tenantId": {
                             "type": "string",
                             "description": "組織名稱"
+                          },
+                          "timestamp": {
+                            "type": "integer",
+                            "description": "整點 in 13位 timestamp"
+                          },
+                          "timeString": {
+                            "type": "string",
+                            "description": "整點 in YYYY-MM-dd HH:MM:SS.ZZZ"
                           }
                         }
                       }
@@ -1554,6 +1562,18 @@
                           "count": {
                             "type": "integer",
                             "description": "總計"
+                          },
+                          "tenant": {
+                            "type": "string",
+                            "description": "組織"
+                          },
+                          "timestamp": {
+                            "type": "integer",
+                            "description": "零時 in 13位 timestamp"
+                          },
+                          "timeString": {
+                            "type": "string",
+                            "description": "零時 in YYYY-MM-dd HH:MM:SS.ZZZ"
                           }
                         }
                       }
@@ -1583,12 +1603,12 @@
                       },
                       "data": [
                         {
+                          "tenantId": "ray@test.com.tw",
+                          "timestamp": 1565604000000,
+                          "timeString": "2019-08-12 18:00:00.000",
                           "vdcId": "RayVdc",
                           "element": [
                             {
-                              "tenantId": "ray@test.com.tw",
-                              "timestamp": 1565604000000,
-                              "timeString": "2019-08-12 18:00:00.000",
                               "vmId": "vApp-01",
                               "info": {
                                 "vCore": 19.5,
@@ -1603,10 +1623,7 @@
                                 ],
                                 "os": "CentOS 7 (64-bit)",
                                 "status": true
-                              },
-                              "ipList": [
-                                "172.16.10.11"
-                              ]
+                              }
                             }
                           ],
                           "count": 1
