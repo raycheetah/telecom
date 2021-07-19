@@ -6,8 +6,8 @@
     }
   ],
   "info": {
-    "description": "1.0.9 <br/>\n修改 /usage/list/snapshot 以每小時為單位查詢快照數量。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/vm 以每天為單位查詢max vm數量。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/disk 以每小時為單位查詢使用的儲存空間。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/poweron 以每日為單位查詢vm開機時數。將 tenantId, timeStamp 移出 element <br/>\n<br/>\n1.0.8 <br/>\n新增 /user/tenant/{provisionId} 帳號申裝 (進件status查詢) <br/>\n新增 /maintenance/tenant/{tenantId} 客戶帳號狀態變更查詢 <br/>\n新增 /usage/exception/log metrics exception log <br/>\n<br/>\n1.0.7 <br/>\n暫時移除 /user/org 個別新增組織 <br/>\n暫時移除 /user/tier-0s 新增 T0 <br/>\n暫時移除 /usr/org/{orgId}/account 新增使用者 <br/>\n暫時移除 /user/org/{orgId}/rights/{accid} 使用者權限<br/>\n暫時移除 /notify/message/usages/{accountId} 發送 metrics 失敗通知 <br/>\n<br/>\n1.0.6 <br/>\n/usr/org/{orgId}/vdc request body 新增 vdcGroup:boolean 欄位 <br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge request body 新增 vdcGroup:String 欄位\n<br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge/{edgeId}/network request body 新增 vdcGroup:boolean 欄位\n<br/>\n<br/>\n1.0.5 <br/>\nT0 api 第一版 <br/>\n<br/>\n1.0.4 <br/>\n所有 Authorization 的 header name 全改成 token <br/> \n <br/>\n1.0.3 <br/>\n增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> \n增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}\n<br/>\n增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗\n <br/>\n <br/>\n1.0.2 <br/> \n把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>\n<br/>",
-    "version": "1.0.9",
+    "description": "1.1.0 <br/>\n新增 /user/{accountId}/password 變更密碼 <br/>\n新增 /user/{accountId}/contact 變更聯絡人資訊 <br/>\n<br/>\n1.0.9 <br/>\n修改 /usage/list/snapshot 以每小時為單位查詢快照數量。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/vm 以每天為單位查詢max vm數量。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/disk 以每小時為單位查詢使用的儲存空間。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/poweron 以每日為單位查詢vm開機時數。將 tenantId, timeStamp 移出 element <br/>\n<br/>\n1.0.8 <br/>\n新增 /user/tenant/{provisionId} 帳號申裝 (進件status查詢) <br/>\n新增 /maintenance/tenant/{tenantId} 客戶帳號狀態變更查詢 <br/>\n新增 /usage/exception/log metrics exception log <br/>\n<br/>\n1.0.7 <br/>\n暫時移除 /user/org 個別新增組織 <br/>\n暫時移除 /user/tier-0s 新增 T0 <br/>\n暫時移除 /usr/org/{orgId}/account 新增使用者 <br/>\n暫時移除 /user/org/{orgId}/rights/{accid} 使用者權限<br/>\n暫時移除 /notify/message/usages/{accountId} 發送 metrics 失敗通知 <br/>\n<br/>\n1.0.6 <br/>\n/usr/org/{orgId}/vdc request body 新增 vdcGroup:boolean 欄位 <br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge request body 新增 vdcGroup:String 欄位\n<br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge/{edgeId}/network request body 新增 vdcGroup:boolean 欄位\n<br/>\n<br/>\n1.0.5 <br/>\nT0 api 第一版 <br/>\n<br/>\n1.0.4 <br/>\n所有 Authorization 的 header name 全改成 token <br/> \n <br/>\n1.0.3 <br/>\n增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> \n增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}\n<br/>\n增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗\n <br/>\n <br/>\n1.0.2 <br/> \n把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>\n<br/>",
+    "version": "1.1.0",
     "title": "中華 Api",
     "contact": {
       "email": "rayshih@sysage.com.tw"
@@ -612,7 +612,7 @@
         }
       ],
       "post": {
-        "summary": "新增組織網路",
+        "summary": "新增組織 vdc 網路",
         "tags": [
           "user"
         ],
@@ -1230,36 +1230,7 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "type": "object",
-                        "properties": {
-                          "vdcid": {
-                            "type": "string",
-                            "description": "vdc名稱"
-                          },
-                          "element": {
-                            "type": "array",
-                            "description": "原則上 element 每小時 取五分鐘metrics db table snapshot 的 max",
-                            "items": {
-                              "$ref": "#/components/schemas/statistic_snapshots_template"
-                            }
-                          },
-                          "count": {
-                            "type": "integer",
-                            "description": "總和"
-                          },
-                          "tenantId": {
-                            "type": "string",
-                            "description": "組織名稱"
-                          },
-                          "timestamp": {
-                            "type": "integer",
-                            "description": "整點 in 13位 timestamp"
-                          },
-                          "timeString": {
-                            "type": "string",
-                            "description": "整點 in YYYY-MM-dd HH:MM:SS.ZZZ"
-                          }
-                        }
+                        "$ref": "#/components/schemas/customerMetrics"
                       }
                     }
                   }
@@ -1394,24 +1365,7 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "type": "object",
-                        "properties": {
-                          "vdcid": {
-                            "type": "string",
-                            "description": "vdc名稱"
-                          },
-                          "element": {
-                            "type": "array",
-                            "description": "原則上 element 每小時 取五分鐘metrics db table disk 的 max",
-                            "items": {
-                              "$ref": "#/components/schemas/vDisk"
-                            }
-                          },
-                          "sum": {
-                            "type": "number",
-                            "description": "總和"
-                          }
-                        }
+                        "$ref": "#/components/schemas/customerMetrics"
                       }
                     }
                   }
@@ -1546,36 +1500,7 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "type": "object",
-                        "properties": {
-                          "vdcId": {
-                            "type": "string",
-                            "description": "vdc名稱"
-                          },
-                          "element": {
-                            "type": "array",
-                            "description": "原則上 element 每天 取五分鐘metrics db table vmInfo 的 max",
-                            "items": {
-                              "$ref": "#/components/schemas/statistic_vminfo"
-                            }
-                          },
-                          "count": {
-                            "type": "integer",
-                            "description": "總計"
-                          },
-                          "tenant": {
-                            "type": "string",
-                            "description": "組織"
-                          },
-                          "timestamp": {
-                            "type": "integer",
-                            "description": "零時 in 13位 timestamp"
-                          },
-                          "timeString": {
-                            "type": "string",
-                            "description": "零時 in YYYY-MM-dd HH:MM:SS.ZZZ"
-                          }
-                        }
+                        "$ref": "#/components/schemas/customerMetrics"
                       }
                     }
                   }
@@ -1720,24 +1645,7 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "type": "object",
-                        "properties": {
-                          "vdcId": {
-                            "type": "string",
-                            "description": "vdc名稱"
-                          },
-                          "element": {
-                            "type": "array",
-                            "description": "原則上 element 每天 算五分鐘metrics db table poweron 到 poweroff 的分鐘數 ",
-                            "items": {
-                              "$ref": "#/components/schemas/statistic_vminfo"
-                            }
-                          },
-                          "sum": {
-                            "type": "integer",
-                            "description": "單位分鐘"
-                          }
-                        }
+                        "$ref": "#/components/schemas/customerMetrics"
                       }
                     }
                   }
@@ -2375,107 +2283,6 @@
         ]
       }
     },
-    "/user/org/{orgId}/rights/{accid}": {
-      "parameters": [
-        {
-          "schema": {
-            "type": "string"
-          },
-          "name": "orgId",
-          "in": "path",
-          "required": true,
-          "description": "組織名稱"
-        },
-        {
-          "schema": {
-            "type": "string"
-          },
-          "name": "accid",
-          "in": "path",
-          "required": true,
-          "description": "使用者名稱"
-        }
-      ],
-      "get": {
-        "summary": "使用者帳號之權限表",
-        "tags": [
-          "user"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "info": {
-                      "$ref": "#/components/schemas/info"
-                    },
-                    "taskInfo": {
-                      "$ref": "#/components/schemas/taskInfo"
-                    },
-                    "data": {
-                      "$ref": "#/components/schemas/rights"
-                    }
-                  }
-                },
-                "examples": {
-                  "Fail": {
-                    "value": {
-                      "taskInfo": {
-                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
-                        "createTime": "2021-05-12 11:10:55",
-                        "type": "AP"
-                      },
-                      "info": {
-                        "code": "user:0600",
-                        "message": "帳號查詢失敗",
-                        "exception": {
-                          "message": " 帳號查詢失敗",
-                          "url": null,
-                          "stackTrace": "com.sysage.web.model.error.RestApiException:  帳號查詢失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
-                        },
-                        "success": false
-                      }
-                    }
-                  },
-                  "Success": {
-                    "value": {
-                      "info": {
-                        "code": "user:0000",
-                        "message": "權限查詢成功",
-                        "success": true
-                      },
-                      "data": [
-                        {
-                          "name": "Organization vDC Named Disk",
-                          "type": "VIEW",
-                          "rights": []
-                        }
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "operationId": "getrights",
-        "description": "製作使用者帳號之權限表",
-        "parameters": [
-          {
-            "schema": {
-              "type": "string"
-            },
-            "in": "header",
-            "name": "token",
-            "description": "每個 Api 均要帶入 token ",
-            "required": true
-          }
-        ]
-      }
-    },
     "/user/tenant": {
       "post": {
         "summary": "進件加一個綜合設定的 api",
@@ -2649,7 +2456,7 @@
     },
     "/user/tenant/{provisionId}": {
       "get": {
-        "summary": "帳號申裝 (進件status查詢)",
+        "summary": "帳號申裝 [進件status查詢]",
         "operationId": "notify-user-tenant",
         "responses": {
           "200": {
@@ -3038,6 +2845,208 @@
             "description": "13位時間戳"
           }
         ]
+      }
+    },
+    "/user/{accountId}/password": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "accountId",
+          "in": "path",
+          "required": true,
+          "description": "使用者@組織"
+        }
+      ],
+      "put": {
+        "summary": "變更密碼",
+        "tags": [
+          "user"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/Ray_Info"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "user:0000",
+                        "message": "密碼變更成功",
+                        "success": true
+                      }
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "info": {
+                        "code": "user:0500",
+                        "message": "密碼變更失敗",
+                        "success": false
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "put-user-accountId-password",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "password": {
+                        "type": "string",
+                        "description": "密碼"
+                      }
+                    },
+                    "required": [
+                      "password"
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "password": {
+                  "value": {
+                    "data": {
+                      "password": "1qaz@WSX"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "/user/{accountId}/contact": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "accountId",
+          "in": "path",
+          "required": true,
+          "description": "使用者@組織"
+        }
+      ],
+      "put": {
+        "summary": "變更聯絡人資訊",
+        "tags": [
+          "user"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/Ray_Info"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "user:0000",
+                        "message": "組織資訊變更成功",
+                        "success": true
+                      }
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "info": {
+                        "code": "user:0500",
+                        "message": "組織資訊變更失敗",
+                        "success": false
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "put-user-accountId-contact",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "tenantName": {
+                        "type": "string",
+                        "description": "組織名稱"
+                      },
+                      "tenantDescription": {
+                        "type": "string",
+                        "description": "描述"
+                      },
+                      "contactName": {
+                        "type": "string",
+                        "description": "聯絡人名稱"
+                      },
+                      "contactMail": {
+                        "type": "string",
+                        "description": "email"
+                      },
+                      "contactPhone": {
+                        "type": "string",
+                        "description": "電話"
+                      }
+                    },
+                    "required": [
+                      "tenantName"
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Contact": {
+                  "value": {
+                    "data": {
+                      "tenantName": "VCPP Org",
+                      "tenantDescription": "VCPP test tenant",
+                      "contactName": "tester",
+                      "contactMail": "tester@test.com.tw",
+                      "contactPhone": "02-12345678"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        }
       }
     }
   },
@@ -4682,6 +4691,101 @@
           }
         },
         "x-examples": {}
+      },
+      "customerMetrics": {
+        "title": "customizedMetrics",
+        "type": "object",
+        "description": "客製化 Metrics",
+        "x-examples": {
+          "customer": {
+            "value": {
+              "quantity": 0,
+              "unit": "HR",
+              "tenantId": "kubernetes",
+              "vdcId": "RayTryVdc",
+              "timestamp": 1626566400000,
+              "timeString": "2021-07-18T08:00:00+08:00",
+              "element": [
+                {
+                  "vmId": "RayTryVM3",
+                  "info": {
+                    "name": "RayTryVM3",
+                    "vCore": 4,
+                    "vRam": 8192,
+                    "vDisk": [
+                      {
+                        "diskId": "2000",
+                        "diskName": "Hard disk 1",
+                        "storagePolicyName": "vSAN Default Storage Policy",
+                        "isIndependent": false,
+                        "quantity": 150
+                      }
+                    ],
+                    "os": "CentOS 7 (64-bit)",
+                    "status": "OFF"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "properties": {
+          "tenantId": {
+            "type": "string",
+            "description": "組織"
+          },
+          "vdcId": {
+            "type": "string",
+            "description": "組織 vdc"
+          },
+          "timestamp": {
+            "type": "integer",
+            "description": "13位 timestamp, 整點 or 午夜零時"
+          },
+          "timeString": {
+            "type": "string",
+            "description": "YYYY-MM-dd HH:MM:SSS.ZZZ 整點 / 午夜零時"
+          },
+          "count": {
+            "type": "integer",
+            "description": "個數"
+          },
+          "quantity": {
+            "type": "number",
+            "description": "容量"
+          },
+          "unit": {
+            "type": "string",
+            "description": "單位",
+            "enum": [
+              "HR",
+              "GB"
+            ]
+          },
+          "element": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/customerElement"
+            }
+          }
+        }
+      },
+      "customerElement": {
+        "title": "customerElement",
+        "type": "object",
+        "properties": {
+          "vmId": {
+            "type": "string",
+            "description": "VM 名稱"
+          },
+          "quantity": {
+            "type": "number",
+            "description": "容量"
+          },
+          "info": {
+            "$ref": "#/components/schemas/vmInfo"
+          }
+        }
       },
       "Ray_Exception": {
         "title": "exception",
