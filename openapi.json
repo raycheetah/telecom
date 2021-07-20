@@ -6,7 +6,7 @@
     }
   ],
   "info": {
-    "description": "1.1.0 <br/>\n新增 /user/{accountId}/password 變更密碼 <br/>\n新增 /user/{accountId}/contact 變更聯絡人資訊 <br/>\n<br/>\n1.0.9 <br/>\n修改 /usage/list/snapshot 以每小時為單位查詢快照數量。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/vm 以每天為單位查詢max vm數量。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/disk 以每小時為單位查詢使用的儲存空間。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/poweron 以每日為單位查詢vm開機時數。將 tenantId, timeStamp 移出 element <br/>\n<br/>\n1.0.8 <br/>\n新增 /user/tenant/{provisionId} 帳號申裝 (進件status查詢) <br/>\n新增 /maintenance/tenant/{tenantId} 客戶帳號狀態變更查詢 <br/>\n新增 /usage/exception/log metrics exception log <br/>\n<br/>\n1.0.7 <br/>\n暫時移除 /user/org 個別新增組織 <br/>\n暫時移除 /user/tier-0s 新增 T0 <br/>\n暫時移除 /usr/org/{orgId}/account 新增使用者 <br/>\n暫時移除 /user/org/{orgId}/rights/{accid} 使用者權限<br/>\n暫時移除 /notify/message/usages/{accountId} 發送 metrics 失敗通知 <br/>\n<br/>\n1.0.6 <br/>\n/usr/org/{orgId}/vdc request body 新增 vdcGroup:boolean 欄位 <br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge request body 新增 vdcGroup:String 欄位\n<br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge/{edgeId}/network request body 新增 vdcGroup:boolean 欄位\n<br/>\n<br/>\n1.0.5 <br/>\nT0 api 第一版 <br/>\n<br/>\n1.0.4 <br/>\n所有 Authorization 的 header name 全改成 token <br/> \n <br/>\n1.0.3 <br/>\n增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> \n增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}\n<br/>\n增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗\n <br/>\n <br/>\n1.0.2 <br/> \n把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>\n<br/>",
+    "description": "1.1.0 <br/>\n新增 /user/{accountId}/password 變更密碼 <br/>\n新增 /user/{accountId}/contact 變更聯絡人資訊 <br/>\n修改 /maintenance/org/{orgId} 更新組織租約 <br/>\n暫時移除 /maintenance/org/{orgId}/vdc/{vdcId} 刪除 vdc <br/>\n暫時移除 /maintenance/org/{orgId}/vdc 抓取所有 vdc 資訊 <br/>\n<br/>\n1.0.9 <br/>\n修改 /usage/list/snapshot 以每小時為單位查詢快照數量。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/vm 以每天為單位查詢max vm數量。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/disk 以每小時為單位查詢使用的儲存空間。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/poweron 以每日為單位查詢vm開機時數。將 tenantId, timeStamp 移出 element <br/>\n<br/>\n1.0.8 <br/>\n新增 /user/tenant/{provisionId} 帳號申裝 (進件status查詢) <br/>\n新增 /maintenance/tenant/{tenantId} 客戶帳號狀態變更查詢 <br/>\n新增 /usage/exception/log metrics exception log <br/>\n<br/>\n1.0.7 <br/>\n暫時移除 /user/org 個別新增組織 <br/>\n暫時移除 /user/tier-0s 新增 T0 <br/>\n暫時移除 /usr/org/{orgId}/account 新增使用者 <br/>\n暫時移除 /user/org/{orgId}/rights/{accid} 使用者權限<br/>\n暫時移除 /notify/message/usages/{accountId} 發送 metrics 失敗通知 <br/>\n<br/>\n1.0.6 <br/>\n/usr/org/{orgId}/vdc request body 新增 vdcGroup:boolean 欄位 <br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge request body 新增 vdcGroup:String 欄位\n<br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge/{edgeId}/network request body 新增 vdcGroup:boolean 欄位\n<br/>\n<br/>\n1.0.5 <br/>\nT0 api 第一版 <br/>\n<br/>\n1.0.4 <br/>\n所有 Authorization 的 header name 全改成 token <br/> \n <br/>\n1.0.3 <br/>\n增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> \n增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}\n<br/>\n增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗\n <br/>\n <br/>\n1.0.2 <br/> \n把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>\n<br/>",
     "version": "1.1.0",
     "title": "中華 Api",
     "contact": {
@@ -165,60 +165,39 @@
         }
       ]
     },
-    "/maintenance/org": {
+    "/maintenance/org/{orgId}": {
       "put": {
-        "summary": "Update Lease Time",
+        "summary": "更新組織租約",
         "tags": [
           "maintenance"
         ],
         "operationId": "updateorg",
         "responses": {
           "200": {
-            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "info": {
-                      "$ref": "#/components/schemas/info"
-                    },
-                    "taskInfo": {
-                      "$ref": "#/components/schemas/taskInfo"
-                    }
-                  }
+                  "$ref": "#/components/schemas/info"
                 },
                 "examples": {
                   "Success": {
                     "value": {
-                      "info": {
-                        "code": "maintenance:0000",
-                        "message": "更新組織成功",
-                        "success": true
-                      }
+                      "code": "maintenance:0000",
+                      "message": "更新租約成功",
+                      "success": true
                     }
                   },
                   "Fail": {
                     "value": {
-                      "taskInfo": {
-                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
-                        "createTime": "2021-05-12 11:10:55",
-                        "type": "AP"
-                      },
-                      "info": {
-                        "code": "maintenance:0500",
-                        "message": "更新組織失敗",
-                        "exception": {
-                          "message": " 更新組織失敗",
-                          "stackTrace": "com.sysage.web.model.error.RestApiException:  更新組織失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
-                        },
-                        "success": false
-                      }
+                      "code": "maintenance:1000",
+                      "message": "更新租約失敗",
+                      "success": false
                     }
                   }
                 }
               }
-            }
+            },
+            "description": ""
           }
         },
         "description": "設定 lease time",
@@ -231,7 +210,6 @@
               "examples": {
                 "Tenant": {
                   "value": {
-                    "id": "ray@test.com.tw",
                     "vAppRuntimeLease": 0,
                     "vAppStorageLease": 0,
                     "vAppTemplateLease": 0
@@ -252,11 +230,22 @@
             "required": true
           }
         ]
-      }
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "orgId",
+          "in": "path",
+          "required": true,
+          "description": "組織"
+        }
+      ]
     },
-    "/maintenance/org/{accountId}/status/{status}": {
+    "/maintenance/org/{orgId}/status/{status}": {
       "put": {
-        "summary": "客戶帳號刪除/狀態變更",
+        "summary": "客戶退租狀態/帳號變更查詢",
         "tags": [
           "maintenance"
         ],
@@ -347,239 +336,12 @@
           "schema": {
             "type": "string"
           },
-          "name": "accountId",
-          "in": "path",
-          "required": true,
-          "description": "使用者＠組織"
-        }
-      ]
-    },
-    "/maintenance/org/{orgId}/vdc": {
-      "parameters": [
-        {
           "name": "orgId",
           "in": "path",
           "required": true,
-          "schema": {
-            "type": "string"
-          },
-          "description": "組織名稱"
+          "description": "組織"
         }
-      ],
-      "put": {
-        "summary": "VDC 加購",
-        "tags": [
-          "maintenance"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "info": {
-                      "$ref": "#/components/schemas/info"
-                    },
-                    "taskInfo": {
-                      "$ref": "#/components/schemas/taskInfo"
-                    }
-                  }
-                },
-                "examples": {
-                  "Success": {
-                    "value": {
-                      "info": {
-                        "code": "maintenance:0000",
-                        "message": "更新vdc成功",
-                        "success": true
-                      }
-                    }
-                  },
-                  "Fail": {
-                    "value": {
-                      "taskInfo": {
-                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
-                        "createTime": "2021-05-12 11:10:55",
-                        "type": "AP"
-                      },
-                      "info": {
-                        "code": "user:0800",
-                        "message": "vdc更新失敗",
-                        "exception": {
-                          "message": "vdc更新失敗",
-                          "stackTrace": "com.sysage.web.model.error.RestApiException:  重複進件！此件已於 2021-05-06 12:14:55 成功進過\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
-                        },
-                        "success": false
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "operationId": "updatevdc",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/quota"
-              },
-              "examples": {
-                "VDC": {
-                  "value": {
-                    "id": "kubernetes",
-                    "providerId": "pVDC-DEV",
-                    "resources": [
-                      {
-                        "type": "cpu",
-                        "limit": 2
-                      },
-                      {
-                        "type": "vm",
-                        "limit": 10
-                      },
-                      {
-                        "type": "network",
-                        "limit": 100,
-                        "networkPoolId": "NP-Overlay"
-                      },
-                      {
-                        "type": "disk",
-                        "limit": 30000,
-                        "storageId": ""
-                      },
-                      {
-                        "type": "memory",
-                        "limit": 8192
-                      },
-                      {
-                        "type": "vcpu",
-                        "limit": 2
-                      }
-                    ]
-                  }
-                }
-              }
-            }
-          },
-          "description": ""
-        },
-        "description": "VDC 加購",
-        "parameters": [
-          {
-            "schema": {
-              "type": "string"
-            },
-            "in": "header",
-            "name": "token",
-            "description": "每個 Api 均要帶入 token "
-          }
-        ]
-      },
-      "get": {
-        "summary": "抓取 vdc 資訊",
-        "operationId": "getVdcInfos",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "info": {
-                      "$ref": "#/components/schemas/Ray_Info"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/quota"
-                      }
-                    }
-                  }
-                },
-                "examples": {
-                  "Success": {
-                    "value": {
-                      "info": {
-                        "code": "maintenance:0000",
-                        "message": "抓取 vdc 資訊成功",
-                        "success": true
-                      },
-                      "data": [
-                        {
-                          "id": "kubernetes",
-                          "providerId": "providerK8S",
-                          "resources": [
-                            {
-                              "type": "cpu",
-                              "limit": 1
-                            },
-                            {
-                              "type": "memory",
-                              "limit": 4096
-                            },
-                            {
-                              "type": "disk",
-                              "limit": 1024,
-                              "storageId": "VCD-StoragePolicy"
-                            },
-                            {
-                              "type": "vm",
-                              "limit": 10
-                            },
-                            {
-                              "type": "network",
-                              "networkPoolId": "NV-OverLay",
-                              "limit": 100
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  },
-                  "Fail": {
-                    "value": {
-                      "taskInfo": {
-                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
-                        "createTime": "2021-05-12 11:10:55",
-                        "type": "AP"
-                      },
-                      "info": {
-                        "code": "maintenance:0700",
-                        "message": "抓取組織 vdc 失敗",
-                        "exception": {
-                          "message": "抓取組織 vdc 失敗",
-                          "stackTrace": "com.sysage.web.model.error.RestApiException:  抓取組織 vdc 失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
-                        },
-                        "success": false
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "maintenance"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "schema": {
-              "type": "string"
-            },
-            "in": "header",
-            "name": "token",
-            "description": "每個 Api 均要帶入 token ",
-            "required": true
-          }
-        ]
-      }
+      ]
     },
     "/user/org/{orgId}/vdc/{vdcId}/edge/{edgeId}/network": {
       "parameters": [
@@ -1793,8 +1555,8 @@
           "description": "vdc名稱"
         }
       ],
-      "delete": {
-        "summary": "刪除 vdc",
+      "put": {
+        "summary": "VDC 加購",
         "tags": [
           "maintenance"
         ],
@@ -1819,7 +1581,7 @@
                     "value": {
                       "info": {
                         "code": "maintenance:0000",
-                        "message": "刪除 vdc 成功",
+                        "message": "更新vdc成功",
                         "success": true
                       }
                     }
@@ -1832,11 +1594,11 @@
                         "type": "AP"
                       },
                       "info": {
-                        "code": "maintenance:0800",
-                        "message": "刪除組織 vdc 失敗",
+                        "code": "user:0800",
+                        "message": "vdc更新失敗",
                         "exception": {
-                          "message": "刪除組織 vdc 失敗",
-                          "stackTrace": "com.sysage.web.model.error.RestApiException:  刪除組織 vdc 失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                          "message": "vdc更新失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  重複進件！此件已於 2021-05-06 12:14:55 成功進過\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
                         },
                         "success": false
                       }
@@ -1847,7 +1609,52 @@
             }
           }
         },
-        "operationId": "get-maintenance-orgId-vdc-vdcId",
+        "operationId": "updatevdc",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/quota"
+              },
+              "examples": {
+                "VDC": {
+                  "value": {
+                    "resources": [
+                      {
+                        "type": "cpu",
+                        "limit": 2
+                      },
+                      {
+                        "type": "vm",
+                        "limit": 10
+                      },
+                      {
+                        "type": "network",
+                        "limit": 100,
+                        "networkPoolId": "NP-Overlay"
+                      },
+                      {
+                        "type": "disk",
+                        "limit": 30000,
+                        "storageId": ""
+                      },
+                      {
+                        "type": "memory",
+                        "limit": 8192
+                      },
+                      {
+                        "type": "vcpu",
+                        "limit": 2
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        },
+        "description": "VDC 加購",
         "parameters": [
           {
             "schema": {
@@ -1855,8 +1662,7 @@
             },
             "in": "header",
             "name": "token",
-            "description": "每個 Api 均要帶入 token ",
-            "required": true
+            "description": "每個 Api 均要帶入 token "
           }
         ]
       },
@@ -2750,7 +2556,7 @@
           }
         ],
         "tags": [
-          "maintenance"
+          "usage"
         ]
       }
     },
@@ -3111,10 +2917,7 @@
           "account": {
             "$ref": "#/components/schemas/account"
           }
-        },
-        "required": [
-          "id"
-        ]
+        }
       },
       "account": {
         "type": "object",
