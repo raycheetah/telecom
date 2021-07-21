@@ -6,9 +6,9 @@
     }
   ],
   "info": {
-    "description": "1.1.1 <br/>\n新增 /user/{accountId}/password 變更密碼 <br/>\n新增 /user/{accountId}/contact 變更聯絡人資訊 <br/>\n新增 /maintenance/external/{publicNetworkId} 外部 ip 使用 status <br/>\n修改 /maintenance/org/{orgId} 更新組織租約 <br/>\n<br/>\n1.1.0 <br/>\n暫時移除 /maintenance/org/{orgId}/vdc/{vdcId} 刪除 vdc <br/>\n暫時移除 /maintenance/org/{orgId}/vdc 抓取所有 vdc 資訊 <br/>\n<br/>\n1.0.9 <br/>\n修改 /usage/list/snapshot 以每小時為單位查詢快照數量。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/vm 以每天為單位查詢max vm數量。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/disk 以每小時為單位查詢使用的儲存空間。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/poweron 以每日為單位查詢vm開機時數。將 tenantId, timeStamp 移出 element <br/>\n<br/>\n1.0.8 <br/>\n新增 /user/tenant/{provisionId} 帳號申裝 (進件status查詢) <br/>\n新增 /maintenance/tenant/{tenantId} 客戶帳號狀態變更查詢 <br/>\n新增 /usage/exception/log metrics exception log <br/>\n<br/>\n1.0.7 <br/>\n暫時移除 /user/org 個別新增組織 <br/>\n暫時移除 /user/tier-0s 新增 T0 <br/>\n暫時移除 /usr/org/{orgId}/account 新增使用者 <br/>\n暫時移除 /user/org/{orgId}/rights/{accid} 使用者權限<br/>\n暫時移除 /notify/message/usages/{accountId} 發送 metrics 失敗通知 <br/>\n<br/>\n1.0.6 <br/>\n/usr/org/{orgId}/vdc request body 新增 vdcGroup:boolean 欄位 <br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge request body 新增 vdcGroup:String 欄位\n<br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge/{edgeId}/network request body 新增 vdcGroup:boolean 欄位\n<br/>\n<br/>\n1.0.5 <br/>\nT0 api 第一版 <br/>\n<br/>\n1.0.4 <br/>\n所有 Authorization 的 header name 全改成 token <br/> \n <br/>\n1.0.3 <br/>\n增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> \n增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}\n<br/>\n增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗\n <br/>\n <br/>\n1.0.2 <br/> \n把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>\n<br/>",
-    "version": "1.1.0",
-    "title": "中華 Api",
+    "description": "1.1.1 <br/>\n新增 /user/{accountId}/password 變更密碼 <br/>\n新增 /user/{accountId}/contact 變更聯絡人資訊 <br/>\n新增 /maintenance/external/{publicNetworkId} 外部 ip 使用 status <br/>\n修改 /maintenance/org/{orgId} 更新組織租約 <br/>\n<br/>\n1.1.0 <br/>\n暫時移除 /maintenance/org/{orgId}/vdc/{vdcId} 刪除 vdc <br/>\n暫時移除 /maintenance/org/{orgId}/vdc 抓取所有 vdc 資訊 <br/>\n<br/>\n1.0.9 <br/>\n修改 /usage/list/snapshot 以每小時為單位查詢快照數量。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/vm 以每天為單位查詢max vm數量。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/disk 以每小時為單位查詢使用的儲存空間。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/poweron 以每日為單位查詢vm開機時數。將 tenantId, timeStamp 移出 element <br/>\n<br/>\n1.0.8 <br/>\n新增 /user/tenant/{provisionId} 帳號申裝 (進件status查詢) <br/>\n新增 /maintenance/tenant/{tenantId} 客戶帳號狀態變更查詢 <br/>\n新增 /usage/exception/log metrics exception log <br/>\n<br/>\n1.0.7 <br/>\n暫時移除 /user/org 個別新增組織 <br/>\n暫時移除 /user/tier-0s 新增 T0 <br/>\n暫時移除 /usr/org/{orgId}/account 新增使用者 <br/>\n暫時移除 /user/org/{orgId}/rights/{accid} 使用者權限<br/>\n暫時移除 /notify/message/usages/{accountId} 發送 metrics 失敗通知 <br/>\n<br/>\n1.0.6 <br/>\n/usr/org/{orgId}/vdc request body 新增 isVdcGroup:boolean 欄位 <br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge request body 新增 vdcGroupId:String 欄位\n<br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge/{edgeId}/network request body 新增 vdcGroupId:String 欄位\n<br/>\n<br/>\n1.0.5 <br/>\nT0 api 第一版 <br/>\n<br/>\n1.0.4 <br/>\n所有 Authorization 的 header name 全改成 token <br/> \n <br/>\n1.0.3 <br/>\n增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> \n增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}\n<br/>\n增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗\n <br/>\n <br/>\n1.0.2 <br/> \n把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>\n<br/>",
+    "version": "1.1.1",
+    "title": "VMWare 客製 Api",
     "contact": {
       "email": "rayshih@sysage.com.tw"
     },
@@ -652,9 +652,6 @@
                   "properties": {
                     "info": {
                       "$ref": "#/components/schemas/info"
-                    },
-                    "taskInfo": {
-                      "$ref": "#/components/schemas/taskInfo"
                     }
                   }
                 },
@@ -670,11 +667,6 @@
                   },
                   "Fail": {
                     "value": {
-                      "taskInfo": {
-                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
-                        "createTime": "2021-05-12 11:10:55",
-                        "type": "AP"
-                      },
                       "info": {
                         "code": "maintenance:0200",
                         "message": "加購失敗",
@@ -697,15 +689,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "anyOf": [
-                  {
-                    "$ref": "#/components/schemas/resource_edge_addressPool"
-                  },
-                  {
-                    "$ref": "#/components/schemas/resource_edge_qos"
-                  }
-                ],
-                "description": "設置子配置IP集區 / 設定速率限制"
+                "$ref": "#/components/schemas/edge"
               },
               "examples": {
                 "加購": {
@@ -847,6 +831,197 @@
                         "message": "抓取 edge 失敗",
                         "exception": {
                           "message": "抓取 edge 失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  抓取組織 vdc 失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                        },
+                        "success": false
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "maintenance"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "token",
+            "description": "每個 Api 均要帶入 token ",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/maintenance/org/{orgId}/vdc/{vdcId}/edge/{edgeId}/network/{vdcNetId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "orgId",
+          "in": "path",
+          "required": true,
+          "description": "組織名稱"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "vdcId",
+          "in": "path",
+          "required": true,
+          "description": "vdc名稱"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "edgeId",
+          "in": "path",
+          "required": true,
+          "description": "edge名稱"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "vdcNetId",
+          "in": "path",
+          "required": true,
+          "description": "vdc 網路名稱"
+        }
+      ],
+      "put": {
+        "summary": "更新 vdc 網路設定",
+        "tags": [
+          "maintenance"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "info": {
+                        "code": "maintenance:0000",
+                        "message": "更新 vdc 網路成功",
+                        "success": true
+                      }
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "info": {
+                        "code": "maintenance:0120",
+                        "message": "更新 vdc 網路失敗",
+                        "success": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "updateVdcNet",
+        "description": "1. vcd edge 是 T1, vcd 外部網路是 T0, vcd 不能設置 T0, T0 只能由 nsx-t 去設定<br/>\n2. 所以更新 T0 的 uplink 等同更新 vcd 外部網路的 uplink, 設定 vcd edge 的 uplink 等於是設置 T1 的uplink",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/vdcNet"
+              },
+              "examples": {
+                "vdcNet": {
+                  "value": {
+                    "id": "kubernetes",
+                    "cidr": "192.168.2.0/24",
+                    "gateway": "192.168.2.254",
+                    "submask": "255.255.255.0",
+                    "staticIpPools": [
+                      "192.168.2.1 - 192.168.2.252"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "token",
+            "description": "每個 Api 均要帶入 token ",
+            "required": true
+          }
+        ]
+      },
+      "get": {
+        "summary": "抓取 vdc 網路資訊",
+        "operationId": "getSingleVdcNetInfo",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/vdcNet"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "data": {
+                        "id": "kubernetes",
+                        "cidr": "192.168.2.0/24",
+                        "gateway": "192.168.2.254",
+                        "submask": "255.255.255.0",
+                        "dns1": "192.168.255.228",
+                        "staticIpPools": [
+                          "192.168.2.1 - 192.168.2.253"
+                        ]
+                      },
+                      "info": {
+                        "code": "maintenance:0000",
+                        "message": "取得設定成功",
+                        "success": true
+                      }
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "info": {
+                        "code": "maintenance:0750",
+                        "message": "取得設定失敗",
+                        "exception": {
+                          "message": "取得設定失敗",
                           "stackTrace": "com.sysage.web.model.error.RestApiException:  抓取組織 vdc 失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
                         },
                         "success": false
@@ -3281,7 +3456,7 @@
               ]
             }
           },
-          "vdcGroup": {
+          "isVdcGroup": {
             "type": "boolean",
             "description": "是否開放共用"
           }
@@ -3486,12 +3661,12 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "名稱"
+            "description": "必填\b。vdc 網路名稱"
           },
           "gatewayCidr": {
             "type": "string",
             "pattern": "^([0-9]{1,3}\\.){3}[0-9]{1,3}(/([0-9]|[1-2][0-9]|3[0-2]))?$",
-            "description": "閘道 CIDR"
+            "description": "必填。閘道 CIDR"
           },
           "dns1": {
             "type": "string",
@@ -3510,14 +3685,12 @@
               "type": "string"
             }
           },
-          "vdcGroup": {
-            "type": "boolean",
+          "vdcGroupId": {
+            "type": "string",
             "description": "指定跟 vdcGroup 綁定"
           }
         },
         "required": [
-          "id",
-          "gatewayCidr",
           "staticIpPools"
         ]
       },
@@ -3598,14 +3771,12 @@
               ]
             }
           },
-          "vdcGroup": {
+          "vdcGroupId": {
             "type": "string",
             "description": "將edge設置給 vdc group"
           }
         },
         "required": [
-          "id",
-          "publicNetworkId",
           "resources"
         ]
       },
