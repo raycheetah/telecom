@@ -6,7 +6,7 @@
     }
   ],
   "info": {
-    "description": "1.1.0 <br/>\n新增 /user/{accountId}/password 變更密碼 <br/>\n新增 /user/{accountId}/contact 變更聯絡人資訊 <br/>\n修改 /maintenance/org/{orgId} 更新組織租約 <br/>\n暫時移除 /maintenance/org/{orgId}/vdc/{vdcId} 刪除 vdc <br/>\n暫時移除 /maintenance/org/{orgId}/vdc 抓取所有 vdc 資訊 <br/>\n<br/>\n1.0.9 <br/>\n修改 /usage/list/snapshot 以每小時為單位查詢快照數量。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/vm 以每天為單位查詢max vm數量。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/disk 以每小時為單位查詢使用的儲存空間。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/poweron 以每日為單位查詢vm開機時數。將 tenantId, timeStamp 移出 element <br/>\n<br/>\n1.0.8 <br/>\n新增 /user/tenant/{provisionId} 帳號申裝 (進件status查詢) <br/>\n新增 /maintenance/tenant/{tenantId} 客戶帳號狀態變更查詢 <br/>\n新增 /usage/exception/log metrics exception log <br/>\n<br/>\n1.0.7 <br/>\n暫時移除 /user/org 個別新增組織 <br/>\n暫時移除 /user/tier-0s 新增 T0 <br/>\n暫時移除 /usr/org/{orgId}/account 新增使用者 <br/>\n暫時移除 /user/org/{orgId}/rights/{accid} 使用者權限<br/>\n暫時移除 /notify/message/usages/{accountId} 發送 metrics 失敗通知 <br/>\n<br/>\n1.0.6 <br/>\n/usr/org/{orgId}/vdc request body 新增 vdcGroup:boolean 欄位 <br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge request body 新增 vdcGroup:String 欄位\n<br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge/{edgeId}/network request body 新增 vdcGroup:boolean 欄位\n<br/>\n<br/>\n1.0.5 <br/>\nT0 api 第一版 <br/>\n<br/>\n1.0.4 <br/>\n所有 Authorization 的 header name 全改成 token <br/> \n <br/>\n1.0.3 <br/>\n增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> \n增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}\n<br/>\n增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗\n <br/>\n <br/>\n1.0.2 <br/> \n把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>\n<br/>",
+    "description": "1.1.1 <br/>\n新增 /user/{accountId}/password 變更密碼 <br/>\n新增 /user/{accountId}/contact 變更聯絡人資訊 <br/>\n新增 /maintenance/external/{publicNetworkId} 外部 ip 使用 status <br/>\n修改 /maintenance/org/{orgId} 更新組織租約 <br/>\n<br/>\n1.1.0 <br/>\n暫時移除 /maintenance/org/{orgId}/vdc/{vdcId} 刪除 vdc <br/>\n暫時移除 /maintenance/org/{orgId}/vdc 抓取所有 vdc 資訊 <br/>\n<br/>\n1.0.9 <br/>\n修改 /usage/list/snapshot 以每小時為單位查詢快照數量。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/vm 以每天為單位查詢max vm數量。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/disk 以每小時為單位查詢使用的儲存空間。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/poweron 以每日為單位查詢vm開機時數。將 tenantId, timeStamp 移出 element <br/>\n<br/>\n1.0.8 <br/>\n新增 /user/tenant/{provisionId} 帳號申裝 (進件status查詢) <br/>\n新增 /maintenance/tenant/{tenantId} 客戶帳號狀態變更查詢 <br/>\n新增 /usage/exception/log metrics exception log <br/>\n<br/>\n1.0.7 <br/>\n暫時移除 /user/org 個別新增組織 <br/>\n暫時移除 /user/tier-0s 新增 T0 <br/>\n暫時移除 /usr/org/{orgId}/account 新增使用者 <br/>\n暫時移除 /user/org/{orgId}/rights/{accid} 使用者權限<br/>\n暫時移除 /notify/message/usages/{accountId} 發送 metrics 失敗通知 <br/>\n<br/>\n1.0.6 <br/>\n/usr/org/{orgId}/vdc request body 新增 vdcGroup:boolean 欄位 <br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge request body 新增 vdcGroup:String 欄位\n<br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge/{edgeId}/network request body 新增 vdcGroup:boolean 欄位\n<br/>\n<br/>\n1.0.5 <br/>\nT0 api 第一版 <br/>\n<br/>\n1.0.4 <br/>\n所有 Authorization 的 header name 全改成 token <br/> \n <br/>\n1.0.3 <br/>\n增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> \n增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}\n<br/>\n增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗\n <br/>\n <br/>\n1.0.2 <br/> \n把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>\n<br/>",
     "version": "1.1.0",
     "title": "中華 Api",
     "contact": {
@@ -19,9 +19,6 @@
   "tags": [
     {
       "name": "maintenance"
-    },
-    {
-      "name": "notify"
     },
     {
       "name": "session"
@@ -245,7 +242,7 @@
     },
     "/maintenance/org/{orgId}/status/{status}": {
       "put": {
-        "summary": "客戶退租狀態/帳號變更查詢",
+        "summary": "客戶退租/狀態變更",
         "tags": [
           "maintenance"
         ],
@@ -711,30 +708,46 @@
                 "description": "設置子配置IP集區 / 設定速率限制"
               },
               "examples": {
-                "加購頻寬": {
+                "加購": {
                   "value": {
-                    "type": "qos",
-                    "limitSettings": [
+                    "resources": [
                       {
-                        "id": "RayTryIn",
-                        "type": "inbound",
-                        "bandwidth": 2,
-                        "burstsize": 2
+                        "type": "static",
+                        "ipAddress": "10.9.57.103"
                       },
                       {
-                        "id": "RayTryOut",
-                        "type": "outbound",
-                        "bandwidth": 2,
-                        "burstsize": 2
+                        "type": "addressPool",
+                        "pools": [
+                          "10.9.57.104 - 10.9.57.104"
+                        ]
+                      },
+                      {
+                        "type": "dns",
+                        "defaultForwarderZone": {
+                          "active": true,
+                          "displayName": "RayTryDns",
+                          "upstreamServers": [
+                            "10.9.58.31"
+                          ]
+                        }
+                      },
+                      {
+                        "type": "qos",
+                        "limitSettings": [
+                          {
+                            "id": "RayTryOut",
+                            "type": "outbound",
+                            "bandwidth": 200,
+                            "burstsize": 200
+                          },
+                          {
+                            "id": "RayTryIn",
+                            "type": "inbound",
+                            "bandwidth": 200,
+                            "burstsize": 200
+                          }
+                        ]
                       }
-                    ]
-                  }
-                },
-                "加購 IP": {
-                  "value": {
-                    "type": "addressPool",
-                    "pools": [
-                      "10.9.57.104 - 10.9.57.104"
                     ]
                   }
                 }
@@ -743,6 +756,111 @@
           },
           "description": ""
         },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "token",
+            "description": "每個 Api 均要帶入 token ",
+            "required": true
+          }
+        ]
+      },
+      "get": {
+        "summary": "抓取 edge 資訊",
+        "operationId": "getSingleEdgeInfo",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/edge"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "data": {
+                        "id": "kubernetes",
+                        "publicNetworkId": "EN-External",
+                        "resources": [
+                          {
+                            "type": "static",
+                            "ipAddress": "10.9.57.101"
+                          },
+                          {
+                            "type": "addressPool",
+                            "pools": [
+                              "10.9.57.102 - 10.9.57.102"
+                            ]
+                          },
+                          {
+                            "type": "dns",
+                            "defaultForwarderZone": {
+                              "active": true,
+                              "displayName": "RayTryDns",
+                              "upstreamServers": [
+                                "10.9.58.31"
+                              ]
+                            }
+                          },
+                          {
+                            "type": "qos",
+                            "limitSettings": [
+                              {
+                                "id": "RayTryIn",
+                                "type": "inbound",
+                                "bandwidth": 2,
+                                "burstsize": 2
+                              },
+                              {
+                                "id": "RayTryOut",
+                                "type": "outbound",
+                                "bandwidth": 2,
+                                "burstsize": 2
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "info": {
+                        "code": "maintenance:0000",
+                        "message": "抓取 edge 成功",
+                        "success": true
+                      }
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "info": {
+                        "code": "maintenance:0750",
+                        "message": "抓取 edge 失敗",
+                        "exception": {
+                          "message": "抓取 edge 失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  抓取組織 vdc 失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                        },
+                        "success": false
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "maintenance"
+        ],
         "parameters": [
           {
             "schema": {
@@ -2854,6 +2972,126 @@
           "description": ""
         }
       }
+    },
+    "/maintenance/externalNet/{publicNetworkId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "publicNetworkId",
+          "in": "path",
+          "required": true,
+          "description": "外部網路名稱"
+        }
+      ],
+      "get": {
+        "summary": "外部 ip 使用 status",
+        "tags": [
+          "maintenance"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "ipScopes": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "tenantId": {
+                                "type": "string",
+                                "description": "組織名稱"
+                              },
+                              "ipAddress": {
+                                "type": "string",
+                                "description": "有使用 IP"
+                              }
+                            }
+                          }
+                        },
+                        "subAllocations": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "edgeId": {
+                                "type": "string",
+                                "description": "Edge 名稱"
+                              },
+                              "ipAddress": {
+                                "type": "string",
+                                "description": "IP配置"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "data": {
+                        "ipScopes": [
+                          {
+                            "tenantId": "kubernetes",
+                            "ipAddress": "10.9.57.102"
+                          },
+                          {
+                            "tenantId": "kubernetes",
+                            "ipAddress": "10.9.57.101"
+                          },
+                          {
+                            "tenantId": "kubernetes",
+                            "ipAddress": "10.9.57.103"
+                          }
+                        ],
+                        "subAllocations": [
+                          {
+                            "edgeId": "RayTryGroupEdge",
+                            "ipAddress": "10.9.57.104 - 10.9.57.104"
+                          },
+                          {
+                            "edgeId": "kubernetes",
+                            "ipAddress": "10.9.57.102 - 10.9.57.102"
+                          }
+                        ]
+                      },
+                      "info": {
+                        "code": "maintenance:0000",
+                        "message": "取得配置",
+                        "success": true
+                      }
+                    }
+                  },
+                  "Fail": {
+                    "value": {
+                      "info": {
+                        "code": "maintenance:0110",
+                        "message": "取得失敗",
+                        "success": false
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-maintenance-externalNet-publicNetworkId"
+      }
     }
   },
   "externalDocs": {
@@ -2888,7 +3126,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "組織名稱"
+            "description": "必填。組織名稱"
           },
           "name": {
             "type": "string",
@@ -3009,11 +3247,11 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "組織 VDC 名稱"
+            "description": "必填。組織 VDC 名稱"
           },
           "providerId": {
             "type": "string",
-            "description": "提供者 VDC 名稱"
+            "description": "必填。提供者 VDC 名稱"
           },
           "resources": {
             "type": "array",
@@ -3047,11 +3285,7 @@
             "type": "boolean",
             "description": "是否開放共用"
           }
-        },
-        "required": [
-          "id",
-          "providerId"
-        ]
+        }
       },
       "resource_vdc_vm": {
         "title": "虛擬機器",
@@ -3155,7 +3389,7 @@
           },
           "networkPoolId": {
             "type": "string",
-            "description": "網路集區名稱"
+            "description": "必填。網路集區名稱"
           }
         }
       },
@@ -3338,7 +3572,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "名稱"
+            "description": "必填。Edge 名稱"
           },
           "publicNetworkId": {
             "type": "string",
@@ -3508,7 +3742,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "名稱"
+            "description": "必填。 Qos 名稱"
           },
           "type": {
             "type": "string",
