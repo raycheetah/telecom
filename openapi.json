@@ -6,9 +6,9 @@
     }
   ],
   "info": {
-    "description": "1.1.1 <br/>\n新增 /user/{accountId}/password 變更密碼 <br/>\n新增 /user/{accountId}/contact 變更聯絡人資訊 <br/>\n新增 /maintenance/external/{publicNetworkId} 外部 ip 使用 status <br/>\n修改 /maintenance/org/{orgId} 更新組織租約 <br/>\n<br/>\n1.1.0 <br/>\n暫時移除 /maintenance/org/{orgId}/vdc/{vdcId} 刪除 vdc <br/>\n暫時移除 /maintenance/org/{orgId}/vdc 抓取所有 vdc 資訊 <br/>\n<br/>\n1.0.9 <br/>\n修改 /usage/list/snapshot 以每小時為單位查詢快照數量。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/vm 以每天為單位查詢max vm數量。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/disk 以每小時為單位查詢使用的儲存空間。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/poweron 以每日為單位查詢vm開機時數。將 tenantId, timeStamp 移出 element <br/>\n<br/>\n1.0.8 <br/>\n新增 /user/tenant/{provisionId} 帳號申裝 (進件status查詢) <br/>\n新增 /maintenance/tenant/{tenantId} 客戶帳號狀態變更查詢 <br/>\n新增 /usage/exception/log metrics exception log <br/>\n<br/>\n1.0.7 <br/>\n暫時移除 /user/org 個別新增組織 <br/>\n暫時移除 /user/tier-0s 新增 T0 <br/>\n暫時移除 /usr/org/{orgId}/account 新增使用者 <br/>\n暫時移除 /user/org/{orgId}/rights/{accid} 使用者權限<br/>\n暫時移除 /notify/message/usages/{accountId} 發送 metrics 失敗通知 <br/>\n<br/>\n1.0.6 <br/>\n/usr/org/{orgId}/vdc request body 新增 isVdcGroup:boolean 欄位 <br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge request body 新增 vdcGroupId:String 欄位\n<br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge/{edgeId}/network request body 新增 vdcGroupId:String 欄位\n<br/>\n<br/>\n1.0.5 <br/>\nT0 api 第一版 <br/>\n<br/>\n1.0.4 <br/>\n所有 Authorization 的 header name 全改成 token <br/> \n <br/>\n1.0.3 <br/>\n增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> \n增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}\n<br/>\n增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗\n <br/>\n <br/>\n1.0.2 <br/> \n把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>\n<br/>",
-    "version": "1.1.1",
-    "title": "VMWare 客製 Api",
+    "description": "2.0.0 <br/>\n所有 Api 的 request / response body 均替換成在 postman 驗證過的 body, Api 開發暫時告一段落 <br/>\n<br/>\n1.1.1 <br/>\n新增 /user/{accountId}/password 變更密碼 <br/>\n新增 /user/{accountId}/contact 變更聯絡人資訊 <br/>\n新增 /maintenance/external/{publicNetworkId} 外部 ip 使用 status <br/>\n修改 /maintenance/org/{orgId} 更新組織租約 <br/>\n<br/>\n1.1.0 <br/>\n暫時移除 /maintenance/org/{orgId}/vdc/{vdcId} 刪除 vdc <br/>\n暫時移除 /maintenance/org/{orgId}/vdc 抓取所有 vdc 資訊 <br/>\n<br/>\n1.0.9 <br/>\n修改 /usage/list/snapshot 以每小時為單位查詢快照數量。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/vm 以每天為單位查詢max vm數量。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/disk 以每小時為單位查詢使用的儲存空間。將 tenantId, timeStamp 移出 element <br/>\n修改 /usage/list/poweron 以每日為單位查詢vm開機時數。將 tenantId, timeStamp 移出 element <br/>\n<br/>\n1.0.8 <br/>\n新增 /user/tenant/{provisionId} 帳號申裝 (進件status查詢) <br/>\n新增 /maintenance/tenant/{tenantId} 客戶帳號狀態變更查詢 <br/>\n新增 /usage/exception/log metrics exception log <br/>\n<br/>\n1.0.7 <br/>\n暫時移除 /user/org 個別新增組織 <br/>\n暫時移除 /user/tier-0s 新增 T0 <br/>\n暫時移除 /usr/org/{orgId}/account 新增使用者 <br/>\n暫時移除 /user/org/{orgId}/rights/{accid} 使用者權限<br/>\n暫時移除 /notify/message/usages/{accountId} 發送 metrics 失敗通知 <br/>\n<br/>\n1.0.6 <br/>\n/usr/org/{orgId}/vdc request body 新增 isVdcGroup:boolean 欄位 <br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge request body 新增 vdcGroupId:String 欄位\n<br/>\n/usr/org/{orgId}/vdc/{vdcId}/edge/{edgeId}/network request body 新增 vdcGroupId:String 欄位\n<br/>\n<br/>\n1.0.5 <br/>\nT0 api 第一版 <br/>\n<br/>\n1.0.4 <br/>\n所有 Authorization 的 header name 全改成 token <br/> \n <br/>\n1.0.3 <br/>\n增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> \n增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}\n<br/>\n增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗\n <br/>\n <br/>\n1.0.2 <br/> \n把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>\n<br/>",
+    "version": "2.0.0",
+    "title": "VMware 客製 Api",
     "contact": {
       "email": "rayshih@sysage.com.tw"
     },
@@ -1742,19 +1742,6 @@
                   }
                 },
                 "examples": {
-                  "2. Fail": {
-                    "value": {
-                      "info": {
-                        "code": "usage:0030",
-                        "message": "擷取用量失敗",
-                        "exception": {
-                          "message": "擷取用量失敗",
-                          "stackTrace": "com.sysage.web.model.error.RestApiException:  擷取用量失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
-                        },
-                        "success": false
-                      }
-                    }
-                  },
                   "1. Success": {
                     "value": {
                       "data": [
@@ -1781,6 +1768,19 @@
                         "message": "擷取用量成功",
                         "queryTime": 0,
                         "success": true
+                      }
+                    }
+                  },
+                  "2. Fail": {
+                    "value": {
+                      "info": {
+                        "code": "usage:0030",
+                        "message": "擷取用量失敗",
+                        "exception": {
+                          "message": "擷取用量失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  擷取用量失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
+                        },
+                        "success": false
                       }
                     }
                   }
@@ -1878,19 +1878,6 @@
                   }
                 },
                 "examples": {
-                  "2. Fail": {
-                    "value": {
-                      "info": {
-                        "code": "usage:0030",
-                        "message": "擷取用量失敗",
-                        "exception": {
-                          "message": "擷取用量失敗",
-                          "stackTrace": "com.sysage.web.model.error.RestApiException:  擷取用量失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
-                        },
-                        "success": false
-                      }
-                    }
-                  },
                   "1. Success": {
                     "value": {
                       "data": [
@@ -1947,6 +1934,19 @@
                         "code": "usage:0000",
                         "message": "查詢成功",
                         "success": true
+                      }
+                    }
+                  },
+                  "2. Fail": {
+                    "value": {
+                      "info": {
+                        "code": "usage:0030",
+                        "message": "擷取用量失敗",
+                        "exception": {
+                          "message": "擷取用量失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  擷取用量失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
+                        },
+                        "success": false
                       }
                     }
                   }
@@ -2043,19 +2043,6 @@
                   }
                 },
                 "examples": {
-                  "2. Fail": {
-                    "value": {
-                      "info": {
-                        "code": "usage:0030",
-                        "message": "查詢失敗",
-                        "exception": {
-                          "message": "查詢失敗",
-                          "stackTrace": "com.sysage.web.model.error.RestApiException:  查詢失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
-                        },
-                        "success": false
-                      }
-                    }
-                  },
                   "1. Success": {
                     "value": {
                       "data": [
@@ -2111,6 +2098,19 @@
                         "code": "usage:0000",
                         "message": "查詢成功",
                         "success": true
+                      }
+                    }
+                  },
+                  "2. Fail": {
+                    "value": {
+                      "info": {
+                        "code": "usage:0030",
+                        "message": "查詢失敗",
+                        "exception": {
+                          "message": "查詢失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  查詢失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
+                        },
+                        "success": false
                       }
                     }
                   }
@@ -2209,19 +2209,6 @@
                   }
                 },
                 "examples": {
-                  "2. Fail": {
-                    "value": {
-                      "info": {
-                        "code": "user:0030",
-                        "message": "查詢失敗",
-                        "exception": {
-                          "message": "查詢失敗",
-                          "stackTrace": "com.sysage.web.model.error.RestApiException:  查詢失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
-                        },
-                        "success": false
-                      }
-                    }
-                  },
                   "1. Success": {
                     "value": {
                       "data": [
@@ -2278,6 +2265,19 @@
                         "code": "usage:0000",
                         "message": "查詢成功",
                         "success": true
+                      }
+                    }
+                  },
+                  "2. Fail": {
+                    "value": {
+                      "info": {
+                        "code": "user:0030",
+                        "message": "查詢失敗",
+                        "exception": {
+                          "message": "查詢失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  查詢失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
+                        },
+                        "success": false
                       }
                     }
                   }
@@ -2365,51 +2365,45 @@
                       "$ref": "#/components/schemas/info"
                     },
                     "data": {
-                      "type": "object",
-                      "properties": {
-                        "tenantId": {
-                          "type": "string",
-                          "description": "使用者@組織"
-                        },
-                        "vmId": {
-                          "type": "string",
-                          "description": "VM名稱"
-                        },
-                        "message": {
-                          "type": "string"
-                        },
-                        "cause": {
-                          "type": "string",
-                          "description": "java exception stack"
-                        },
-                        "timeString": {
-                          "type": "string"
-                        },
-                        "timestamp": {
-                          "type": "string"
-                        },
-                        "userName": {
-                          "type": "string",
-                          "description": "使用者"
-                        },
-                        "orgName": {
-                          "type": "string",
-                          "description": "組織"
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "tenantId": {
+                            "type": "string",
+                            "description": "使用者@組織"
+                          },
+                          "vmId": {
+                            "type": "string",
+                            "description": "VM名稱"
+                          },
+                          "message": {
+                            "type": "string"
+                          },
+                          "cause": {
+                            "type": "string",
+                            "description": "java exception stack"
+                          },
+                          "timeString": {
+                            "type": "string"
+                          },
+                          "timestamp": {
+                            "type": "integer"
+                          },
+                          "userName": {
+                            "type": "string",
+                            "description": "使用者"
+                          },
+                          "orgName": {
+                            "type": "string",
+                            "description": "組織"
+                          }
                         }
                       }
                     }
                   }
                 },
                 "examples": {
-                  "2. Fail": {
-                    "value": {
-                      "info": {
-                        "code": "usage:0030",
-                        "message": "查詢失敗",
-                        "success": false
-                      }
-                    }
-                  },
                   "1. Success": {
                     "value": {
                       "data": [
@@ -2448,6 +2442,15 @@
                         "code": "usage:0000",
                         "message": "查詢成功",
                         "success": true
+                      }
+                    }
+                  },
+                  "2. Fail": {
+                    "value": {
+                      "info": {
+                        "code": "usage:0030",
+                        "message": "查詢失敗",
+                        "success": false
                       }
                     }
                   }
@@ -2538,7 +2541,7 @@
                     "value": {
                       "info": {
                         "code": "user:0000",
-                        "message": "建立edge成功",
+                        "message": "建立成功",
                         "success": true
                       }
                     }
@@ -2551,7 +2554,7 @@
                         "type": "VCD"
                       },
                       "info": {
-                        "code": "user:0300",
+                        "code": "user:0999",
                         "message": "edge 建立失敗",
                         "exception": {
                           "message": "edge 建立失敗",
@@ -2567,7 +2570,7 @@
           }
         },
         "operationId": "addEdge",
-        "description": "1. vcd edge 是 T1, vcd 外部網路是 T0, vcd 不能設置 T0, T0 只能由 nsx-t 去設定<br/>\n2. 所以更新 T0 的 uplink 等同更新 vcd 外部網路的 uplink, 設定 vcd edge 的 uplink 等於是設置 T1 的uplink<br/>\n3. 所謂設定 esg 外部網路介面的 ip 是?<br/>\n4. vcd Api/UI 已經沒有 configure default gateway checkbox/設定, 原則上 vcd edge/T1 已經是 底下的 org network 的 gateway<br/>\n5. vcd Api/UI 已經沒有 Use default gateway for DNS Relay checkbox/設定, \n要設 edge dns, 經由另一個新的 vcd10.2 openapi",
+        "description": "",
         "requestBody": {
           "content": {
             "application/json": {
@@ -2577,34 +2580,17 @@
               "examples": {
                 "edge": {
                   "value": {
-                    "id": "kubernetes",
+                    "id": "RayTryEdge",
                     "publicNetworkId": "EN-External",
                     "resources": [
                       {
                         "type": "static",
-                        "ipAddress": "10.9.57.101"
+                        "ipAddress": "10.9.57.103"
                       },
                       {
                         "type": "addressPool",
                         "pools": [
-                          "10.9.57.102 - 10.9.57.103"
-                        ]
-                      },
-                      {
-                        "type": "qos",
-                        "limitSettings": [
-                          {
-                            "id": "RayTryIn",
-                            "type": "inbound",
-                            "bandwidth": 1,
-                            "burstsize": 1
-                          },
-                          {
-                            "id": "RayTryOut",
-                            "type": "outbound",
-                            "bandwidth": 1,
-                            "burstsize": 1
-                          }
+                          "10.9.57.104 - 10.9.57.104"
                         ]
                       },
                       {
@@ -2613,9 +2599,26 @@
                           "active": true,
                           "displayName": "RayTryDns",
                           "upstreamServers": [
-                            "10.9.57.31"
+                            "10.9.58.31"
                           ]
                         }
+                      },
+                      {
+                        "type": "qos",
+                        "limitSettings": [
+                          {
+                            "id": "RayTryIn",
+                            "type": "inbound",
+                            "bandwidth": 2,
+                            "burstsize": 2
+                          },
+                          {
+                            "id": "RayTryOut",
+                            "type": "outbound",
+                            "bandwidth": 2,
+                            "burstsize": 2
+                          }
+                        ]
                       }
                     ]
                   }
@@ -2681,7 +2684,7 @@
                         "message": "建立失敗",
                         "exception": {
                           "message": "建立失敗",
-                          "stackTrace": "com.sysage.web.model.error.RestApiException:  重複進件！此件已於 2021-05-06 12:14:55 成功進過\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:   建立失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
                         },
                         "success": false
                       }
@@ -2722,7 +2725,7 @@
                       {
                         "type": "disk",
                         "limit": 70000,
-                        "storageId": ""
+                        "storageId": "vSAN Default Storage Policy"
                       },
                       {
                         "type": "memory",
@@ -2821,7 +2824,7 @@
                     "value": {
                       "info": {
                         "code": "user:0000",
-                        "message": "組織network建立成功",
+                        "message": "建立成功",
                         "success": true
                       }
                     }
@@ -2834,11 +2837,11 @@
                         "type": "AP"
                       },
                       "info": {
-                        "code": "user:0400",
-                        "message": "組織 network 建立失敗",
+                        "code": "user:0999",
+                        "message": "建立失敗",
                         "exception": {
-                          "message": "組織 network 建立失敗",
-                          "stackTrace": "com.sysage.web.model.error.RestApiException:  組織 network 建立失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                          "message": "建立失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  建立失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
                         },
                         "success": false
                       }
@@ -2860,12 +2863,14 @@
               "examples": {
                 "vdc network": {
                   "value": {
-                    "id": "kubernetes",
-                    "gatewayCidr": "192.168.1.250/24",
+                    "id": "RayTryVdcNet",
+                    "cidr": "192.168.3.0/24",
+                    "gateway": "192.168.3.254",
+                    "submask": "255.255.255.0",
+                    "dnsFQDN": "",
                     "staticIpPools": [
-                      "192.168.1.1 - 192.168.1.149"
-                    ],
-                    "defaultEdgeDns": true
+                      "192.168.3.1 - 192.168.3.249"
+                    ]
                   }
                 }
               }
@@ -2892,7 +2897,51 @@
         "operationId": "post-user-tenant",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/info"
+                    },
+                    "taskInfo": {
+                      "$ref": "#/components/schemas/taskInfo"
+                    }
+                  }
+                },
+                "examples": {
+                  "1. Success": {
+                    "value": {
+                      "info": {
+                        "code": "user:0000",
+                        "message": "建立成功",
+                        "success": true
+                      }
+                    }
+                  },
+                  "2. Fail": {
+                    "value": {
+                      "info": {
+                        "code": "user:0999",
+                        "message": "建立失敗",
+                        "success": false,
+                        "exception": {
+                          "message": "建立失敗",
+                          "stackTrace": "com.sysage.web.model.error.RestApiException:  建立失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                        }
+                      },
+                      "taskInfo": {
+                        "taskId": "c84c37c2-2d3e-4f5d-b592-7d35e6c7121a",
+                        "createTime": "2021-05-12 11:10:55",
+                        "type": "VCD"
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -2940,23 +2989,22 @@
               "examples": {
                 "Provision": {
                   "value": {
-                    "provisionId": "sdfafda324235",
+                    "provisionId": "6666",
                     "tenant": {
-                      "id": "vcpp.com.tw",
+                      "id": "kubernetes",
                       "name": "VCPP Org",
                       "description": "VCPP test tenant",
-                      "active": true,
-                      "vAppRuntimeLease": 0,
-                      "vAppStorageLease": 0,
-                      "vAppTemplateLease": 0,
                       "account": {
                         "id": "admin",
                         "active": true,
-                        "role": "vApp User",
+                        "role": "Tenant Admin",
                         "contactName": "tester",
                         "contactMail": "tester@test.com.tw",
-                        "contactPhone": "0987654321"
-                      }
+                        "contactPhone": "0901-234-567"
+                      },
+                      "vAppRuntimeLease": 0,
+                      "vAppStorageLease": 0,
+                      "vAppTemplateLease": 0
                     },
                     "vdc": [
                       {
@@ -2966,7 +3014,7 @@
                           "resources": [
                             {
                               "type": "cpu",
-                              "limit": 2
+                              "limit": 8
                             },
                             {
                               "type": "vm",
@@ -2979,12 +3027,13 @@
                             },
                             {
                               "type": "disk",
-                              "limit": 30000,
-                              "storageId": "Vcd-StoragePolicy"
+                              "limit": 70000,
+                              "storageId": ""
                             },
                             {
                               "type": "memory",
-                              "limit": 8192
+                              "limit": 8192,
+                              "unitType": "mb"
                             },
                             {
                               "type": "vcpu",
@@ -3008,38 +3057,42 @@
                                 ]
                               },
                               {
+                                "type": "dns",
+                                "defaultForwarderZone": {
+                                  "active": true,
+                                  "displayName": "RayTryDns",
+                                  "upstreamServers": [
+                                    "10.9.58.31"
+                                  ]
+                                }
+                              },
+                              {
                                 "type": "qos",
                                 "limitSettings": [
                                   {
                                     "id": "RayTryIn",
                                     "type": "inbound",
-                                    "bandwidth": 1,
+                                    "bandwidth": 200,
                                     "burstsize": 200
                                   },
                                   {
                                     "id": "RayTryOut",
                                     "type": "outbound",
-                                    "bandwidth": 2,
-                                    "burstsize": 100
+                                    "bandwidth": 200,
+                                    "burstsize": 200
                                   }
                                 ]
-                              },
-                              {
-                                "type": "dns",
-                                "defaultForwarderZone": {
-                                  "displayName": "RayTryDns",
-                                  "upstreamServers": [
-                                    "10.9.57.31"
-                                  ]
-                                }
                               }
                             ]
                           },
                           "vdcNet": {
-                            "id": "RayVdcNetwork",
-                            "gatewayCidr": "192.168.1.254/24",
+                            "id": "kubernetes",
+                            "cidr": "192.168.2.0/24",
+                            "gateway": "192.168.2.254",
+                            "submask": "255.255.255.0",
+                            "dnsFQDN": "",
                             "staticIpPools": [
-                              "192.168.1.1 - 192.168.1.253"
+                              "192.168.2.1 - 192.168.2.249"
                             ]
                           }
                         }
@@ -3081,15 +3134,6 @@
                   }
                 },
                 "examples": {
-                  "2. Fail": {
-                    "value": {
-                      "info": {
-                        "code": "user:0999",
-                        "message": "取得通知失敗",
-                        "success": false
-                      }
-                    }
-                  },
                   "1. Success": {
                     "value": {
                       "taskInfo": [
@@ -3119,8 +3163,17 @@
                       ],
                       "info": {
                         "code": "user:0000",
-                        "message": "進件成功",
+                        "message": "取得通知成功",
                         "success": true
+                      }
+                    }
+                  },
+                  "2. Fail": {
+                    "value": {
+                      "info": {
+                        "code": "user:0030",
+                        "message": "取得通知失敗",
+                        "success": false
                       }
                     }
                   }
@@ -3190,7 +3243,7 @@
                   "2. Fail": {
                     "value": {
                       "info": {
-                        "code": "user:0500",
+                        "code": "user:0010",
                         "message": "密碼變更失敗",
                         "success": false
                       }
@@ -3226,9 +3279,7 @@
               "examples": {
                 "password": {
                   "value": {
-                    "data": {
-                      "password": "1qaz@WSX"
-                    }
+                    "password": "1qaz@WSX"
                   }
                 }
               }
@@ -3273,7 +3324,7 @@
                     "value": {
                       "info": {
                         "code": "user:0000",
-                        "message": "組織資訊變更成功",
+                        "message": "變更成功",
                         "success": true
                       }
                     }
@@ -3281,8 +3332,8 @@
                   "2. Fail": {
                     "value": {
                       "info": {
-                        "code": "user:0500",
-                        "message": "組織資訊變更失敗",
+                        "code": "user:0020",
+                        "message": "變更失敗",
                         "success": false
                       }
                     }
@@ -3333,13 +3384,11 @@
               "examples": {
                 "Contact": {
                   "value": {
-                    "data": {
-                      "tenantName": "VCPP Org",
-                      "tenantDescription": "VCPP test tenant",
-                      "contactName": "tester",
-                      "contactMail": "tester@test.com.tw",
-                      "contactPhone": "02-12345678"
-                    }
+                    "tenantName": "VCPP Org",
+                    "tenantDescription": "VCPP test tenant",
+                    "contactName": "tester",
+                    "contactMail": "tester@test.com.tw",
+                    "contactPhone": "02-12345678"
                   }
                 }
               }
