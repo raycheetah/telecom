@@ -111,7 +111,7 @@
     },
     "/maintenance/org/{accountId}/status/{status}": {
       "put": {
-        "summary": "客戶退租/狀態變更",
+        "summary": "客戶退租/狀態變更/刪除組織 vdc",
         "tags": [
           "maintenance"
         ],
@@ -175,6 +175,14 @@
             "name": "token",
             "description": "每個 Api 均要帶入 token ",
             "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "vdcId",
+            "description": "組織 vdc, 留空的話退租整個組織"
           }
         ]
       },
