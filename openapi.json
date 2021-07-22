@@ -4124,7 +4124,7 @@
         "properties": {
           "tenantId": {
             "type": "string",
-            "description": "使用者＠組織"
+            "description": "組織"
           },
           "timestamp": {
             "type": "integer",
@@ -4172,7 +4172,7 @@
         "properties": {
           "tenantId": {
             "type": "string",
-            "description": "使用者＠組織名稱"
+            "description": "組織名稱"
           },
           "timestamp": {
             "type": "integer",
@@ -4239,7 +4239,7 @@
         "properties": {
           "tenantId": {
             "type": "string",
-            "description": "使用者＠組織名稱"
+            "description": "組織名稱"
           },
           "timestamp": {
             "type": "integer",
@@ -4255,13 +4255,6 @@
           },
           "info": {
             "$ref": "#/components/schemas/vmInfo"
-          },
-          "ipList": {
-            "type": "array",
-            "description": "vm 的 IP",
-            "items": {
-              "type": "string"
-            }
           },
           "vdcId": {
             "type": "string",
@@ -4292,7 +4285,7 @@
         "properties": {
           "tenantId": {
             "type": "string",
-            "description": "使用者@組織名稱"
+            "description": "組織名稱"
           },
           "timestamp": {
             "type": "integer",
@@ -4308,7 +4301,7 @@
           },
           "ipList": {
             "type": "array",
-            "description": "vm 的 IP",
+            "description": "loadbalance 的 IP",
             "items": {
               "type": "string"
             }
@@ -4339,7 +4332,7 @@
         "properties": {
           "tenantId": {
             "type": "string",
-            "description": "使用者@組織名稱"
+            "description": "組織名稱"
           },
           "timestamp": {
             "type": "integer",
@@ -4350,7 +4343,8 @@
             "description": "humanization time string, zoneId:+0800"
           },
           "vmId": {
-            "type": "string"
+            "type": "string",
+            "description": "VM 名稱"
           },
           "quantity": {
             "type": "number",
@@ -4374,7 +4368,7 @@
         "properties": {
           "tenantId": {
             "type": "string",
-            "description": "使用者@組織名稱"
+            "description": "組織名稱"
           },
           "timestamp": {
             "type": "integer",
@@ -4385,11 +4379,12 @@
             "description": "humanization time string, zoneId:+0800"
           },
           "vmId": {
-            "type": "string"
+            "type": "string",
+            "description": "VM 名稱"
           },
           "ipList": {
             "type": "array",
-            "description": "snaphost大小，單位G",
+            "description": "VM ip list",
             "items": {
               "type": "string"
             }
