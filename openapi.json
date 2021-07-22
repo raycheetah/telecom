@@ -958,16 +958,16 @@
         }
       ]
     },
-    "/maintenance/user/{accountId}/usages": {
+    "/maintenance/user/{orgId}/usages": {
       "parameters": [
         {
           "schema": {
             "type": "string"
           },
-          "name": "accountId",
+          "name": "orgId",
           "in": "path",
           "required": true,
-          "description": "使用者@組織名稱"
+          "description": "組織名稱"
         }
       ],
       "delete": {
