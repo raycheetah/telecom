@@ -2057,8 +2057,8 @@
                         {
                           "tenantId": "kubernetes",
                           "vdcId": "kubernetes",
-                          "timestamp": 1626825600000,
-                          "timeString": "2021-07-21T08:00:00+08:00",
+                          "timestamp": 1626883200000,
+                          "timeString": "2021-07-22T00:00:00+08:00",
                           "element": [
                             {
                               "vmId": "RayTryVM2",
@@ -2185,8 +2185,7 @@
             },
             "in": "query",
             "name": "frequency",
-            "description": "單位區間，不填預設 DAY",
-            "required": true
+            "description": "單位區間，不填預設 DAY"
           }
         ]
       }
@@ -2221,12 +2220,12 @@
                     "value": {
                       "data": [
                         {
-                          "quantity": 23.916666666666668,
+                          "quantity": 23.416666666666668,
                           "unit": "HR",
                           "tenantId": "kubernetes",
                           "vdcId": "kubernetes",
-                          "timestamp": 1626825600000,
-                          "timeString": "2021-07-21T08:00:00+08:00",
+                          "timestamp": 1626883200000,
+                          "timeString": "2021-07-22T00:00:00+08:00",
                           "element": [
                             {
                               "vmId": "RayTryVM2",
@@ -2351,8 +2350,7 @@
             },
             "in": "query",
             "name": "frequency",
-            "description": "單位區間，不填預設 DAY",
-            "required": true
+            "description": "單位區間，不填預設 DAY"
           }
         ]
       }
