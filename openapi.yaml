@@ -1,0 +1,3643 @@
+openapi: 3.0.0
+servers:
+  - url: 'http://localhost'
+info:
+  description: |-
+    2.0.4 <br/>
+    新增 /usages/list/veeam API 
+    <br/>
+    <br/>
+    2.0.3 <br/>
+    修改刪除 public ip API (/maintenance/org/{orgId}/vdc/{vdcId}/edge/{edgeId}/clearAddrPool)<br/>
+    <br/>
+    2.0.2 <br/>
+    新增刪除 public ip API (/maintenance/org/{orgId}/clearAddrPool)<br/>
+    <br/>
+    2.0.1 <br/>
+    vdc cpu 跟 vdc memory 加 guaranteed, 值為 0.0 ~ 1.0, 不填為 0, 若 > 1.0 則自動除以 100.0 <br/> 若 allocation 為 ALLOCATIONPOOL 則值不能為 0, 若仍為 0 則強制 0.5 <br/>
+    <br/>
+    2.0.0 <br/>
+    所有 Api 的 request / response body 均替換成在 postman 驗證過的 body, Api 開發暫時告一段落 <br/>
+    <br/>
+    1.1.1 <br/>
+    新增 /user/{accountId}/password 變更密碼 <br/>
+    新增 /user/{accountId}/contact 變更聯絡人資訊 <br/>
+    新增 /maintenance/external/{publicNetworkId} 外部 ip 使用 status <br/>
+    修改 /maintenance/org/{orgId} 更新組織租約 <br/>
+    <br/>
+    1.1.0 <br/>
+    暫時移除 /maintenance/org/{orgId}/vdc/{vdcId} 刪除 vdc <br/>
+    暫時移除 /maintenance/org/{orgId}/vdc 抓取所有 vdc 資訊 <br/>
+    <br/>
+    1.0.9 <br/>
+    修改 /usage/list/snapshot 以每小時為單位查詢快照數量。將 tenantId, timeStamp 移出 element <br/>
+    修改 /usage/list/vm 以每天為單位查詢max vm數量。將 tenantId, timeStamp 移出 element <br/>
+    修改 /usage/list/disk 以每小時為單位查詢使用的儲存空間。將 tenantId, timeStamp 移出 element <br/>
+    修改 /usage/list/poweron 以每日為單位查詢vm開機時數。將 tenantId, timeStamp 移出 element <br/>
+    <br/>
+    1.0.8 <br/>
+    新增 /user/tenant/{provisionId} 帳號申裝 (進件status查詢) <br/>
+    新增 /maintenance/tenant/{tenantId} 客戶帳號狀態變更查詢 <br/>
+    新增 /usage/exception/log metrics exception log <br/>
+    <br/>
+    1.0.7 <br/>
+    暫時移除 /user/org 個別新增組織 <br/>
+    暫時移除 /user/tier-0s 新增 T0 <br/>
+    暫時移除 /usr/org/{orgId}/account 新增使用者 <br/>
+    暫時移除 /user/org/{orgId}/rights/{accid} 使用者權限<br/>
+    暫時移除 /notify/message/usages/{accountId} 發送 metrics 失敗通知 <br/>
+    <br/>
+    1.0.6 <br/>
+    /usr/org/{orgId}/vdc request body 新增 isVdcGroup:boolean 欄位 <br/>
+    /usr/org/{orgId}/vdc/{vdcId}/edge request body 新增 vdcGroupId:String 欄位
+    <br/>
+    /usr/org/{orgId}/vdc/{vdcId}/edge/{edgeId}/network request body 新增 vdcGroupId:String 欄位
+    <br/>
+    <br/>
+    1.0.5 <br/>
+    T0 api 第一版 <br/>
+    <br/>
+    1.0.4 <br/>
+    所有 Authorization 的 header name 全改成 token <br/> 
+     <br/>
+    1.0.3 <br/>
+    增加 /notify/user/tenant 通知 api for 非同步 /user/tenant <br/> 
+    增加 /notify/maintenance/user/{accountId} for 非同步 /maintenance/org/{accountId}/status/{status}
+    <br/>
+    增加 /notify/message/usages/{accountId} 如果 metric 抓取失敗
+     <br/>
+     <br/>
+    1.0.2 <br/> 
+    把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>
+    <br/>
+  version: 2.0.4
+  title: VMware 客製 Api
+  contact:
+    email: rayshih@sysage.com.tw
+  license:
+    name: Sysage
+tags:
+  - name: maintenance
+  - name: session
+  - name: usage
+  - name: user
+paths:
+  '/maintenance/org/{orgId}':
+    put:
+      summary: 更新組織租約
+      tags:
+        - maintenance
+      operationId: updateorg
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/info'
+              examples:
+                1. Success:
+                  value:
+                    code: 'maintenance:0000'
+                    message: 更新租約成功
+                    success: true
+                2. Fail:
+                  value:
+                    code: 'maintenance:0025'
+                    message: 更新租約失敗
+                    success: false
+          description: ''
+      description: 設定 lease time
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tenant'
+            examples:
+              Tenant:
+                value:
+                  vAppRuntimeLease: 0
+                  vAppStorageLease: 0
+                  vAppTemplateLease: 0
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: '每個 Api 均要帶入 token '
+          required: true
+    parameters:
+      - schema:
+          type: string
+        name: orgId
+        in: path
+        required: true
+        description: 組織
+  '/maintenance/org/{orgId}/vdc/{vdcId}/edge/{edgeId}/clearAddrPool':
+    put:
+      summary: 刪除組織 public ip
+      tags:
+        - maintenance
+      operationId: clearAddPool
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/info'
+              examples:
+                1. Success:
+                  value:
+                    code: 'maintenance:0000'
+                    message: 資訊變更成功
+                    success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'maintenance:0020'
+                      message: 資訊變更失敗沒這個 edge ~ HN_Edge_ID2
+                      success: false
+          description: ''
+      description: 設定 lease time
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/resource_edge_addressPool'
+            examples:
+              addressPool:
+                value:
+                  type: addressPool
+                  pools:
+                    - 10.9.57.30 - 10.9.57.31
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/resource_edge_addressPool'
+            examples:
+              example-1:
+                value:
+                  type: addressPool
+                  pools:
+                    - string
+        description: ''
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: '每個 Api 均要帶入 token '
+          required: true
+    parameters:
+      - schema:
+          type: string
+        name: orgId
+        in: path
+        required: true
+        description: 組織名稱
+      - schema:
+          type: string
+        name: vdcId
+        in: path
+        required: true
+        description: 組織 vdc 名稱
+      - schema:
+          type: string
+        name: edgeId
+        in: path
+        required: true
+        description: edge  名稱
+  '/maintenance/org/{accountId}/status/{status}':
+    put:
+      summary: 客戶退租/狀態變更/刪除組織 vdc
+      tags:
+        - maintenance
+      operationId: updateOrgStatus
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  taskInfo:
+                    $ref: '#/components/schemas/taskInfo'
+              examples:
+                1. Success:
+                  value:
+                    info:
+                      code: 'maintenance:0000'
+                      message: 更新狀態成功
+                      success: true
+                2. Fail:
+                  value:
+                    taskInfo:
+                      taskId: c84c37c2-2d3e-4f5d-b592-7d35e6c7121a
+                      createTime: '2021-05-12 11:10:55'
+                      type: AP
+                    info:
+                      code: 'maintenance:0040'
+                      message: 更新狀態失敗
+                      exception:
+                        message: ' 更新狀態失敗'
+                        stackTrace: "com.sysage.web.model.error.RestApiException:  更新狀態失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                      success: false
+      description: 1. 此 api 乃非同步
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: '每個 Api 均要帶入 token '
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: vdcId
+          description: '組織 vdc, 留空的話退租整個組織'
+    parameters:
+      - schema:
+          type: string
+          enum:
+            - id_enable
+            - id_disable
+            - delete
+        name: status
+        in: path
+        required: true
+        description: 狀態有 id_enable id_disable delete
+      - schema:
+          type: string
+        name: accountId
+        in: path
+        required: true
+        description: 使用者@組織
+  '/maintenance/org/{orgId}/vdc/{vdcId}/edge/{edgeId}':
+    parameters:
+      - schema:
+          type: string
+        name: orgId
+        in: path
+        required: true
+        description: 組織名稱
+      - schema:
+          type: string
+        name: vdcId
+        in: path
+        required: true
+        description: vdc名稱
+      - schema:
+          type: string
+        name: edgeId
+        in: path
+        required: true
+        description: edge名稱
+    put:
+      summary: 加購 Public IP / 加購網路頻寬
+      tags:
+        - maintenance
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+              examples:
+                1. Success:
+                  value:
+                    info:
+                      code: 'maintenance:0000'
+                      message: 加購成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'maintenance:0015'
+                      message: 加購失敗
+                      exception:
+                        message: 加購失敗
+                        stackTrace: "com.sysage.web.model.error.RestApiException:  加購失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                      success: false
+      operationId: updateEdge
+      description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/edge'
+            examples:
+              加購:
+                value:
+                  resources:
+                    - type: static
+                      ipAddress: 10.9.57.103
+                    - type: addressPool
+                      pools:
+                        - 10.9.57.104 - 10.9.57.104
+                    - type: dns
+                      defaultForwarderZone:
+                        active: true
+                        displayName: RayTryDns
+                        upstreamServers:
+                          - 10.9.58.31
+                    - type: qos
+                      limitSettings:
+                        - id: RayTryOut
+                          type: outbound
+                          bandwidth: 200
+                          burstsize: 200
+                        - id: RayTryIn
+                          type: inbound
+                          bandwidth: 200
+                          burstsize: 200
+        description: ''
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: '每個 Api 均要帶入 token '
+          required: true
+    get:
+      summary: 抓取 edge 資訊
+      operationId: getSingleEdgeInfo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    $ref: '#/components/schemas/edge'
+              examples:
+                1. Success:
+                  value:
+                    data:
+                      id: kubernetes
+                      publicNetworkId: EN-External
+                      resources:
+                        - type: static
+                          ipAddress: 10.9.57.101
+                        - type: addressPool
+                          pools:
+                            - 10.9.57.102 - 10.9.57.102
+                        - type: dns
+                          defaultForwarderZone:
+                            active: true
+                            displayName: RayTryDns
+                            upstreamServers:
+                              - 10.9.58.31
+                        - type: qos
+                          limitSettings:
+                            - id: RayTryIn
+                              type: inbound
+                              bandwidth: 2
+                              burstsize: 2
+                            - id: RayTryOut
+                              type: outbound
+                              bandwidth: 2
+                              burstsize: 2
+                    info:
+                      code: 'maintenance:0000'
+                      message: 抓取 edge 成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'maintenance:0055'
+                      message: 抓取 edge 失敗
+                      exception:
+                        message: 抓取 edge 失敗
+                        stackTrace: "com.sysage.web.model.error.RestApiException:  抓取組織 vdc 失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                      success: false
+      tags:
+        - maintenance
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: '每個 Api 均要帶入 token '
+          required: true
+  '/maintenance/org/{orgId}/vdc/{vdcId}/edge/{edgeId}/network/{vdcNetId}':
+    parameters:
+      - schema:
+          type: string
+        name: orgId
+        in: path
+        required: true
+        description: 組織名稱
+      - schema:
+          type: string
+        name: vdcId
+        in: path
+        required: true
+        description: vdc名稱
+      - schema:
+          type: string
+        name: edgeId
+        in: path
+        required: true
+        description: edge名稱
+      - schema:
+          type: string
+        name: vdcNetId
+        in: path
+        required: true
+        description: vdc 網路名稱
+    put:
+      summary: 更新 vdc 網路設定
+      tags:
+        - maintenance
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+              examples:
+                1. Success:
+                  value:
+                    info:
+                      code: 'maintenance:0000'
+                      message: 更新 vdc 網路成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'maintenance:0080'
+                      message: 更新 vdc 網路失敗
+                      success: true
+      operationId: updateVdcNet
+      description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/vdcNet'
+            examples:
+              vdcNet:
+                value:
+                  id: kubernetes
+                  cidr: 192.168.2.0/24
+                  gateway: 192.168.2.254
+                  submask: 255.255.255.0
+                  staticIpPools:
+                    - 192.168.2.1 - 192.168.2.252
+        description: ''
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: '每個 Api 均要帶入 token '
+          required: true
+    get:
+      summary: 抓取 vdc 網路資訊
+      operationId: getSingleVdcNetInfo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    $ref: '#/components/schemas/vdcNet'
+              examples:
+                1. Success:
+                  value:
+                    data:
+                      id: kubernetes
+                      cidr: 192.168.2.0/24
+                      gateway: 192.168.2.254
+                      submask: 255.255.255.0
+                      dns1: 192.168.255.228
+                      staticIpPools:
+                        - 192.168.2.1 - 192.168.2.253
+                    info:
+                      code: 'maintenance:0000'
+                      message: 抓取網路成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'maintenance:0080'
+                      message: 抓取網路失敗
+                      exception:
+                        message: 抓取網路失敗
+                        stackTrace: "com.sysage.web.model.error.RestApiException:  抓取組織 vdc 失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                      success: false
+      tags:
+        - maintenance
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: '每個 Api 均要帶入 token '
+          required: true
+  '/maintenance/org/{orgId}/vdc/{vdcId}':
+    parameters:
+      - schema:
+          type: string
+        name: orgId
+        in: path
+        required: true
+        description: 組織名稱
+      - schema:
+          type: string
+        name: vdcId
+        in: path
+        required: true
+        description: vdc名稱
+    put:
+      summary: VDC 加購
+      tags:
+        - maintenance
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  taskInfo:
+                    $ref: '#/components/schemas/taskInfo'
+              examples:
+                1. Success:
+                  value:
+                    info:
+                      code: 'maintenance:0000'
+                      message: 更新容量成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'user:0050'
+                      message: 更新容量失敗
+                      exception:
+                        message: 更新容量失敗
+                        stackTrace: 'com.sysage.web.model.error.RestApiException:'
+                      success: false
+      operationId: updatevdc
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/quota'
+            examples:
+              VDC:
+                value:
+                  resources:
+                    - type: cpu
+                      limit: 0
+                    - type: memory
+                      limit: 0
+                      unitType: mb
+                    - type: disk
+                      limit: 0
+                    - type: vm
+                      limit: 100
+                    - type: network
+                      limit: 1111
+                      networkPoolId: NP-Overlay
+                    - type: vcpu
+                      limit: 2
+        description: ''
+      description: VDC 加購
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: '每個 Api 均要帶入 token '
+    get:
+      summary: 抓取 vdc 資訊
+      operationId: getSingleVdcInfo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    $ref: '#/components/schemas/quota'
+              examples:
+                1. Success:
+                  value:
+                    data:
+                      id: kubernetes
+                      providerId: pVDC-DEV
+                      resources:
+                        - type: cpu
+                          limit: 8
+                        - type: memory
+                          limit: 8192
+                          unitType: mb
+                        - type: disk
+                          limit: 0
+                        - type: vm
+                          limit: 10
+                        - type: network
+                          limit: 100
+                          networkPoolId: NP-Overlay
+                        - type: vcpu
+                          limit: 2
+                    info:
+                      code: 'maintenance:0000'
+                      message: 抓取容量成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'maintenance:0055'
+                      message: 抓取容量失敗
+                      exception:
+                        message: 抓取容量失敗
+                        stackTrace: "com.sysage.web.model.error.RestApiException:  抓取組織 vdc 失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                      success: false
+      tags:
+        - maintenance
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: '每個 Api 均要帶入 token '
+          required: true
+  '/maintenance/tenant/{accountId}':
+    get:
+      summary: 客戶帳號狀態變更查詢
+      operationId: notify-maintenance-tenant
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  taskInfo:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/taskInfo'
+              examples:
+                1. Success:
+                  value:
+                    taskInfo:
+                      - message: 進件成功
+                        code: 'user:0000'
+                        createTime: '2021-07-11 22:24:57'
+                      - taskId: 5410f53b-5501-426e-a18b-4b281ac819c8
+                        message: 進件處理中
+                        code: 'user:0000'
+                        createTime: '2021-07-11 22:19:02'
+                      - message: 進件失敗
+                        code: 'user:0999'
+                        createTime: '2021-07-11 22:15:25'
+                        cause: '進件失敗[ 3ccc935b-52e2-411a-b640-0401671140eb ] The provided metadata is not a valid SAML 2.0 metadata document.'
+                      - taskId: a33d60a5-1d56-41aa-a73e-7e6d6c921603
+                        message: 進件處理中
+                        code: 'user:0000'
+                        createTime: '2021-07-11 22:15:17'
+                    info:
+                      code: 'user:0000'
+                      message: 退租失敗
+                      success: false
+                2. Fail:
+                  value:
+                    info:
+                      code: 'maintenance:0060'
+                      message: 查詢失敗
+                      success: false
+      parameters: []
+      tags:
+        - maintenance
+    parameters:
+      - schema:
+          type: string
+          example: admin@kubernetes
+        name: accountId
+        in: path
+        required: true
+        description: 使用者@組織
+  '/maintenance/user/{orgId}/usages':
+    parameters:
+      - schema:
+          type: string
+        name: orgId
+        in: path
+        required: true
+        description: 組織名稱
+    delete:
+      summary: 監控usage數據定期清理
+      tags:
+        - maintenance
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+              examples:
+                1. Success:
+                  value:
+                    info:
+                      code: 'maintenance:0000'
+                      message: 刪除 usage 成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'maintenance:0500'
+                      message: 刪除 usage 失敗
+                      success: false
+                      exception:
+                        message: 刪除 usage 失敗
+                        url: ''
+                        stackTrace: string
+      operationId: deleteUsages
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: startTime
+          description: 13位時間戳
+        - schema:
+            type: string
+          in: query
+          name: endTime
+          description: 13位時間戳
+  '/maintenance/externalNet/{publicNetworkId}':
+    parameters:
+      - schema:
+          type: string
+        name: publicNetworkId
+        in: path
+        required: true
+        description: 外部網路名稱
+    get:
+      summary: 外部 ip 使用 status
+      tags:
+        - maintenance
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      ipScopes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            tenantId:
+                              type: string
+                              description: 組織名稱
+                            ipAddress:
+                              type: string
+                              description: 有使用 IP
+                      subAllocations:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            edgeId:
+                              type: string
+                              description: Edge 名稱
+                            ipAddress:
+                              type: string
+                              description: IP配置
+                  info:
+                    $ref: '#/components/schemas/info'
+              examples:
+                1. Success:
+                  value:
+                    data:
+                      ipScopes:
+                        - tenantId: kubernetes
+                          ipAddress: 10.9.57.102
+                        - tenantId: kubernetes
+                          ipAddress: 10.9.57.101
+                        - tenantId: kubernetes
+                          ipAddress: 10.9.57.103
+                      subAllocations:
+                        - edgeId: RayTryGroupEdge
+                          ipAddress: 10.9.57.104 - 10.9.57.104
+                        - edgeId: kubernetes
+                          ipAddress: 10.9.57.102 - 10.9.57.102
+                    info:
+                      code: 'maintenance:0000'
+                      message: 取得配置
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'maintenance:0080'
+                      message: 取得失敗
+                      success: false
+      operationId: get-maintenance-externalNet-publicNetworkId
+  /session/signin:
+    post:
+      summary: Ap Server Session 登入
+      operationId: sessionSignin
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        description: 準備用在 Api Authorization 的 Header
+              examples:
+                1. Success:
+                  value:
+                    data:
+                      token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ7XCJhY2NvdW50SWRcIjpcIlJpM1RlTUNELytjUFFHcjM1aFhwTWs0Z2FYM081cmdUQVU4UXdaeFNGQUJhV1BVV0NsWFdWU016V09wSGFZejRcIixcInBhc3N3b3JkXCI6XCLvv70p77-977-977-977-9XFx1MDAwMS0zXFxcIu-_vcWN77-9SErvv73vv71W1oI6JkHvv73vv73vv70k77-9XFx1MDAwMe-_vWBcIn0ifQ.1FPUTU7NlHXeRNX0Z7rHO3uFxJl6eyZJxRB9gq8jCCc
+                    info:
+                      code: 'session:0000'
+                      message: 登入成功
+                      success: true
+                'Fail ':
+                  value:
+                    info:
+                      code: 'session:0900'
+                      message: 登入失敗
+                      success: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  required:
+                    - accountId
+                    - password
+                  properties:
+                    accountId:
+                      type: string
+                    password:
+                      type: string
+              required:
+                - data
+            examples:
+              SignIn:
+                value:
+                  data:
+                    accountId: admin@vcpp.com.tw
+                    password: xxxx
+        description: ''
+      tags:
+        - session
+      description: ''
+      parameters: []
+  /session/signout:
+    delete:
+      summary: AP Server Session 登出
+      tags:
+        - session
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+              examples:
+                1. Success:
+                  value:
+                    into:
+                      code: 'session:0000'
+                      message: 登出成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'session:0900'
+                      message: 登出失敗
+                      success: false
+      operationId: sessionSingout
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: '每個 Api 均要帶入 token '
+          required: true
+  '/session/account/{accountId}':
+    parameters:
+      - schema:
+          type: string
+        name: accountId
+        in: path
+        required: true
+        description: 使用者@組織名稱
+    get:
+      summary: 取得帳號資訊
+      tags:
+        - session
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    $ref: '#/components/schemas/account'
+              examples:
+                1. Success:
+                  value:
+                    info:
+                      code: 'session:0000'
+                      message: 查找成功
+                      success: true
+                    data:
+                      id: admin
+                      active: true
+                      role: vApp User
+                      contactName: kubernetes
+                      contactMail: kubernetes@kubernetes.com
+                      contactPhone: '1234567890'
+                2. Fail:
+                  value:
+                    info:
+                      code: 'session:0060'
+                      message: 查找失敗
+                      success: false
+                      exception:
+                        message: 查找失敗
+                        stackTrace: "com.sysage.web.model.error.RestApiException:  抓取組織 vdc 失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+      operationId: getAccountInfo
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: '每個 Api 均要帶入 token '
+          required: true
+  '/session/org/{orgId}':
+    parameters:
+      - schema:
+          type: string
+        name: orgId
+        in: path
+        required: true
+        description: 組織名稱
+    get:
+      summary: 取得組織資訊
+      tags:
+        - session
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    $ref: '#/components/schemas/tenant'
+              examples:
+                1. Success:
+                  value:
+                    info:
+                      code: 'session:0000'
+                      message: 查找成功
+                      success: true
+                    data:
+                      id: kubernetes
+                      name: kubernetes
+                      description: kubernetes
+                      active: true
+                      vAppRuntimeLease: 0
+                      vAppStorageLease: 0
+                      vAppTemplateLease: 0
+                2. Fail:
+                  value:
+                    info:
+                      code: 'session:0060'
+                      message: 查找失敗
+                      success: false
+                      exception:
+                        message: 查找失敗
+                        stackTrace: "com.sysage.web.model.error.RestApiException:  抓取組織 vdc 失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+      operationId: getOrgInfo
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: '每個 Api 均要帶入 token '
+          required: true
+  /usage/list:
+    get:
+      summary: Metrics
+      tags:
+        - usage
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/usage'
+              examples:
+                1. Success:
+                  value:
+                    data:
+                      - resourceType: VM_Template
+                        unit: GB
+                        statistics:
+                          - tenantId: kubernetes
+                            vmId: RayTryVMTemplate
+                            quantity: 150
+                            timestamp: 1626911100000
+                            timeString: '2021-07-22 07:45:00'
+                            vdcId: kubernetes
+                      - resourceType: VM_Info
+                        statistics:
+                          - tenantId: kubernetes
+                            vmId: RayTryVM3
+                            info:
+                              name: RayTryVM3
+                              vCore: 4
+                              vRam: 8192
+                              vDisk:
+                                - diskId: '2000'
+                                  diskName: Hard disk 1
+                                  storagePolicyName: vSAN Default Storage Policy
+                                  isIndependent: false
+                                  quantity: 150
+                              os: CentOS 7 (64-bit)
+                              status: 'OFF'
+                            timestamp: 1626911100000
+                            timeString: '2021-07-22 07:45:00'
+                            vdcId: RayTryVdc
+                      - resourceType: Snapshots
+                        unit: GB
+                        statistics:
+                          - tenantId: kubernetes
+                            vmId: RayTryVM3
+                            quantity: 150
+                            timestamp: 1626911100000
+                            timeString: '2021-07-22 07:45:00'
+                            extra: SNAPSHOTS
+                            vdcId: RayTryVdc
+                      - resourceType: Network
+                        unit: bytes
+                        statistics:
+                          - tenantId: admin@kubernetes
+                            edgeId: 'gateway:3b7a9acb-3beb-4850-a1f0-4c05c4ee0caf'
+                            quantity: 0
+                            usages:
+                              - ipAddress: 100.64.96.5
+                            timestamp: 1626911100000
+                            timeString: '2021-07-22 07:45:00'
+                            extra: IP
+                            vdcId: RayTryVdc
+                      - resourceType: LoadBalance_Info
+                        statistics:
+                          - tenantId: admin@kubernetes
+                            ipList:
+                              - 192.168.1.20
+                            timestamp: 1626911100000
+                            timeString: '2021-07-22 07:45:00'
+                            name: RayTryLB@kubernetes
+                            extra: LOAD_BALANCE_INFO
+                            vdcId: kubernetes
+                      - resourceType: IP
+                        statistics:
+                          - tenantId: kubernetes
+                            vmId: RayTryVM
+                            ipList:
+                              - 192.168.2.2
+                            timestamp: 1626911100000
+                            timeString: '2021-07-22 07:45:00'
+                            extra: IP
+                            vdcId: kubernetes
+                    info:
+                      code: 'usage:0000'
+                      message: 擷取用量成功
+                      queryTime: 0
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'user:0030'
+                      message: 擷取用量失敗
+                      exception:
+                        message: 擷取用量失敗
+                        stackTrace: "com.sysage.web.model.error.RestApiException:  帳號查詢失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask抓取 Metrics 失敗til.java:25)"
+                      success: false
+      operationId: usageMetrics
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - VM_Info
+              - Unused_Disks
+              - Snapshots
+              - Network
+              - LoadBalance
+              - IP
+          in: query
+          name: resourceType
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: tenantId
+          description: 組織名稱
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: vdcId
+          description: 組織vdc名稱
+        - schema:
+            type: string
+            example: '1616550300000'
+          in: query
+          name: startTime
+          description: 13位 timestamp
+          required: true
+        - schema:
+            type: string
+            example: '1616550300000'
+          in: query
+          name: endTime
+          description: 13位 timestamp
+          required: true
+        - schema:
+            type: string
+            example: 每個 Api 均要帶入 token
+          in: header
+          name: token
+          description: 每個 Api 均要帶入 token
+          required: true
+      description: ''
+  /usage/list/snapshot:
+    get:
+      summary: 以每小時為單位查詢快照數量
+      tags:
+        - usage
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/customerMetrics'
+              examples:
+                1. Success:
+                  value:
+                    data:
+                      - tenantId: kubernetes
+                        vdcId: kubernetes
+                        timestamp: 1626908400000
+                        timeString: '2021-07-22T07:00:00+08:00'
+                        element:
+                          - vmId: RayTryVM2
+                            quantity: 150
+                          - vmId: RayTryVM
+                            quantity: 150
+                        count: 2
+                    info:
+                      code: 'usage:0000'
+                      message: 擷取用量成功
+                      queryTime: 0
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'usage:0030'
+                      message: 擷取用量失敗
+                      exception:
+                        message: 擷取用量失敗
+                        stackTrace: "com.sysage.web.model.error.RestApiException:  擷取用量失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
+                      success: false
+      operationId: getHourSnapshot
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: tenantId
+          description: 組織名稱
+        - schema:
+            type: string
+          in: query
+          name: vdcId
+          description: vdc名稱
+        - schema:
+            type: string
+          in: query
+          name: startTime
+          description: '13位timestamp, 程式自動 mod 月開始時間'
+          required: true
+        - schema:
+            type: string
+            example: 每個 Api 均要帶入 token
+          in: header
+          name: token
+          description: Token
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: endTime
+          description: '13位timestamp, 程式自動 mod 月開始時間'
+          required: true
+        - schema:
+            type: string
+            enum:
+              - HR
+              - FIVE
+              - DAY
+          in: query
+          name: frequency
+          description: 取樣單位，不填 HR
+      description: ''
+  /usage/list/veeam:
+    get:
+      summary: 以每小時為單位查詢Veeam用量
+      tags:
+        - usage
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/customerMetrics'
+              examples:
+                1. Success:
+                  value:
+                    data:
+                      - quantity: 0.16666666666666666
+                        tenantId: HN550227960001
+                        timestamp: 1663660800000
+                        timeString: '2022-09-20T16:00:00+08:00'
+                        element:
+                          - unit: GB
+                            quantity: 2
+                            count: 1
+                        count: 1
+                      - quantity: 0
+                        tenantId: hicloud-veeam
+                        timestamp: 1663660800000
+                        timeString: '2022-09-20T16:00:00+08:00'
+                        element:
+                          - unit: GB
+                            quantity: 0
+                            count: 3
+                        count: 3
+                      - quantity: 0
+                        tenantId: hn55023016
+                        timestamp: 1663660800000
+                        timeString: '2022-09-20T16:00:00+08:00'
+                        element:
+                          - unit: GB
+                            quantity: 0
+                            count: 0
+                        count: 0
+                      - quantity: 0
+                        tenantId: isaak-test
+                        timestamp: 1663660800000
+                        timeString: '2022-09-20T16:00:00+08:00'
+                        element:
+                          - unit: GB
+                            quantity: 0
+                            count: 1
+                        count: 1
+                    info:
+                      code: 'usage:0000'
+                      message: 查詢成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'usage:0030'
+                      message: 擷取用量失敗
+                      exception:
+                        message: 擷取用量失敗
+                        stackTrace: "com.sysage.web.model.error.RestApiException:  擷取用量失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
+                      success: false
+      operationId: getHourVeeam
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: tenantId
+          description: 組織名稱
+        - schema:
+            type: string
+          in: query
+          name: vdcId
+          description: vdc名稱
+        - schema:
+            type: string
+          in: query
+          name: startTime
+          description: '13位timestamp, 程式自動 mod 月開始時間'
+          required: true
+        - schema:
+            type: string
+            example: 每個 Api 均要帶入 token
+          in: header
+          name: token
+          description: Token
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: endTime
+          description: '13位timestamp, 程式自動 mod 月開始時間'
+          required: true
+        - schema:
+            type: string
+            enum:
+              - HR
+              - FIVE
+              - DAY
+          in: query
+          name: frequency
+          description: 取樣單位，不填 HR
+      description: ''
+  /usage/list/disk:
+    get:
+      summary: 以每小時為單位查詢使用的儲存空間
+      tags:
+        - usage
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/customerMetrics'
+              examples:
+                1. Success:
+                  value:
+                    data:
+                      - quantity: 300
+                        unit: GB
+                        tenantId: kubernetes
+                        vdcId: kubernetes
+                        timestamp: 1626908400000
+                        timeString: '2021-07-22T07:00:00+08:00'
+                        element:
+                          - vmId: RayTryVM2
+                            info:
+                              name: RayTryVM2
+                              vCore: 4
+                              vRam: 8192
+                              vDisk:
+                                - diskId: '2000'
+                                  diskName: Hard disk 1
+                                  storagePolicyName: vSAN Default Storage Policy
+                                  isIndependent: false
+                                  quantity: 150
+                              os: CentOS 7 (64-bit)
+                              status: 'OFF'
+                          - vmId: RayTryVM
+                            info:
+                              name: RayTryVM
+                              vCore: 4
+                              vRam: 8192
+                              vDisk:
+                                - diskId: '2000'
+                                  diskName: Hard disk 1
+                                  storagePolicyName: vSAN Default Storage Policy
+                                  isIndependent: false
+                                  quantity: 150
+                              os: CentOS 7 (64-bit)
+                              status: 'ON'
+                    info:
+                      code: 'usage:0000'
+                      message: 查詢成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'usage:0030'
+                      message: 擷取用量失敗
+                      exception:
+                        message: 擷取用量失敗
+                        stackTrace: "com.sysage.web.model.error.RestApiException:  擷取用量失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
+                      success: false
+      operationId: getHourDisk
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: tenantId
+          description: 組織名稱
+        - schema:
+            type: string
+          in: query
+          name: vdcId
+          description: vdc名稱
+        - schema:
+            type: string
+          in: query
+          name: startTime
+          description: '13位timestamp, 程式自動 mod 月開始時間'
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: 每個 Api 均要帶入 token
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: endTime
+          description: '13位timestamp, 程式自動 mod 月開始時間'
+          required: true
+        - schema:
+            type: string
+            enum:
+              - HR
+              - FIVE
+              - DAY
+          in: query
+          name: frequency
+          description: 取樣單位，不填 HR
+      description: ''
+  /usage/list/vm:
+    get:
+      summary: 以每天為單位查詢每日max vm數量
+      tags:
+        - usage
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/customerMetrics'
+              examples:
+                1. Success:
+                  value:
+                    data:
+                      - tenantId: kubernetes
+                        vdcId: kubernetes
+                        timestamp: 1626883200000
+                        timeString: '2021-07-22T00:00:00+08:00'
+                        element:
+                          - vmId: RayTryVM2
+                            info:
+                              name: RayTryVM2
+                              vCore: 4
+                              vRam: 8192
+                              vDisk:
+                                - diskId: '2000'
+                                  diskName: Hard disk 1
+                                  storagePolicyName: vSAN Default Storage Policy
+                                  isIndependent: false
+                                  quantity: 150
+                              os: CentOS 7 (64-bit)
+                              status: 'OFF'
+                          - vmId: RayTryVM
+                            info:
+                              name: RayTryVM
+                              vCore: 4
+                              vRam: 8192
+                              vDisk:
+                                - diskId: '2000'
+                                  diskName: Hard disk 1
+                                  storagePolicyName: vSAN Default Storage Policy
+                                  isIndependent: false
+                                  quantity: 150
+                              os: CentOS 7 (64-bit)
+                              status: 'ON'
+                        count: 2
+                    info:
+                      code: 'usage:0000'
+                      message: 查詢成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'usage:0030'
+                      message: 查詢失敗
+                      exception:
+                        message: 查詢失敗
+                        stackTrace: "com.sysage.web.model.error.RestApiException:  查詢失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
+                      success: false
+      operationId: openVmDay
+      description: ''
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: startTime
+          description: '13位timestamp, 程式自動 mod 月開始時間'
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: tenantId
+          description: 組織名稱
+        - schema:
+            type: string
+          in: query
+          name: vdcId
+          description: 組織vdc名稱
+        - schema:
+            type: string
+            example: 每個 Api 均要帶入 token
+          in: header
+          name: token
+          description: Token
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: endTime
+          description: '13位timestamp, 程式自動 mod 月開始時間'
+          required: true
+        - schema:
+            type: string
+            enum:
+              - HR
+              - DAY
+              - FIVE
+          in: query
+          name: frequency
+          description: 單位區間，不填預設 DAY
+  /usage/list/poweron:
+    get:
+      summary: 以每日為單位查詢vm開機時數
+      tags:
+        - usage
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/customerMetrics'
+              examples:
+                1. Success:
+                  value:
+                    data:
+                      - quantity: 23.416666666666668
+                        unit: HR
+                        tenantId: kubernetes
+                        vdcId: kubernetes
+                        timestamp: 1626883200000
+                        timeString: '2021-07-22T00:00:00+08:00'
+                        element:
+                          - vmId: RayTryVM2
+                            info:
+                              name: RayTryVM2
+                              vCore: 4
+                              vRam: 8192
+                              vDisk:
+                                - diskId: '2000'
+                                  diskName: Hard disk 1
+                                  storagePolicyName: vSAN Default Storage Policy
+                                  isIndependent: false
+                                  quantity: 150
+                              os: CentOS 7 (64-bit)
+                              status: 'OFF'
+                          - vmId: RayTryVM
+                            info:
+                              name: RayTryVM
+                              vCore: 4
+                              vRam: 8192
+                              vDisk:
+                                - diskId: '2000'
+                                  diskName: Hard disk 1
+                                  storagePolicyName: vSAN Default Storage Policy
+                                  isIndependent: false
+                                  quantity: 150
+                              os: CentOS 7 (64-bit)
+                              status: 'ON'
+                    info:
+                      code: 'usage:0000'
+                      message: 查詢成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'user:0030'
+                      message: 查詢失敗
+                      exception:
+                        message: 查詢失敗
+                        stackTrace: "com.sysage.web.model.error.RestApiException:  查詢失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
+                      success: false
+      operationId: openPowerOnDay
+      description: ''
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: startTime
+          description: '13位timestamp, 程式自動 mod 月開始時間'
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: tenantId
+          description: 組織名稱
+        - schema:
+            type: string
+          in: query
+          name: vdcId
+          description: 組織vdc名稱
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: 每個 Api 均要帶入 token
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: endTime
+          description: '13位timestamp, 程式自動 mod 月開始時間'
+          required: true
+        - schema:
+            type: string
+            enum:
+              - HR
+              - DAY
+              - FIVE
+          in: query
+          name: frequency
+          description: 單位區間，不填預設 DAY
+  /usage/exception/log:
+    get:
+      summary: metrics exception log
+      operationId: usage-exception-log
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        tenantId:
+                          type: string
+                          description: 使用者@組織
+                        vmId:
+                          type: string
+                          description: VM名稱
+                        message:
+                          type: string
+                        cause:
+                          type: string
+                          description: java exception stack
+                        timeString:
+                          type: string
+                        timestamp:
+                          type: integer
+                        userName:
+                          type: string
+                          description: 使用者
+                        orgName:
+                          type: string
+                          description: 組織
+              examples:
+                1. Success:
+                  value:
+                    data:
+                      - orgName: System
+                        vmId: ''
+                        timeString: '2021-07-13 15:07:23.555'
+                        tenantId: admin@System
+                        cause: |-
+                          admin System 查詢失敗 ServiceUnavailable (com.vmware.vapi.std.errors.service_unavailable) => {
+                              messages = [],
+                              data = struct => {error_message=Client 'admin' exceeded request rate of 100 per second, error_code=102, module_name=common-services},
+                              errorType = SERVICE_UNAVAILABLE
+                          } 
+                        message: getUsageFail
+                        userName: admin
+                        timestamp: 1626188843555
+                      - orgName: System
+                        vmId: ''
+                        timeString: '2021-07-13 15:07:48.869'
+                        tenantId: admin@System
+                        cause: |-
+                          admin System 查詢失敗 ServiceUnavailable (com.vmware.vapi.std.errors.service_unavailable) => {
+                              messages = [],
+                              data = struct => {error_message=Client 'admin' exceeded request rate of 100 per second, error_code=102, module_name=common-services},
+                              errorType = SERVICE_UNAVAILABLE
+                          } 
+                        message: getUsageFail
+                        userName: admin
+                        timestamp: 1626188868869
+                      - orgName: System
+                        vmId: ''
+                        timeString: '2021-07-13 15:13:20.578'
+                        tenantId: admin@System
+                        cause: 'admin System 查詢失敗 Bulk write operation error on server mongo-svc:27017. Write errors: [BulkWriteError{index=0, code=11000, message=''E11000 duplicate key error collection: twm_cloud.edgePageThisMoment index: _id_ dup key: { : "Anthos" }'', details={ }}]. ; nested exception is com.mongodb.MongoBulkWriteException: Bulk write operation error on server mongo-svc:27017. Write errors: [BulkWriteError{index=0, code=11000, message=''E11000 duplicate key error collection: twm_cloud.edgePageThisMoment index: _id_ dup key: { : "Anthos" }'', details={ }}].  '
+                        message: getUsageFail
+                        userName: admin
+                        timestamp: 1626189200578
+                    info:
+                      code: 'usage:0000'
+                      message: 查詢成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'usage:0030'
+                      message: 查詢失敗
+                      success: false
+      parameters:
+        - schema:
+            type: string
+            example: '1616550300000'
+          in: query
+          name: startTime
+          description: 13位 timestamp
+          required: true
+        - schema:
+            type: string
+            example: '1616550300000'
+          in: query
+          name: endTime
+          description: 13位 timestamp
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: tenantId
+          description: 組織
+      tags:
+        - usage
+  '/user/org/{orgId}/vdc/{vdcId}/edge':
+    parameters:
+      - schema:
+          type: string
+        name: orgId
+        in: path
+        required: true
+        description: 組織名稱
+      - schema:
+          type: string
+        name: vdcId
+        in: path
+        required: true
+        description: vdc名稱
+    post:
+      summary: 新增 edge
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  taskInfo:
+                    $ref: '#/components/schemas/taskInfo'
+              examples:
+                1. Success:
+                  value:
+                    info:
+                      code: 'user:0000'
+                      message: 建立成功
+                      success: true
+                2. Fail:
+                  value:
+                    taskInfo:
+                      taskId: c84c37c2-2d3e-4f5d-b592-7d35e6c7121a
+                      createTime: '2021-05-12 11:10:55'
+                      type: VCD
+                    info:
+                      code: 'user:0999'
+                      message: edge 建立失敗
+                      exception:
+                        message: edge 建立失敗
+                        stackTrace: "com.sysage.web.model.error.RestApiException:  edge 建立失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                      success: false
+      operationId: addEdge
+      description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/edge'
+            examples:
+              edge:
+                value:
+                  id: RayTryEdge
+                  publicNetworkId: EN-External
+                  resources:
+                    - type: static
+                      ipAddress: 10.9.57.103
+                    - type: addressPool
+                      pools:
+                        - 10.9.57.104 - 10.9.57.104
+                    - type: dns
+                      defaultForwarderZone:
+                        active: true
+                        displayName: RayTryDns
+                        upstreamServers:
+                          - 10.9.58.31
+                    - type: qos
+                      limitSettings:
+                        - id: RayTryIn
+                          type: inbound
+                          bandwidth: 2
+                          burstsize: 2
+                        - id: RayTryOut
+                          type: outbound
+                          bandwidth: 2
+                          burstsize: 2
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: 每個 Api 均要帶入 token
+          required: true
+  '/user/org/{orgId}/vdc':
+    post:
+      summary: 新增組織 Virtual Data Center
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  taskInfo:
+                    $ref: '#/components/schemas/taskInfo'
+              examples:
+                1. Success:
+                  value:
+                    info:
+                      code: 'user:0000'
+                      message: 建立成功
+                      success: true
+                2. Fail:
+                  value:
+                    taskInfo:
+                      taskId: c84c37c2-2d3e-4f5d-b592-7d35e6c7121a
+                      createTime: '2021-05-12 11:10:55'
+                      type: AP
+                    info:
+                      code: 'user:0999'
+                      message: 建立失敗
+                      exception:
+                        message: 建立失敗
+                        stackTrace: "com.sysage.web.model.error.RestApiException:   建立失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                      success: false
+      operationId: createvdc
+      description: |-
+        1.  cpu 換算成2GHz<br/>
+        設定CPU resources guaranteed:固定為 0%<br/>
+        2.  設定Memory resources guaranteed:固定為 0%<br/>
+           cpu = 1VM數<br/>
+        3.  RPP包裝增加SSD儲存空間，RPG包裝增加SAS儲存空間，從 storeage policy 去分
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/quota'
+            examples:
+              vdc:
+                value:
+                  id: RayTryGroupVdc
+                  providerId: pVDC-DEV
+                  resources:
+                    - type: cpu
+                      limit: 8
+                    - type: vm
+                      limit: 10
+                    - type: network
+                      limit: 100
+                      networkPoolId: NP-Overlay
+                    - type: disk
+                      limit: 70000
+                      storageId: vSAN Default Storage Policy
+                    - type: memory
+                      limit: 8192
+                      unitType: mb
+                    - type: vcpu
+                      limit: 2
+        description: ''
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: '每個 Api 均要帶入 token '
+          required: true
+    parameters:
+      - schema:
+          type: string
+        name: orgId
+        in: path
+        required: true
+        description: '組織名稱, 完整 URL 中的唯一識別碼，使用者用以登入此組織。只能使用英(小寫)數字元或下列其中一項: ''-'' ''_'' ''.'' ''('' '')'' '','' ''$'''
+  '/user/org/{orgId}/vdc/{vdcId}/edge/{edgeId}/network':
+    parameters:
+      - schema:
+          type: string
+        name: orgId
+        in: path
+        required: true
+        description: 組織名稱
+      - schema:
+          type: string
+        name: edgeId
+        in: path
+        required: true
+        description: edge名稱
+      - schema:
+          type: string
+        name: vdcId
+        in: path
+        required: true
+        description: vdc名稱
+    post:
+      summary: 新增組織 vdc 網路
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  taskInfo:
+                    $ref: '#/components/schemas/taskInfo'
+              examples:
+                1. Success:
+                  value:
+                    info:
+                      code: 'user:0000'
+                      message: 建立成功
+                      success: true
+                2. Fail:
+                  value:
+                    taskInfo:
+                      taskId: c84c37c2-2d3e-4f5d-b592-7d35e6c7121a
+                      createTime: '2021-05-12 11:10:55'
+                      type: AP
+                    info:
+                      code: 'user:0999'
+                      message: 建立失敗
+                      exception:
+                        message: 建立失敗
+                        stackTrace: "com.sysage.web.model.error.RestApiException:  建立失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                      success: false
+      operationId: addVdcNetwork
+      description: |-
+        1. vcd portal 已經沒有是否使用 edge dns 的 checkbox boolean 欄位，若不填 vdc network 的 dns, 是否會直接用 edge 的 dns 未來要測試過 <br/>
+        2. vcd portal 已經沒有設定 vdc network 在組織vdc內可以共享的 boolean 欄位，若要共享網路，在 vcd 10.2 nsx-t 的結構之下只能使用 vdc group, vdc group 遇到技術問題還在測試中
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/vdcNet'
+            examples:
+              vdc network:
+                value:
+                  id: RayTryVdcNet
+                  cidr: 192.168.3.0/24
+                  gateway: 192.168.3.254
+                  submask: 255.255.255.0
+                  dnsFQDN: ''
+                  staticIpPools:
+                    - 192.168.3.1 - 192.168.3.249
+        description: ''
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: 每個 Api 均要帶入 token
+          required: true
+  /user/tenant:
+    post:
+      summary: 進件加一個綜合設定的 api
+      operationId: post-user-tenant
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  taskInfo:
+                    $ref: '#/components/schemas/taskInfo'
+              examples:
+                1. Success:
+                  value:
+                    info:
+                      code: 'user:0000'
+                      message: 建立成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'user:0999'
+                      message: 建立失敗
+                      success: false
+                      exception:
+                        message: 建立失敗
+                        stackTrace: "com.sysage.web.model.error.RestApiException:  建立失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+                    taskInfo:
+                      taskId: c84c37c2-2d3e-4f5d-b592-7d35e6c7121a
+                      createTime: '2021-05-12 11:10:55'
+                      type: VCD
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: 每個 Api 均要帶入 token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                provisionId:
+                  type: string
+                  description: 進件流水號
+                tenant:
+                  $ref: '#/components/schemas/tenant'
+                vdc:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      quota:
+                        $ref: '#/components/schemas/quota'
+                      network:
+                        $ref: '#/components/schemas/provisionNetwork'
+              required:
+                - provisionId
+            examples:
+              Provision:
+                value:
+                  provisionId: '6666'
+                  tenant:
+                    id: kubernetes
+                    name: VCPP Org
+                    description: VCPP test tenant
+                    account:
+                      id: admin
+                      active: true
+                      role: Tenant Admin
+                      contactName: tester
+                      contactMail: tester@test.com.tw
+                      contactPhone: 0901-234-567
+                    vAppRuntimeLease: 0
+                    vAppStorageLease: 0
+                    vAppTemplateLease: 0
+                  vdc:
+                    - quota:
+                        id: kubernetes
+                        providerId: pVDC-DEV
+                        resources:
+                          - type: cpu
+                            limit: 8
+                          - type: vm
+                            limit: 10
+                          - type: network
+                            limit: 100
+                            networkPoolId: NP-Overlay
+                          - type: disk
+                            limit: 70000
+                            storageId: ''
+                          - type: memory
+                            limit: 8192
+                            unitType: mb
+                          - type: vcpu
+                            limit: 2
+                      network:
+                        edge:
+                          id: kubernetes
+                          publicNetworkId: EN-External
+                          resources:
+                            - type: static
+                              ipAddress: 10.9.57.101
+                            - type: addressPool
+                              pools:
+                                - 10.9.57.102 - 10.9.57.102
+                            - type: dns
+                              defaultForwarderZone:
+                                active: true
+                                displayName: RayTryDns
+                                upstreamServers:
+                                  - 10.9.58.31
+                            - type: qos
+                              limitSettings:
+                                - id: RayTryIn
+                                  type: inbound
+                                  bandwidth: 200
+                                  burstsize: 200
+                                - id: RayTryOut
+                                  type: outbound
+                                  bandwidth: 200
+                                  burstsize: 200
+                        vdcNet:
+                          id: kubernetes
+                          cidr: 192.168.2.0/24
+                          gateway: 192.168.2.254
+                          submask: 255.255.255.0
+                          dnsFQDN: ''
+                          staticIpPools:
+                            - 192.168.2.1 - 192.168.2.249
+      tags:
+        - user
+      description: 1. 此 api 為非同步
+  '/user/tenant/{provisionId}':
+    get:
+      summary: '帳號申裝 [進件status查詢]'
+      operationId: notify-user-tenant
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  taskInfo:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/taskInfo'
+              examples:
+                1. Success:
+                  value:
+                    taskInfo:
+                      - message: 進件成功
+                        code: 'user:0000'
+                        createTime: '2021-07-11 22:24:57'
+                      - taskId: 5410f53b-5501-426e-a18b-4b281ac819c8
+                        message: 進件處理中
+                        code: 'user:0000'
+                        createTime: '2021-07-11 22:19:02'
+                      - message: 進件失敗
+                        code: 'user:0999'
+                        createTime: '2021-07-11 22:15:25'
+                        cause: '進件失敗[ 3ccc935b-52e2-411a-b640-0401671140eb ] The provided metadata is not a valid SAML 2.0 metadata document.'
+                      - taskId: a33d60a5-1d56-41aa-a73e-7e6d6c921603
+                        message: 進件處理中
+                        code: 'user:0000'
+                        createTime: '2021-07-11 22:15:17'
+                    info:
+                      code: 'user:0000'
+                      message: 取得通知成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'user:0030'
+                      message: 取得通知失敗
+                      success: false
+      parameters: []
+      tags:
+        - user
+      description: ''
+    parameters:
+      - schema:
+          type: string
+        name: provisionId
+        in: path
+        description: 進件單號
+        required: true
+  '/user/{accountId}/password':
+    parameters:
+      - schema:
+          type: string
+        name: accountId
+        in: path
+        required: true
+        description: 使用者@組織
+    put:
+      summary: 變更密碼
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+              examples:
+                1. Success:
+                  value:
+                    info:
+                      code: 'user:0000'
+                      message: 密碼變更成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'user:0010'
+                      message: 密碼變更失敗
+                      success: false
+      operationId: put-user-accountId-password
+      description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    password:
+                      type: string
+                      description: 密碼
+                  required:
+                    - password
+            examples:
+              password:
+                value:
+                  password: 1qaz@WSX
+        description: ''
+  '/user/{accountId}/contact':
+    parameters:
+      - schema:
+          type: string
+        name: accountId
+        in: path
+        required: true
+        description: 使用者@組織
+    put:
+      summary: 變更聯絡人資訊
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+              examples:
+                1. Success:
+                  value:
+                    info:
+                      code: 'user:0000'
+                      message: 變更成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'user:0020'
+                      message: 變更失敗
+                      success: false
+      operationId: put-user-accountId-contact
+      description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    tenantName:
+                      type: string
+                      description: 組織名稱
+                    tenantDescription:
+                      type: string
+                      description: 描述
+                    contactName:
+                      type: string
+                      description: 聯絡人名稱
+                    contactMail:
+                      type: string
+                      description: email
+                    contactPhone:
+                      type: string
+                      description: 電話
+                  required:
+                    - tenantName
+            examples:
+              Contact:
+                value:
+                  tenantName: VCPP Org
+                  tenantDescription: VCPP test tenant
+                  contactName: tester
+                  contactMail: tester@test.com.tw
+                  contactPhone: 02-12345678
+        description: ''
+externalDocs:
+  description: See AsyncAPI example
+  url: 'https://mermade.github.io/shins/asyncapi.html'
+components:
+  schemas:
+    tenant:
+      type: object
+      x-examples:
+        Tenant:
+          id: vcpp.com.tw
+          name: VCPP Org
+          description: VCPP test tenant
+          active: true
+          vAppRuntimeLease: 0
+          vAppStorageLease: 0
+          vAppTemplateLease: 0
+          account:
+            id: admin
+            active: true
+            role: vApp User
+            contactName: tester
+            contactMail: tester@test.com.tw
+            contactPhone: '0987654321'
+      title: 組織
+      description: 組織
+      properties:
+        id:
+          type: string
+          description: 必填。組織名稱
+        name:
+          type: string
+          description: 組織全名
+        description:
+          type: string
+          description: 說明
+        active:
+          type: boolean
+          description: 啟用狀態
+        vAppRuntimeLease:
+          type: integer
+          description: vApp 執行階段租用上限
+        vAppStorageLease:
+          type: integer
+          description: vApp 儲存空間租用上限
+        vAppTemplateLease:
+          type: integer
+          description: vApp 範本儲存空間租用上限
+        account:
+          $ref: '#/components/schemas/account'
+    account:
+      type: object
+      x-examples:
+        Account:
+          id: admin
+          active: true
+          role: vApp User
+          contactName: tester
+          contactMail: tester@test.com.tw
+          contactPhone: 0901-234-567
+      description: 編輯使用者
+      title: 編輯使用者
+      properties:
+        id:
+          type: string
+          description: 使用者名稱
+          example: admin
+        active:
+          type: boolean
+          description: 啟用
+        role:
+          type: string
+          description: 可用角色，盡量統一，角色太多權限不好處理
+          example: vApp User
+        contactName:
+          type: string
+          description: 全名
+        contactMail:
+          type: string
+          description: 電子郵件地址
+        contactPhone:
+          type: string
+          description: 電話號碼
+      required:
+        - id
+        - active
+        - role
+    quota:
+      title: 組織 VDC
+      type: object
+      x-examples:
+        Quota Example:
+          id: kubernetes
+          providerId: pVDC-DEV
+          resources:
+            - {}
+            - type: cpu
+              limit: 2
+            - type: vm
+              limit: 10
+            - type: network
+              limit: 100
+              networkPoolId: NP-Overlay
+            - type: disk
+              limit: 30000
+              storageId: ''
+            - type: memory
+              limit: 8192
+            - type: vcpu
+              limit: 2
+      description: 組織 VDC
+      properties:
+        id:
+          type: string
+          description: 必填。組織 VDC 名稱
+        providerId:
+          type: string
+          description: 必填。提供者 VDC 名稱
+        resources:
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/resource_vdc_cpu'
+              - $ref: '#/components/schemas/resource_vdc_memory'
+              - $ref: '#/components/schemas/resource_vdc_vm'
+              - $ref: '#/components/schemas/resource_vdc_network'
+              - $ref: '#/components/schemas/resource_vdc_disk'
+              - $ref: '#/components/schemas/resource_vdc_vcpu'
+              - $ref: '#/components/schemas/resource_vdc_modelType'
+        isVdcGroup:
+          type: boolean
+          description: 是否開放共用
+    resource_vdc_vm:
+      title: 虛擬機器
+      type: object
+      x-examples:
+        vm:
+          type: vm
+          limit: 10
+      description: 1 cpu = 1VM數
+      properties:
+        type:
+          type: string
+          enum:
+            - vm
+          description: vm型態
+        limit:
+          type: number
+          description: 虛擬機器虛擬機器數目上限
+    resource_vdc_vcpu:
+      title: resources_vdc_vcpu
+      type: object
+      x-examples:
+        vcpu:
+          type: vcpu
+          limit: 2
+      properties:
+        type:
+          type: string
+          enum:
+            - vcpu
+          description: vcpu 型態
+        limit:
+          type: number
+          description: 進件時如果不填預設 2G
+      description: ''
+    resource_vdc_disk:
+      title: 具名磁碟
+      type: object
+      x-examples:
+        disk:
+          type: disk
+          limit: 1024
+          storageId: vSAN Default Storage Policy
+      description: 具名磁碟
+      properties:
+        type:
+          type: string
+          enum:
+            - disk
+          description: 具名磁碟
+        limit:
+          type: number
+          description: 磁碟大小
+        storageId:
+          type: string
+          description: 儲存區原則
+    resource_vdc_network:
+      title: 網路集區
+      type: object
+      x-examples:
+        Network:
+          type: network
+          limit: 10
+          networkPoolId: NP-Overlay
+      description: 網路集區
+      properties:
+        type:
+          type: string
+          enum:
+            - network
+          description: 型態
+        limit:
+          type: number
+          description: 配額
+        networkPoolId:
+          type: string
+          description: 必填。網路集區名稱
+    resource_vdc_memory:
+      title: 記憶體
+      type: object
+      x-examples:
+        memory:
+          type: memory
+          limit: 4096
+      description: 記憶體
+      properties:
+        type:
+          type: string
+          enum:
+            - memory
+          description: 記憶體
+        limit:
+          type: number
+          description: 記憶體配額
+        guarantee:
+          type: number
+          description: '0.0 ~ 1.0, 若 > 1.0 除以 100.0'
+    resource_vdc_cpu:
+      title: CPU
+      type: object
+      x-examples:
+        cpu:
+          type: cpu
+          limit: 2
+      description: 1 cpu 換算成2GHz
+      properties:
+        type:
+          type: string
+          enum:
+            - cpu
+          description: CPU
+        limit:
+          type: number
+          description: CPU 配額
+        guarantee:
+          type: number
+          description: '0.0 ~ 1.0, 若 > 1.0 除以 100.0'
+    resource_vdc_modelType:
+      title: 配置模型
+      type: object
+      x-examples:
+        modeltype:
+          type: allocation
+          model: ALLOCATIONVAPP
+      description: 配置模型
+      properties:
+        type:
+          type: string
+          description: 配置模型
+          enum:
+            - allocation
+        model:
+          type: string
+          description: 隨收隨付 配置集區 保留集區
+          enum:
+            - ALLOCATIONVAPP
+            - ALLOCATIONPOOL
+            - RESERVATIONPOOL
+    vdcNet:
+      title: 組織 VDC 網路
+      type: object
+      x-examples:
+        vdc network:
+          id: RayVdcNetwork
+          gatewayCidr: 192.168.1.254/24
+          staticIpPools:
+            - 192.168.1.1 - 192.168.1.253
+      description: '組織 VDC 網路 '
+      properties:
+        id:
+          type: string
+          description: "必填\b。vdc 網路名稱"
+        gatewayCidr:
+          type: string
+          pattern: '^([0-9]{1,3}\.){3}[0-9]{1,3}(/([0-9]|[1-2][0-9]|3[0-2]))?$'
+          description: 必填。閘道 CIDR
+        dns1:
+          type: string
+          pattern: '^$|^(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}$'
+          description: 主要 DNS
+        dns2:
+          type: string
+          pattern: '^$|^(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}$'
+          description: 次要 DNS
+        staticIpPools:
+          type: array
+          description: 靜態 IP 集區
+          items:
+            type: string
+        vdcGroupId:
+          type: string
+          description: 指定跟 vdcGroup 綁定
+      required:
+        - staticIpPools
+    edge:
+      title: Edge 閘道
+      type: object
+      x-examples:
+        edge:
+          id: kubernetes
+          publicNetworkId: EN-External
+          resources:
+            - type: static
+              ipAddress: 10.9.57.102
+            - type: addressPool
+              pools:
+                - 10.9.57.102 - 10.9.57.102
+            - type: qos
+              limitSettings:
+                - id: RayTryIn
+                  type: inbound
+                  bandwidth: 1
+                  burstsize: 200
+                - id: RayTryOut
+                  type: outbound
+                  bandwidth: 2
+                  burstsize: 100
+            - type: dns
+              defaultForwarderZone:
+                displayName: RayTryDns
+                upstreamServers:
+                  - 10.9.57.31
+      description: Edge 閘道
+      properties:
+        id:
+          type: string
+          description: 必填。Edge 名稱
+        publicNetworkId:
+          type: string
+          description: 外部網路
+        resources:
+          type: array
+          description: 類型有 static addressPool qos dns
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/resource_edge_addressPool'
+              - $ref: '#/components/schemas/resource_edge_qos'
+              - $ref: '#/components/schemas/resource_edge_dns'
+              - $ref: '#/components/schemas/resource_edge_static'
+        vdcGroupId:
+          type: string
+          description: 將edge設置給 vdc group
+      required:
+        - resources
+    resource_edge_dns:
+      title: resource_edge_dns
+      type: object
+      x-examples:
+        dns:
+          type: dns
+          defaultForwarderZone:
+            displayName: RayTryDns
+            upstreamServers:
+              - 10.9.57.31
+      description: ''
+      properties:
+        type:
+          type: string
+          enum:
+            - dns
+          description: DNS 型態
+        defaultForwarderZone:
+          $ref: '#/components/schemas/dns'
+    resource_edge_qos:
+      title: resource_edge_qos
+      type: object
+      x-examples:
+        qos:
+          type: qos
+          limitSettings:
+            - id: RayTryIn
+              type: inbound
+              bandwidth: 1
+              burstsize: 200
+            - id: RayTryOut
+              type: outbound
+              bandwidth: 2
+              burstsize: 100
+      description: ''
+      properties:
+        type:
+          type: string
+          enum:
+            - qos
+          description: 設定速率限制
+        limitSettings:
+          type: array
+          description: 設定 inbound 與 outbound limit
+          items:
+            $ref: '#/components/schemas/qos'
+    resource_edge_addressPool:
+      title: IP 管理
+      type: object
+      x-examples:
+        dynamic:
+          type: addressPool
+          pools:
+            - 10.9.57.102 - 10.9.57.102
+      description: IP 管理
+      properties:
+        type:
+          type: string
+          enum:
+            - addressPool
+          description: IP 配置
+        pools:
+          type: array
+          description: 輸入 IP 範圍
+          items:
+            type: string
+    resource_edge_static:
+      title: resource_edge_static
+      type: object
+      x-examples:
+        static:
+          type: static
+          ipAddress: 10.9.57.102
+      description: ''
+      properties:
+        type:
+          type: string
+          enum:
+            - static
+          description: Primary IP
+        ipAddress:
+          type: string
+          description: static 專用，設在其他無效
+          pattern: '^(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}$'
+      required:
+        - type
+        - ipAddress
+    qos:
+      title: 閘道 QOS 設定檔
+      type: object
+      description: 閘道 QOS 設定檔
+      properties:
+        id:
+          type: string
+          description: 必填。 Qos 名稱
+        type:
+          type: string
+          enum:
+            - inbound
+            - outbound
+          description: 入口 QoS / 出口 QoS
+        bandwidth:
+          type: number
+          description: 認可的頻寬 (Mbps)
+        burstsize:
+          type: integer
+          description: 高載大小 (位元組)
+      x-examples: {}
+    info:
+      title: info
+      type: object
+      x-examples:
+        1. Success:
+          code: 'user:0000'
+          message: 進件成功
+          success: true
+        2. Fail:
+          code: 'user:0900'
+          message: '進件失敗 重複進件！此件已於 2021-05-06 12:14:55 成功進過'
+          success: false
+          exception:
+            message: '重複進件！此件已於 2021-05-06 12:14:55 成功進過'
+            url: null
+            stackTrace: string
+      properties:
+        code:
+          type: string
+          description: 成功/失敗代碼
+        message:
+          type: string
+          description: 訊息內文
+        success:
+          type: boolean
+          description: 是否成功
+        exception:
+          $ref: '#/components/schemas/exception'
+    statistic_unused_disk:
+      title: statistic_unused_disk
+      type: object
+      x-examples:
+        unused_disk:
+          tenantId: twmadmin@c2.com
+          timestamp: 1580353200000
+          timeString: '2020-01-30 11:00:00.000'
+          disks:
+            - diskName: disk1
+              isIndependent: true
+              quantity: 50
+              storageId: VCD-StoragePolicy
+      description: ''
+      properties:
+        tenantId:
+          type: string
+          description: 組織
+        timestamp:
+          type: integer
+          description: 13為時間戳
+        timeString:
+          type: string
+          description: 'humanization time string, zoneId:+0800'
+        disks:
+          type: array
+          items:
+            $ref: '#/components/schemas/vDisk'
+        vdcId:
+          type: string
+          description: 組織 vdc
+        extra:
+          type: string
+          description: 開發人員用
+    statistic_network:
+      title: statistic_network
+      type: object
+      x-examples:
+        network:
+          tenantId: ray@test.com.tw
+          timestamp: 1565776800000
+          timeString: '2019-08-14 18:00:00.000'
+          quantity: 356.72
+          edgeId: string
+          usages:
+            - index: '0'
+              ipAddress: 10.9.57.102
+      description: ''
+      properties:
+        tenantId:
+          type: string
+          description: 組織名稱
+        timestamp:
+          type: integer
+          description: 13為時間戳
+        timeString:
+          type: string
+          description: 'humanization time string, zoneId:+0800'
+        quantity:
+          type: number
+          description: 流量，單位 bytes
+        edgeId:
+          type: string
+          description: Edge Id
+        usages:
+          type: array
+          items:
+            $ref: '#/components/schemas/ipUsages'
+        vdcId:
+          type: string
+          description: 組織 vdc
+        extra:
+          type: string
+          description: 開發人員用
+    statistic_vminfo:
+      title: statistic_vminfo
+      type: object
+      x-examples:
+        VmInfo:
+          tenantId: ray@test.com.tw
+          timestamp: 1565604000000
+          timeString: '2019-08-12 18:00:00.000'
+          vmId: ea3c250b-9b54-4e73-be68-83ce03f24aa4
+          info:
+            name: vApp-01
+            vCore: 19.5
+            vRam: 4096
+            vDisk:
+              - diskName: jimmy0624-disk1
+                storagePolicyName: VCD-StoragePolicy
+                isIndependent: true
+                quantity: 0.029296875
+            os: CentOS 7 (64-bit)
+            status: true
+          ipList:
+            - 172.16.10.11
+      description: ''
+      properties:
+        tenantId:
+          type: string
+          description: 組織名稱
+        timestamp:
+          type: integer
+          description: 13為時間戳
+        timeString:
+          type: string
+          description: 'humanization time string, zoneId:+0800'
+        vmId:
+          type: string
+          description: virtual machine identity
+        info:
+          $ref: '#/components/schemas/vmInfo'
+        vdcId:
+          type: string
+          description: 組織 vdc
+        extra:
+          type: string
+          description: 開發人員用
+    statistic_loadBalance:
+      title: statistic_loadbalance
+      type: object
+      x-examples:
+        LoadBalance:
+          tenantId: ray@test.com.tw
+          timestamp: 1565604000000
+          timeString: '2019-08-12 18:00:00.000'
+          name: internal_lb
+          ipList:
+            - 192.168.100.2
+            - 192.168.100.3
+      description: ''
+      properties:
+        tenantId:
+          type: string
+          description: 組織名稱
+        timestamp:
+          type: integer
+          description: 13位時間戳
+        timeString:
+          type: string
+          description: 'humanization time string, zoneId:+0800'
+        name:
+          description: loadbalance name
+          type: string
+        ipList:
+          type: array
+          description: loadbalance 的 IP
+          items:
+            type: string
+        vdcId:
+          type: string
+          description: 組織 vdc
+        extra:
+          type: string
+          description: 開發人員用
+    statistic_snapshots_template:
+      title: statistic_snapshots
+      type: object
+      x-examples:
+        Snapshots:
+          tenantId: ray@test.com.tw
+          timestamp: 1565604000000
+          timeString: '2019-08-12 18:00:00.000'
+          vmId: ea3c250b-9b54-4e73-be68-83ce03f24aa4
+          quantity: 1000
+      description: ''
+      properties:
+        tenantId:
+          type: string
+          description: 組織名稱
+        timestamp:
+          type: integer
+          description: 13位時間戳
+        timeString:
+          type: string
+          description: 'humanization time string, zoneId:+0800'
+        vmId:
+          type: string
+          description: VM 名稱
+        quantity:
+          type: number
+          description: snaphost大小，單位G
+        vdcId:
+          type: string
+          description: 組織 vdc
+        extra:
+          type: string
+          description: 開發人員用
+    statistic_ip:
+      title: statistic_ip
+      type: object
+      x-examples: {}
+      description: ''
+      properties:
+        tenantId:
+          type: string
+          description: 組織名稱
+        timestamp:
+          type: integer
+          description: 13位時間戳
+        timeString:
+          type: string
+          description: 'humanization time string, zoneId:+0800'
+        vmId:
+          type: string
+          description: VM 名稱
+        ipList:
+          type: array
+          description: VM ip list
+          items:
+            type: string
+        vdcId:
+          type: string
+          description: 組織 vdc
+        extra:
+          type: string
+          description: 開發人員用
+    resource_snapshots:
+      title: usage_snapshot
+      type: object
+      x-examples:
+        SnapShots:
+          resourceType: Snapshots
+          unit: GB
+          statistics:
+            - tenantId: ray@test.com.tw
+              timestamp: 1565604000000
+              timeString: '2019-08-12 18:00:00.000'
+              vmId: ea3c250b-9b54-4e73-be68-83ce03f24aa4
+              quantity: 1000
+      description: ''
+      properties:
+        resourceType:
+          type: string
+          description: Snapshots型態
+        unit:
+          type: string
+          description: GB
+        statistics:
+          type: array
+          items:
+            $ref: '#/components/schemas/statistic_snapshots_template'
+      required:
+        - resourceType
+    resource_ip:
+      title: usage_ip
+      type: object
+      x-examples: {}
+      description: ''
+      properties:
+        resourceType:
+          type: string
+          description: IP型態
+        statistics:
+          type: array
+          items:
+            $ref: '#/components/schemas/statistic_ip'
+      required:
+        - resourceType
+    resource_unused_disk:
+      title: usage_unused_disk
+      type: object
+      x-examples:
+        Unused_disks:
+          resourceType: Unused_disks
+          unit: GB
+          statistics:
+            - tenantId: ray@test.com.tw
+              timestamp: 1565604000000
+              timeString: '2019-08-12 18:00:00.000'
+              disks:
+                - diskName: disk1
+                  isIndependent: true
+                  quantity: 50
+                  storageId: VCD-StoragePolicy
+      description: ''
+      properties:
+        resourceType:
+          type: string
+          description: Unused disk 型態
+        unit:
+          type: string
+          description: GB
+        statistics:
+          type: array
+          items:
+            $ref: '#/components/schemas/statistic_unused_disk'
+      required:
+        - resourceType
+    resource_loadbalancer:
+      title: usage_loadbalancer
+      type: object
+      x-examples:
+        Load Balance:
+          resourceType: LoadBalance_Info
+          statistics:
+            - tenantId: ray@test.com.tw
+              timestamp: 1565604000000
+              timeString: '2019-08-12 18:00:00.000'
+              name: internal_lb
+              ipList:
+                - 192.168.100.2
+                - 192.168.100.3
+      description: ''
+      properties:
+        resourceType:
+          type: string
+          description: Load Balance 型態
+        statistics:
+          type: array
+          items:
+            $ref: '#/components/schemas/statistic_loadBalance'
+      required:
+        - resourceType
+    resource_vappTemplate:
+      title: usage_vappTemplate
+      type: object
+      x-examples:
+        vAppTemplate:
+          resourceType: VM_Template
+          unit: GB
+          statistics:
+            - tenantId: ray@test.com.tw
+              timestamp: 1565604000000
+              timeString: '2019-08-12 18:00:00.000'
+              vmId: ea3c250b-9b54-4e73-be68-83ce03f24aa4
+              quantity: 1000
+      description: ''
+      properties:
+        resourceType:
+          type: string
+          description: vAppTemplate型態
+        unit:
+          type: string
+          description: GB
+        statistics:
+          type: array
+          items:
+            $ref: '#/components/schemas/statistic_snapshots_template'
+      required:
+        - resourceType
+    resource_network:
+      title: usage_network
+      type: object
+      x-examples:
+        Network:
+          resourceType: Network
+          unit: bytes
+          statistics:
+            - tenantId: ray@test.com.tw
+              timestamp: 1565776800000
+              timeString: '2019-08-14 18:00:00.000'
+              quantity: 356.72
+              edgeId: string
+              usages:
+                - index: '0'
+                  ipAddress: 10.9.57.102
+      description: ''
+      properties:
+        resourceType:
+          type: string
+          description: Network 型態
+        unit:
+          type: string
+          description: 單位 bytes
+        statistics:
+          type: array
+          items:
+            $ref: '#/components/schemas/statistic_network'
+      required:
+        - resourceType
+    resource_vminfo:
+      title: statistic_vmInfo
+      type: object
+      x-examples:
+        VM_Info:
+          resourceType: VM_Info
+          statistics:
+            - tenantId: ray@test.com.tw
+              timestamp: 1565604000000
+              timeString: '2019-08-12 18:00:00.000'
+              vmId: ea3c250b-9b54-4e73-be68-83ce03f24aa4
+              info:
+                name: vApp-01
+                vCore: 19.5
+                vRam: 4096
+                vDisk:
+                  - diskName: jimmy0624-disk1
+                    isIndependent: true
+                    quantity: 0.029296875
+                    storageId: VCD-StoragePolicy
+                os: CentOS 7 (64-bit)
+                status: true
+              ipList:
+                - 172.16.10.11
+      description: ''
+      properties:
+        resourceType:
+          type: string
+          description: Snapshots型態
+        statistics:
+          type: array
+          items:
+            $ref: '#/components/schemas/statistic_vminfo'
+      required:
+        - resourceType
+    vDisk:
+      title: vDisk
+      type: object
+      x-examples:
+        vDisk:
+          diskName: jimmy0624-disk1
+          storagePolicyName: VCD-StoragePolicy
+          isIndependent: false
+          quantity: 0.029296875
+      properties:
+        diskName:
+          type: string
+        isIndependent:
+          type: boolean
+          description: 是否是獨立硬碟
+        quantity:
+          type: number
+          description: 單位GB
+        storageId:
+          type: string
+          description: Storage Policy Name
+        diskId:
+          type: string
+          description: 硬碟編號
+      required:
+        - diskName
+        - isIndependent
+        - quantity
+    vmInfo:
+      title: vmInfo
+      type: object
+      x-examples:
+        vmInfo:
+          vCore: 1
+          vRam: 2048
+          vDisk:
+            - diskName: Hard disk 1
+              storagePolicyName: VCD-StoragePolicy
+              isIndependent: false
+              quantity: 16
+          os: CentOS 7 (64-bit)
+          status: true
+      description: ''
+      properties:
+        vCore:
+          type: number
+          description: 'cpu usage, unit: core'
+        vRam:
+          type: number
+          description: 'memory size usage, unit: MB'
+        vDisk:
+          type: array
+          items:
+            $ref: '#/components/schemas/vDisk'
+        os:
+          type: string
+          description: os name
+        status:
+          type: string
+          description: vm of power status
+      required:
+        - vCore
+        - vRam
+        - os
+        - status
+    exception:
+      title: exception
+      type: object
+      x-examples:
+        Exception:
+          message: '重複進件！此件已於 2021-05-06 12:14:55 成功進過'
+          url: /user
+          stackTrace: java.net.UnknownHostException...
+      properties:
+        message:
+          type: string
+          description: Exception 內文
+        url:
+          type: string
+        stackTrace:
+          type: string
+          description: Java exception stack
+      required:
+        - message
+        - stackTrace
+    taskInfo:
+      title: taskInfo
+      type: object
+      x-examples:
+        1. Success:
+          taskInfo:
+            taskId: c84c37c2-2d3e-4f5d-b592-7d35e6c7121a
+            createTime: '2021-05-12 11:10:55'
+            type: AP
+            info:
+              code: 'maintenance:0000'
+              message: 加購成功
+              success: true
+        2. Fail:
+          taskInfo:
+            taskId: c84c37c2-2d3e-4f5d-b592-7d35e6c7121a
+            createTime: '2021-05-12 11:10:55'
+            type: AP
+            info:
+              code: 'maintenance:0200'
+              message: 加購失敗
+              exception:
+                message: 加購失敗
+                stackTrace: "com.sysage.web.model.error.RestApiException:  加購失敗\n\tat com.sysage.twm.user.model.task.TaskUtil.setTaskInfo(TaskUtil.java:25)"
+              success: false
+      description: ''
+      properties:
+        taskId:
+          type: string
+          description: Api task UUID
+        createTime:
+          type: string
+        type:
+          type: string
+          enum:
+            - AP
+            - VCD
+          description: 若有Exception從AP來還是從VCD來
+        code:
+          type: string
+        message:
+          type: string
+    rights:
+      title: rights
+      type: array
+      x-examples:
+        rights:
+          - name: General
+            type: READ
+            rights:
+              - name: 檢視組織網路
+                type: READ
+                rights: []
+      description: 權限表
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          type:
+            type: string
+            enum:
+              - READ
+              - MODIFY
+            description: 兩個型態 唯讀 與 修改
+          rights:
+            $ref: '#/components/schemas/rights'
+        required:
+          - name
+          - type
+          - rights
+    dns:
+      title: 編輯 DNS
+      type: object
+      x-examples:
+        dns:
+          displayName: RayTryDns
+          upstreamServers:
+            - 10.9.57.31
+      properties:
+        displayName:
+          type: string
+          description: 名稱
+        upstreamServers:
+          type: array
+          description: 上游伺服器
+          items:
+            type: string
+        active:
+          type: boolean
+          description: 狀態
+      description: 編輯 DNS
+    usage:
+      title: resource_usage
+      x-examples: {}
+      allOf:
+        - $ref: '#/components/schemas/resource_snapshots'
+        - $ref: '#/components/schemas/resource_vappTemplate'
+        - $ref: '#/components/schemas/resource_network'
+        - $ref: '#/components/schemas/resource_vminfo'
+        - $ref: '#/components/schemas/resource_loadbalancer'
+        - $ref: '#/components/schemas/resource_unused_disk'
+        - $ref: '#/components/schemas/resource_ip'
+    ipUsages:
+      title: ipUsages
+      type: object
+      x-examples:
+        ipUsage:
+          index: '0'
+          ipAddress: 192.168.30.37
+      properties:
+        ipAddress:
+          type: string
+      required:
+        - ipAddress
+    provisionNetwork:
+      title: provisionNetwork
+      type: object
+      properties:
+        edge:
+          $ref: '#/components/schemas/edge'
+        vdcNet:
+          $ref: '#/components/schemas/vdcNet'
+      x-examples: {}
+    customerMetrics:
+      title: customizedMetrics
+      type: object
+      description: 客製化 Metrics
+      x-examples:
+        customer:
+          value:
+            quantity: 0
+            unit: HR
+            tenantId: kubernetes
+            vdcId: RayTryVdc
+            timestamp: 1626566400000
+            timeString: '2021-07-18T08:00:00+08:00'
+            element:
+              - vmId: RayTryVM3
+                info:
+                  name: RayTryVM3
+                  vCore: 4
+                  vRam: 8192
+                  vDisk:
+                    - diskId: '2000'
+                      diskName: Hard disk 1
+                      storagePolicyName: vSAN Default Storage Policy
+                      isIndependent: false
+                      quantity: 150
+                  os: CentOS 7 (64-bit)
+                  status: 'OFF'
+      properties:
+        tenantId:
+          type: string
+          description: 組織
+        vdcId:
+          type: string
+          description: 組織 vdc
+        timestamp:
+          type: integer
+          description: '13位 timestamp, 整點 or 午夜零時'
+        timeString:
+          type: string
+          description: 'YYYY-MM-dd HH:MM:SSS.ZZZ 整點 / 午夜零時'
+        count:
+          type: integer
+          description: 個數
+        quantity:
+          type: number
+          description: 容量
+        unit:
+          type: string
+          description: 單位
+          enum:
+            - HR
+            - GB
+        element:
+          type: array
+          items:
+            $ref: '#/components/schemas/customerElement'
+    customerElement:
+      title: customerElement
+      type: object
+      properties:
+        vmId:
+          type: string
+          description: VM 名稱
+        quantity:
+          type: number
+          description: 容量
+        info:
+          $ref: '#/components/schemas/vmInfo'
+        count:
+          type: integer
+          description: Veeam 粗估所備份的 VM 個數
+  securitySchemes: {}
+  links: {}
+  callbacks: {}
+  parameters: {}
+security:
+  - Authorization: []
