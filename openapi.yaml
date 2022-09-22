@@ -1438,6 +1438,200 @@ paths:
           name: frequency
           description: 取樣單位，不填 HR
       description: ''
+  /usage/list/cpu:
+    get:
+      summary: 以每小時為單位查詢cpu用量
+      tags:
+        - usage
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/customerMetrics'
+              examples:
+                1. Success:
+                  value:
+                    data:
+                      - quantity: 0
+                        unit: CORE
+                        tenantId: elton-org
+                        vdcId: elton-ovdc
+                        timestamp: 1663660800000
+                        timeString: '2022-09-20T16:00:00+08:00'
+                        element:
+                          - vmId: win2019
+                            info:
+                              name: win2019
+                              vCore: 0
+                              vRam: 0
+                              vDisk:
+                                - diskId: '32000'
+                                  diskName: Hard disk 1
+                                  storagePolicyName: vCDLAB-Storage-Pool
+                                  isIndependent: false
+                                  quantity: 90
+                              os: Microsoft Windows Server 2019 (64-bit)
+                              status: SUSPEND
+                    info:
+                      code: 'usage:0000'
+                      message: 查詢成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'usage:0030'
+                      message: 擷取用量失敗
+                      exception:
+                        message: 擷取用量失敗
+                        stackTrace: "com.sysage.web.model.error.RestApiException:  擷取用量失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
+                      success: false
+      operationId: getHourCpu
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: tenantId
+          description: 組織名稱
+        - schema:
+            type: string
+          in: query
+          name: vdcId
+          description: vdc名稱
+        - schema:
+            type: string
+          in: query
+          name: startTime
+          description: '13位timestamp, 程式自動 mod 月開始時間'
+          required: true
+        - schema:
+            type: string
+            example: 每個 Api 均要帶入 token
+          in: header
+          name: token
+          description: Token
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: endTime
+          description: '13位timestamp, 程式自動 mod 月開始時間'
+          required: true
+        - schema:
+            type: string
+            enum:
+              - HR
+              - FIVE
+              - DAY
+          in: query
+          name: frequency
+          description: 取樣單位，不填 HR
+      description: ''
+  /usage/list/memory:
+    get:
+      summary: 以每小時為單位查詢memory用量
+      tags:
+        - usage
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/customerMetrics'
+              examples:
+                1. Success:
+                  value:
+                    data:
+                      - quantity: 0
+                        unit: MB
+                        tenantId: elton-org
+                        vdcId: elton-ovdc
+                        timestamp: 1663660800000
+                        timeString: '2022-09-20T16:00:00+08:00'
+                        element:
+                          - vmId: win2019
+                            info:
+                              name: win2019
+                              vCore: 0
+                              vRam: 0
+                              vDisk:
+                                - diskId: '32000'
+                                  diskName: Hard disk 1
+                                  storagePolicyName: vCDLAB-Storage-Pool
+                                  isIndependent: false
+                                  quantity: 90
+                              os: Microsoft Windows Server 2019 (64-bit)
+                              status: SUSPEND
+                    info:
+                      code: 'usage:0000'
+                      message: 查詢成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'usage:0030'
+                      message: 擷取用量失敗
+                      exception:
+                        message: 擷取用量失敗
+                        stackTrace: "com.sysage.web.model.error.RestApiException:  擷取用量失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
+                      success: false
+      operationId: getHourMemory
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: tenantId
+          description: 組織名稱
+        - schema:
+            type: string
+          in: query
+          name: vdcId
+          description: vdc名稱
+        - schema:
+            type: string
+          in: query
+          name: startTime
+          description: '13位timestamp, 程式自動 mod 月開始時間'
+          required: true
+        - schema:
+            type: string
+            example: 每個 Api 均要帶入 token
+          in: header
+          name: token
+          description: Token
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: endTime
+          description: '13位timestamp, 程式自動 mod 月開始時間'
+          required: true
+        - schema:
+            type: string
+            enum:
+              - HR
+              - FIVE
+              - DAY
+          in: query
+          name: frequency
+          description: 取樣單位，不填 HR
+      description: ''
   /usage/list/disk:
     get:
       summary: 以每小時為單位查詢使用的儲存空間
@@ -3616,6 +3810,8 @@ components:
           enum:
             - HR
             - GB
+            - CORE
+            - MB
         element:
           type: array
           items:
