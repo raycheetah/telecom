@@ -3,6 +3,10 @@ servers:
   - url: 'http://localhost'
 info:
   description: |-
+    2.0.5 <br/>
+    新增 /usages/list/disk API 的 storageType 參數 (SAS / SSD)
+    <br/>
+    <br/>
     2.0.4 <br/>
     新增 /usages/list/veeam API 
     <br/>
@@ -1740,6 +1744,14 @@ paths:
           in: query
           name: frequency
           description: 取樣單位，不填 HR
+        - schema:
+            type: string
+            enum:
+              - SAS
+              - SSD
+          in: query
+          name: storageType
+          description: SAS / SSD
       description: ''
   /usage/list/vm:
     get:
