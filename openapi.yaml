@@ -1964,12 +1964,12 @@ paths:
                 1. Success:
                   value:
                     data:
-                      - quantity: 5755904
+                      - quantity: 5621
                         unit: GB
                         tenantId: HN55012367
                         vdcId: NR550123670001
-                        timestamp: 1669705200000
-                        timeString: '2022-11-29T15:00:00+08:00'
+                        timestamp: 1669716000000
+                        timeString: '2022-11-29T18:00:00+08:00'
                         element:
                           - info:
                               name: HN55012367
@@ -1977,7 +1977,7 @@ paths:
                               vRam: 233472
                               vDisk:
                                 - isIndependent: false
-                                  quantity: 5755904
+                                  quantity: 5621
                     info:
                       code: 'usage:0000'
                       message: 查詢成功
