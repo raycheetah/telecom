@@ -3,6 +3,12 @@ servers:
   - url: 'http://localhost'
 info:
   description: |-
+    2.0.6 <br/>
+    新增 /usages/list/vcda/cpu API <br/>
+    新增 /usages/list/vcda/memory API <br/>
+    新增 /usages/list/vcda/disk API <br/>
+    <br/>
+    <br/>
     2.0.5 <br/>
     新增 /usages/list/disk API 的 storageType 參數 (SAS / SSD)
     <br/>
@@ -74,7 +80,7 @@ info:
     1.0.2 <br/> 
     把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>
     <br/>
-  version: 2.0.4
+  version: 2.0.6
   title: VMware 客製 Api
   contact:
     email: rayshih@sysage.com.tw
@@ -1706,6 +1712,286 @@ paths:
                         stackTrace: "com.sysage.web.model.error.RestApiException:  擷取用量失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
                       success: false
       operationId: getHourDisk
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: tenantId
+          description: 組織名稱
+        - schema:
+            type: string
+          in: query
+          name: vdcId
+          description: vdc名稱
+        - schema:
+            type: string
+          in: query
+          name: startTime
+          description: '13位timestamp, 程式自動 mod 月開始時間'
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: 每個 Api 均要帶入 token
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: endTime
+          description: '13位timestamp, 程式自動 mod 月開始時間'
+          required: true
+        - schema:
+            type: string
+            enum:
+              - HR
+              - FIVE
+              - DAY
+          in: query
+          name: frequency
+          description: 取樣單位，不填 HR
+        - schema:
+            type: string
+            enum:
+              - SAS
+              - SSD
+          in: query
+          name: storageType
+          description: SAS / SSD
+      description: ''
+  /usage/list/vcda/cpu:
+    get:
+      summary: 以每小時為單位查詢cpu用量
+      tags:
+        - usage
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/customerMetrics'
+              examples:
+                1. Success:
+                  value:
+                    data:
+                      - quantity: 104
+                        unit: CORE
+                        tenantId: HN55012367
+                        vdcId: NR550123670001
+                        timestamp: 1669705200000
+                        timeString: '2022-11-29T15:00:00+08:00'
+                        element:
+                          - info:
+                              name: HN55012367
+                              vCore: 104
+                              vRam: 233472
+                              vDisk:
+                                - isIndependent: false
+                                  quantity: 5755904
+                    info:
+                      code: 'usage:0000'
+                      message: 查詢成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'usage:0030'
+                      message: 擷取用量失敗
+                      exception:
+                        message: 擷取用量失敗
+                        stackTrace: "com.sysage.web.model.error.RestApiException:  擷取用量失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
+                      success: false
+      operationId: getHourVcdaCpu
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: tenantId
+          description: 組織名稱
+        - schema:
+            type: string
+          in: query
+          name: vdcId
+          description: vdc名稱
+        - schema:
+            type: string
+          in: query
+          name: startTime
+          description: '13位timestamp, 程式自動 mod 月開始時間'
+          required: true
+        - schema:
+            type: string
+            example: 每個 Api 均要帶入 token
+          in: header
+          name: token
+          description: Token
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: endTime
+          description: '13位timestamp, 程式自動 mod 月開始時間'
+          required: true
+        - schema:
+            type: string
+            enum:
+              - HR
+              - FIVE
+              - DAY
+          in: query
+          name: frequency
+          description: 取樣單位，不填 HR
+      description: ''
+  /usage/list/vcda/memory:
+    get:
+      summary: 以每小時為單位查詢memory用量
+      tags:
+        - usage
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/customerMetrics'
+              examples:
+                1. Success:
+                  value:
+                    data:
+                      - quantity: 233472
+                        unit: MB
+                        tenantId: HN55012367
+                        vdcId: NR550123670001
+                        timestamp: 1669705200000
+                        timeString: '2022-11-29T15:00:00+08:00'
+                        element:
+                          - info:
+                              name: HN55012367
+                              vCore: 104
+                              vRam: 233472
+                              vDisk:
+                                - isIndependent: false
+                                  quantity: 5755904
+                    info:
+                      code: 'usage:0000'
+                      message: 查詢成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'usage:0030'
+                      message: 擷取用量失敗
+                      exception:
+                        message: 擷取用量失敗
+                        stackTrace: "com.sysage.web.model.error.RestApiException:  擷取用量失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
+                      success: false
+      operationId: getHourVcdaMemory
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: tenantId
+          description: 組織名稱
+        - schema:
+            type: string
+          in: query
+          name: vdcId
+          description: vdc名稱
+        - schema:
+            type: string
+          in: query
+          name: startTime
+          description: '13位timestamp, 程式自動 mod 月開始時間'
+          required: true
+        - schema:
+            type: string
+            example: 每個 Api 均要帶入 token
+          in: header
+          name: token
+          description: Token
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: endTime
+          description: '13位timestamp, 程式自動 mod 月開始時間'
+          required: true
+        - schema:
+            type: string
+            enum:
+              - HR
+              - FIVE
+              - DAY
+          in: query
+          name: frequency
+          description: 取樣單位，不填 HR
+      description: ''
+  /usage/list/vcda/disk:
+    get:
+      summary: 以每小時為單位查詢使用的儲存空間
+      tags:
+        - usage
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/customerMetrics'
+              examples:
+                1. Success:
+                  value:
+                    data:
+                      - quantity: 5755904
+                        unit: GB
+                        tenantId: HN55012367
+                        vdcId: NR550123670001
+                        timestamp: 1669705200000
+                        timeString: '2022-11-29T15:00:00+08:00'
+                        element:
+                          - info:
+                              name: HN55012367
+                              vCore: 104
+                              vRam: 233472
+                              vDisk:
+                                - isIndependent: false
+                                  quantity: 5755904
+                    info:
+                      code: 'usage:0000'
+                      message: 查詢成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'usage:0030'
+                      message: 擷取用量失敗
+                      exception:
+                        message: 擷取用量失敗
+                        stackTrace: "com.sysage.web.model.error.RestApiException:  擷取用量失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
+                      success: false
+      operationId: getHourVcdaDisk
       parameters:
         - schema:
             type: string
@@ -3586,7 +3872,6 @@ components:
           type: string
           description: 硬碟編號
       required:
-        - diskName
         - isIndependent
         - quantity
     vmInfo:
@@ -3624,8 +3909,6 @@ components:
       required:
         - vCore
         - vRam
-        - os
-        - status
     exception:
       title: exception
       type: object
