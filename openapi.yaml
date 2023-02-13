@@ -3,6 +3,10 @@ servers:
   - url: 'http://localhost'
 info:
   description: |-
+    2.0.7 <br/>
+    新增 vlans numbers <br/>
+    <br/>
+    <br/>
     2.0.6 <br/>
     新增 /usages/list/vcda/cpu API <br/>
     新增 /usages/list/vcda/memory API <br/>
@@ -80,7 +84,7 @@ info:
     1.0.2 <br/> 
     把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>
     <br/>
-  version: 2.0.6
+  version: 2.0.7
   title: VMware 客製 Api
   contact:
     email: rayshih@sysage.com.tw
@@ -2429,6 +2433,9 @@ paths:
                 value:
                   id: RayTryEdge
                   publicNetworkId: EN-External
+                  vlans:
+                    - 59
+                    - 60      
                   resources:
                     - type: static
                       ipAddress: 10.9.57.103
@@ -2732,6 +2739,9 @@ paths:
                         edge:
                           id: kubernetes
                           publicNetworkId: EN-External
+                          vlans:
+                            - 59
+                            - 60
                           resources:
                             - type: static
                               ipAddress: 10.9.57.101
@@ -3262,6 +3272,9 @@ components:
         edge:
           id: kubernetes
           publicNetworkId: EN-External
+          vlans:
+            - 59
+            - 60
           resources:
             - type: static
               ipAddress: 10.9.57.102
@@ -3303,6 +3316,11 @@ components:
         vdcGroupId:
           type: string
           description: 將edge設置給 vdc group
+        vlans:
+          type: array
+          description: vlans numbers
+          items:
+            type: integer
       required:
         - resources
     resource_edge_dns:
