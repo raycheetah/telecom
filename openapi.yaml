@@ -3,6 +3,10 @@ servers:
   - url: 'http://localhost'
 info:
   description: |-
+    2.0.8 <br/>
+    account 新增 pd 欄位 <br/>
+    <br/>
+    <br/>
     2.0.7 <br/>
     新增 vlans numbers <br/>
     <br/>
@@ -2435,7 +2439,7 @@ paths:
                   publicNetworkId: EN-External
                   vlans:
                     - 59
-                    - 60      
+                    - 60
                   resources:
                     - type: static
                       ipAddress: 10.9.57.103
@@ -2712,6 +2716,7 @@ paths:
                       contactName: tester
                       contactMail: tester@test.com.tw
                       contactPhone: 0901-234-567
+                      pd: '5487'
                     vAppRuntimeLease: 0
                     vAppStorageLease: 0
                     vAppTemplateLease: 0
@@ -3020,6 +3025,7 @@ components:
           contactName: tester
           contactMail: tester@test.com.tw
           contactPhone: 0901-234-567
+          pd: '5487'
       description: 編輯使用者
       title: 編輯使用者
       properties:
@@ -3043,6 +3049,9 @@ components:
         contactPhone:
           type: string
           description: 電話號碼
+        pd:
+          type: string
+          description: CBoss 傳來的密碼
       required:
         - id
         - active
@@ -3989,35 +3998,6 @@ components:
           type: string
         message:
           type: string
-    rights:
-      title: rights
-      type: array
-      x-examples:
-        rights:
-          - name: General
-            type: READ
-            rights:
-              - name: 檢視組織網路
-                type: READ
-                rights: []
-      description: 權限表
-      items:
-        type: object
-        properties:
-          name:
-            type: string
-          type:
-            type: string
-            enum:
-              - READ
-              - MODIFY
-            description: 兩個型態 唯讀 與 修改
-          rights:
-            $ref: '#/components/schemas/rights'
-        required:
-          - name
-          - type
-          - rights
     dns:
       title: 編輯 DNS
       type: object
