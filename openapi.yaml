@@ -3,6 +3,10 @@ servers:
   - url: 'http://localhost'
 info:
   description: |-
+    2.0.9 <br/>
+    新增每日 vcda vm 個數 Api <br/>
+    <br/>
+    <br/>
     2.0.8 <br/>
     account 新增 pd 欄位 <br/>
     <br/>
@@ -88,7 +92,7 @@ info:
     1.0.2 <br/> 
     把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>
     <br/>
-  version: 2.0.7
+  version: 2.0.9
   title: VMware 客製 Api
   contact:
     email: rayshih@sysage.com.tw
@@ -2047,6 +2051,115 @@ paths:
           name: storageType
           description: SAS / SSD
       description: ''
+  /usage/list/vcda/vm:
+    get:
+      summary: 以每天為單位查詢每日 vcda max vm數量
+      tags:
+        - usage
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/customerMetrics'
+              examples:
+                1. Success:
+                  value:
+                    data:
+                      - tenantId: kubernetes
+                        vdcId: kubernetes
+                        timestamp: 1626883200000
+                        timeString: '2021-07-22T00:00:00+08:00'
+                        element:
+                          - vmId: RayTryVM2
+                            info:
+                              name: RayTryVM2
+                              vCore: 4
+                              vRam: 8192
+                              vDisk:
+                                - diskId: '2000'
+                                  diskName: Hard disk 1
+                                  storagePolicyName: vSAN Default Storage Policy
+                                  isIndependent: false
+                                  quantity: 150
+                              os: CentOS 7 (64-bit)
+                              status: 'OFF'
+                          - vmId: RayTryVM
+                            info:
+                              name: RayTryVM
+                              vCore: 4
+                              vRam: 8192
+                              vDisk:
+                                - diskId: '2000'
+                                  diskName: Hard disk 1
+                                  storagePolicyName: vSAN Default Storage Policy
+                                  isIndependent: false
+                                  quantity: 150
+                              os: CentOS 7 (64-bit)
+                              status: 'ON'
+                        count: 2
+                    info:
+                      code: 'usage:0000'
+                      message: 查詢成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'usage:0030'
+                      message: 查詢失敗
+                      exception:
+                        message: 查詢失敗
+                        stackTrace: "com.sysage.web.model.error.RestApiException:  查詢失敗 \n\tat com.sysage.twm.user.model.task.TaskUtil.setTask"
+                      success: false
+      operationId: openVcdaVmDay
+      description: ''
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: startTime
+          description: '13位timestamp, 程式自動 mod 月開始時間'
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: tenantId
+          description: 組織名稱
+        - schema:
+            type: string
+          in: query
+          name: vdcId
+          description: 組織vdc名稱
+        - schema:
+            type: string
+            example: 每個 Api 均要帶入 token
+          in: header
+          name: token
+          description: Token
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: endTime
+          description: '13位timestamp, 程式自動 mod 月開始時間'
+          required: true
+        - schema:
+            type: string
+            enum:
+              - HR
+              - DAY
+              - FIVE
+          in: query
+          name: frequency
+          description: 單位區間，不填預設 DAY
   /usage/list/vm:
     get:
       summary: 以每天為單位查詢每日max vm數量
