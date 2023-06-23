@@ -3,6 +3,10 @@ servers:
   - url: 'http://localhost'
 info:
   description: |-
+    2.1.0 <br/>
+    VCDA VM Api 新增 vmName 與 lastUpdated 欄位<br/>
+    <br/>
+    <br/>
     2.0.9 <br/>
     新增每日 vcda vm 個數 Api <br/>
     <br/>
@@ -3699,6 +3703,10 @@ components:
         extra:
           type: string
           description: 開發人員用
+        vmName:
+          type: string
+        lastUpdated:
+          type: string
     statistic_loadBalance:
       title: statistic_loadbalance
       type: object
@@ -4222,6 +4230,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/customerElement'
+        vmName:
+          type: string
+        lastUpdated:
+          type: string
     customerElement:
       title: customerElement
       type: object
