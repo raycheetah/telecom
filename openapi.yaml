@@ -3,6 +3,10 @@ servers:
   - url: 'http://localhost'
 info:
   description: |-
+    2.1.1 <br/>
+    VCDA VM Api 新增 vcdatype 參數，分報表用與統計用<br/>
+    <br/>
+    <br/>
     2.1.0 <br/>
     VCDA VM Api 新增 vmName 與 lastUpdated 欄位<br/>
     <br/>
@@ -2164,6 +2168,14 @@ paths:
           in: query
           name: frequency
           description: 單位區間，不填預設 DAY
+        - schema:
+            type: string
+            enum:
+              - vm
+              - report
+          in: query
+          name: vcdatype
+          description: '1. report, 報表用，單位15分鐘 2. vm, 統計用，單位一天。預設 vm '
   /usage/list/vm:
     get:
       summary: 以每天為單位查詢每日max vm數量
