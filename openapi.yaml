@@ -3,6 +3,10 @@ servers:
   - url: 'http://localhost'
 info:
   description: |-
+    2.1.2 <br/>
+    Element 新增 vmName, lastUpdated. vDisk 補上 storagePolicyName<br/>
+    <br/>
+    <br/>
     2.1.1 <br/>
     VCDA VM Api 新增 vcdatype 參數，分報表用與統計用<br/>
     <br/>
@@ -100,7 +104,7 @@ info:
     1.0.2 <br/> 
     把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>
     <br/>
-  version: 2.0.9
+  version: 2.1.2
   title: VMware 客製 Api
   contact:
     email: rayshih@sysage.com.tw
@@ -2088,6 +2092,7 @@ paths:
                         timeString: '2021-07-22T00:00:00+08:00'
                         element:
                           - vmId: RayTryVM2
+                            vmName: Ubuntu20a
                             info:
                               name: RayTryVM2
                               vCore: 4
@@ -2100,7 +2105,9 @@ paths:
                                   quantity: 150
                               os: CentOS 7 (64-bit)
                               status: 'OFF'
+                            lastUpdated: '2023-12-27 20:46:02'
                           - vmId: RayTryVM
+                            vmName: Ubuntu20b
                             info:
                               name: RayTryVM
                               vCore: 4
@@ -2113,6 +2120,7 @@ paths:
                                   quantity: 150
                               os: CentOS 7 (64-bit)
                               status: 'ON'
+                            lastUpdated: '2023-12-28 20:46:02'
                         count: 2
                     info:
                       code: 'usage:0000'
@@ -4031,6 +4039,8 @@ components:
         diskId:
           type: string
           description: 硬碟編號
+        storagePolicyName:
+          type: string
       required:
         - isIndependent
         - quantity
@@ -4199,6 +4209,7 @@ components:
             timeString: '2021-07-18T08:00:00+08:00'
             element:
               - vmId: RayTryVM3
+                vmName: Ubuntu20a
                 info:
                   name: RayTryVM3
                   vCore: 4
@@ -4211,6 +4222,7 @@ components:
                       quantity: 150
                   os: CentOS 7 (64-bit)
                   status: 'OFF'
+                lastUpdated: '2023-12-27 20:46:02'
       properties:
         tenantId:
           type: string
@@ -4242,13 +4254,27 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/customerElement'
-        vmName:
-          type: string
-        lastUpdated:
-          type: string
     customerElement:
       title: customerElement
       type: object
+      x-examples:
+        metric element:
+          vmId: C4-dfde73b7-b38a-44e1-8e10-41a196536f5d
+          vmName: Ubuntu20a
+          quantity: 0
+          info:
+            vCore: 0
+            vRam: 0
+            vDisk:
+              - diskName: string
+                isIndependent: true
+                quantity: 0
+                storageId: string
+                diskId: string
+                storagePolicyName: SDDC-SAS-Storage
+            os: string
+            status: string
+          lastUpdated: '2023-12-27 20:46:02'
       properties:
         vmId:
           type: string
@@ -4261,6 +4287,10 @@ components:
         count:
           type: integer
           description: Veeam 粗估所備份的 VM 個數
+        vmName:
+          type: string
+        lastUpdated:
+          type: string
   securitySchemes: {}
   links: {}
   callbacks: {}
