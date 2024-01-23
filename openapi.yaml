@@ -159,6 +159,18 @@ paths:
           name: token
           description: '每個 Api 均要帶入 token '
           required: true
+        - schema:
+            type: string
+            default: '1'
+          in: query
+          name: region
+          description: 1是台北，2是台南
+        - schema:
+            type: string
+            default: '1'
+          in: query
+          name: zone
+          description: 1是hicloud   
     parameters:
       - schema:
           type: string
@@ -239,6 +251,18 @@ paths:
         in: path
         required: true
         description: edge  名稱
+      - schema:
+          type: string
+          default: '1'
+        in: query
+        name: region
+        description: 1是台北，2是台南
+      - schema:
+          type: string
+          default: '1'
+        in: query
+        name: zone
+        description: 1是hicloud
   '/maintenance/org/{accountId}/status/{status}':
     put:
       summary: 客戶退租/狀態變更/刪除組織 vdc
@@ -290,6 +314,18 @@ paths:
           in: query
           name: vdcId
           description: '組織 vdc, 留空的話退租整個組織'
+        - schema:
+            type: string
+            default: '1'
+          in: query
+          name: region
+          description: 1是台北，2是台南
+        - schema:
+            type: string
+            default: '1'
+          in: query
+          name: zone
+          description: 1是hicloud  
     parameters:
       - schema:
           type: string
@@ -327,6 +363,18 @@ paths:
         in: path
         required: true
         description: edge名稱
+      - schema:
+          type: string
+          default: '1'
+        in: query
+        name: region
+        description: 1是台北，2是台南
+      - schema:
+          type: string
+          default: '1'
+        in: query
+        name: zone
+        description: 1是hicloud
     put:
       summary: 加購 Public IP / 加購網路頻寬
       tags:
@@ -488,6 +536,18 @@ paths:
         in: path
         required: true
         description: vdc 網路名稱
+      - schema:
+          type: string
+          default: '1'
+        in: query
+        name: region
+        description: 1是台北，2是台南
+      - schema:
+          type: string
+          default: '1'
+        in: query
+        name: zone
+        description: 1是hicloud
     put:
       summary: 更新 vdc 網路設定
       tags:
@@ -601,6 +661,18 @@ paths:
         in: path
         required: true
         description: vdc名稱
+      - schema:
+          type: string
+          default: '1'
+        in: query
+        name: region
+        description: 1是台北，2是台南
+      - schema:
+          type: string
+          default: '1'
+        in: query
+        name: zone
+        description: 1是hicloud
     put:
       summary: VDC 加購
       tags:
@@ -840,6 +912,18 @@ paths:
         in: path
         required: true
         description: 外部網路名稱
+      - schema:
+          type: string
+          default: '1'
+        in: query
+        name: region
+        description: 1是台北，2是台南
+      - schema:
+          type: string
+          default: '1'
+        in: query
+        name: zone
+        description: 1是hicloud
     get:
       summary: 外部 ip 使用 status
       tags:
@@ -1014,6 +1098,18 @@ paths:
         in: path
         required: true
         description: 使用者@組織名稱
+      - schema:
+          type: string
+          default: '1'
+        in: query
+        name: region
+        description: 1是台北，2是台南
+      - schema:
+          type: string
+          default: '1'
+        in: query
+        name: zone
+        description: 1是hicloud
     get:
       summary: 取得帳號資訊
       tags:
@@ -1069,6 +1165,18 @@ paths:
         in: path
         required: true
         description: 組織名稱
+      - schema:
+          type: string
+          default: '1'
+        in: query
+        name: region
+        description: 1是台北，2是台南
+      - schema:
+          type: string
+          default: '1'
+        in: query
+        name: zone
+        description: 1是hicloud  
     get:
       summary: 取得組織資訊
       tags:
@@ -1358,6 +1466,16 @@ paths:
           in: query
           name: frequency
           description: 取樣單位，不填 HR
+        - schema:
+            type: string
+          in: query
+          name: region
+          description: 1是台北，2是台南
+        - schema:
+            type: string
+          in: query
+          name: zone
+          description: 1是hicloud  
       description: ''
   /usage/list/veeam:
     get:
@@ -1471,6 +1589,16 @@ paths:
           in: query
           name: frequency
           description: 取樣單位，不填 HR
+        - schema:
+            type: string
+          in: query
+          name: region
+          description: 1是台北，2是台南
+        - schema:
+            type: string
+          in: query
+          name: zone
+          description: 1是hicloud
       description: ''
   /usage/list/cpu:
     get:
@@ -1568,6 +1696,16 @@ paths:
           in: query
           name: frequency
           description: 取樣單位，不填 HR
+        - schema:
+            type: string
+          in: query
+          name: region
+          description: 1是台北，2是台南
+        - schema:
+            type: string
+          in: query
+          name: zone
+          description: 1是hicloud
       description: ''
   /usage/list/memory:
     get:
@@ -1665,6 +1803,16 @@ paths:
           in: query
           name: frequency
           description: 取樣單位，不填 HR
+        - schema:
+            type: string
+          in: query
+          name: region
+          description: 1是台北，2是台南
+        - schema:
+            type: string
+          in: query
+          name: zone
+          description: 1是hicloud
       description: ''
   /usage/list/disk:
     get:
@@ -1782,6 +1930,16 @@ paths:
           in: query
           name: storageType
           description: SAS / SSD
+        - schema:
+            type: string
+          in: query
+          name: region
+          description: 1是台北，2是台南
+        - schema:
+            type: string
+          in: query
+          name: zone
+          description: 1是hicloud
       description: ''
   /usage/list/vcda/cpu:
     get:
@@ -1873,6 +2031,16 @@ paths:
           in: query
           name: frequency
           description: 取樣單位，不填 HR
+        - schema:
+            type: string
+          in: query
+          name: region
+          description: 1是台北，2是台南
+        - schema:
+            type: string
+          in: query
+          name: zone
+          description: 1是hicloud
       description: ''
   /usage/list/vcda/memory:
     get:
@@ -1964,6 +2132,16 @@ paths:
           in: query
           name: frequency
           description: 取樣單位，不填 HR
+        - schema:
+            type: string
+          in: query
+          name: region
+          description: 1是台北，2是台南
+        - schema:
+            type: string
+          in: query
+          name: zone
+          description: 1是hicloud
       description: ''
   /usage/list/vcda/disk:
     get:
@@ -2062,6 +2240,16 @@ paths:
           in: query
           name: storageType
           description: SAS / SSD
+        - schema:
+            type: string
+          in: query
+          name: region
+          description: 1是台北，2是台南
+        - schema:
+            type: string
+          in: query
+          name: zone
+          description: 1是hicloud
       description: ''
   /usage/list/vcda/vm:
     get:
@@ -2184,6 +2372,16 @@ paths:
           in: query
           name: vcdatype
           description: '1. report, 報表用，單位15分鐘 2. vm, 統計用，單位一天。預設 vm '
+        - schema:
+            type: string
+          in: query
+          name: region
+          description: 1是台北，2是台南
+        - schema:
+            type: string
+          in: query
+          name: zone
+          description: 1是hicloud  
   /usage/list/vm:
     get:
       summary: 以每天為單位查詢每日max vm數量
@@ -2293,6 +2491,16 @@ paths:
           in: query
           name: frequency
           description: 單位區間，不填預設 DAY
+        - schema:
+            type: string
+          in: query
+          name: region
+          description: 1是台北，2是台南
+        - schema:
+            type: string
+          in: query
+          name: zone
+          description: 1是hicloud
   /usage/list/poweron:
     get:
       summary: 以每日為單位查詢vm開機時數
@@ -2402,6 +2610,16 @@ paths:
           in: query
           name: frequency
           description: 單位區間，不填預設 DAY
+        - schema:
+            type: string
+          in: query
+          name: region
+          description: 1是台北，2是台南
+        - schema:
+            type: string
+          in: query
+          name: zone
+          description: 1是hicloud
   /usage/exception/log:
     get:
       summary: metrics exception log
@@ -2606,6 +2824,18 @@ paths:
           name: token
           description: 每個 Api 均要帶入 token
           required: true
+        - schema:
+            type: string
+            default: '1'
+          in: query
+          name: region
+          description: 1是台北，2是台南
+        - schema:
+            type: string
+            default: '1'
+          in: query
+          name: zone
+          description: 1是hicloud  
   '/user/org/{orgId}/vdc':
     post:
       summary: 新增組織 Virtual Data Center
@@ -2684,6 +2914,18 @@ paths:
           name: token
           description: '每個 Api 均要帶入 token '
           required: true
+        - schema:
+            type: string
+            default: '1'
+          in: query
+          name: region
+          description: 1是台北，2是台南
+        - schema:
+            type: string
+            default: '1'
+          in: query
+          name: zone
+          description: 1是hicloud  
     parameters:
       - schema:
           type: string
@@ -2774,6 +3016,18 @@ paths:
           name: token
           description: 每個 Api 均要帶入 token
           required: true
+        - schema:
+            type: string
+            default: '1'
+          in: query
+          name: region
+          description: 1是台北，2是台南
+        - schema:
+            type: string
+            default: '1'
+          in: query
+          name: zone
+          description: 1是hicloud
   /user/tenant:
     post:
       summary: 進件加一個綜合設定的 api
@@ -2816,6 +3070,18 @@ paths:
           in: header
           name: token
           description: 每個 Api 均要帶入 token
+        - schema:
+            type: string
+            default: '1'
+          in: query
+          name: region
+          description: 1是台北，2是台南
+        - schema:
+            type: string
+            default: '1'
+          in: query
+          name: zone
+          description: 1是hicloud  
       requestBody:
         content:
           application/json:
@@ -2983,6 +3249,18 @@ paths:
         in: path
         required: true
         description: 使用者@組織
+      - schema:
+          type: string
+          default: '1'
+        in: query
+        name: region
+        description: 1是台北，2是台南
+      - schema:
+          type: string
+          default: '1'
+        in: query
+        name: zone
+        description: 1是hicloud
     put:
       summary: 變更密碼
       tags:
@@ -3039,6 +3317,18 @@ paths:
         in: path
         required: true
         description: 使用者@組織
+      - schema:
+          type: string
+          default: '1'
+        in: query
+        name: region
+        description: 1是台北，2是台南
+      - schema:
+          type: string
+          default: '1'
+        in: query
+        name: zone
+        description: 1是hicloud  
     put:
       summary: 變更聯絡人資訊
       tags:
