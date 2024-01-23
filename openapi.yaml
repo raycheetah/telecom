@@ -3,6 +3,10 @@ servers:
   - url: 'http://localhost'
 info:
   description: |-
+    2.1.3 <br/>
+    因應永康機房新增 region / zone 參數
+    <br/>
+    <br/>
     2.1.2 <br/>
     Element 新增 vmName, lastUpdated. vDisk 補上 storagePolicyName<br/>
     <br/>
@@ -104,7 +108,7 @@ info:
     1.0.2 <br/> 
     把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>
     <br/>
-  version: 2.1.2
+  version: 2.1.3
   title: VMware 客製 Api
   contact:
     email: rayshih@sysage.com.tw
@@ -170,7 +174,7 @@ paths:
             default: '1'
           in: query
           name: zone
-          description: 1是hicloud   
+          description: 1是hicloud
     parameters:
       - schema:
           type: string
@@ -325,7 +329,7 @@ paths:
             default: '1'
           in: query
           name: zone
-          description: 1是hicloud  
+          description: 1是hicloud
     parameters:
       - schema:
           type: string
@@ -1176,7 +1180,7 @@ paths:
           default: '1'
         in: query
         name: zone
-        description: 1是hicloud  
+        description: 1是hicloud
     get:
       summary: 取得組織資訊
       tags:
@@ -1475,7 +1479,7 @@ paths:
             type: string
           in: query
           name: zone
-          description: 1是hicloud  
+          description: 1是hicloud
       description: ''
   /usage/list/veeam:
     get:
@@ -2381,7 +2385,7 @@ paths:
             type: string
           in: query
           name: zone
-          description: 1是hicloud  
+          description: 1是hicloud
   /usage/list/vm:
     get:
       summary: 以每天為單位查詢每日max vm數量
@@ -2835,7 +2839,7 @@ paths:
             default: '1'
           in: query
           name: zone
-          description: 1是hicloud  
+          description: 1是hicloud
   '/user/org/{orgId}/vdc':
     post:
       summary: 新增組織 Virtual Data Center
@@ -2925,7 +2929,7 @@ paths:
             default: '1'
           in: query
           name: zone
-          description: 1是hicloud  
+          description: 1是hicloud
     parameters:
       - schema:
           type: string
@@ -3081,7 +3085,7 @@ paths:
             default: '1'
           in: query
           name: zone
-          description: 1是hicloud  
+          description: 1是hicloud
       requestBody:
         content:
           application/json:
@@ -3328,7 +3332,7 @@ paths:
           default: '1'
         in: query
         name: zone
-        description: 1是hicloud  
+        description: 1是hicloud
     put:
       summary: 變更聯絡人資訊
       tags:
