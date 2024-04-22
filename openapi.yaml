@@ -3,6 +3,10 @@ servers:
   - url: 'http://localhost'
 info:
   description: |-
+    2.1.4 <br/>
+    新增/刪除 Static Route Api
+    <br/>
+    <br/>
     2.1.3 <br/>
     因應永康機房新增 region / zone 參數
     <br/>
@@ -108,7 +112,7 @@ info:
     1.0.2 <br/> 
     把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>
     <br/>
-  version: 2.1.3
+  version: 2.1.4
   title: VMware 客製 Api
   contact:
     email: rayshih@sysage.com.tw
@@ -908,6 +912,65 @@ paths:
           in: query
           name: endTime
           description: 13位時間戳
+  '/maintenance/vdc/{vdcId}/segment':
+    parameters:
+      - schema:
+          type: string
+        name: vdcId
+        in: path
+        required: true
+        description: VDC 名稱
+    delete:
+      summary: 清理 Static Route / Interface IP
+      tags:
+        - maintenance
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+              examples:
+                1. Success:
+                  value:
+                    info:
+                      code: 'maintenance:0000'
+                      message: 清理成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'maintenance:0500'
+                      message: 清理失敗
+                      success: false
+                      exception:
+                        message: 清理失敗
+                        url: ''
+                        stackTrace: string
+      operationId: deleteSegment
+      parameters: 
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: 每個 Api 均要帶入 token
+          required: true
+        - schema:
+            type: string
+            default: '1'
+          in: query
+          name: region
+          description: 1是台北，2是台南
+        - schema:
+            type: string
+            default: '1'
+          in: query
+          name: zone
+          description: 1是hicloud  
   '/maintenance/externalNet/{publicNetworkId}':
     parameters:
       - schema:
@@ -2840,6 +2903,72 @@ paths:
           in: query
           name: zone
           description: 1是hicloud
+  '/user/vdc/{vdcId}/segment':
+    parameters:
+      - schema:
+          type: string
+        name: vdcId
+        in: path
+        required: true
+        description: vdc名稱
+    post:
+      summary: 新增 Static Route / Interface IP
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+              examples:
+                1. Success:
+                  value:
+                    info:
+                      code: 'user:0000'
+                      message: 建立成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: 'user:0099'
+                      message: 建立失敗
+                      success: false
+      operationId: add static route and interface ip
+      description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/interfaceIp'
+            examples:
+              Interface IP:
+                value:
+                  cidr: 8.8.8.8/24
+                  vlan: 107
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: 每個 Api 均要帶入 token
+          required: true
+        - schema:
+            type: string
+            default: '1'
+          in: query
+          name: region
+          description: 1是台北，2是台南
+        - schema:
+            type: string
+            default: '1'
+          in: query
+          name: zone
+          description: 1是hicloud
   '/user/org/{orgId}/vdc':
     post:
       summary: 新增組織 Virtual Data Center
@@ -4585,6 +4714,21 @@ components:
           type: string
         lastUpdated:
           type: string
+    interfaceIp:
+      title: interfaceIp
+      type: object
+      properties:
+        cidr:
+          type: string
+          description: 要有斜線，不然不過
+        vlan:
+          type: integer
+      required:
+        - cidr
+      x-examples:
+        格式:
+          cidr: 8.8.8.8/16
+          vlan: 107
   securitySchemes: {}
   links: {}
   callbacks: {}
