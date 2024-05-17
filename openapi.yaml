@@ -3,6 +3,10 @@ servers:
   - url: 'http://localhost'
 info:
   description: |-
+    2.1.5 <br/>
+    新增 MFA CURD Api
+    <br/>
+    <br/>
     2.1.4 <br/>
     新增/刪除 Static Route Api
     <br/>
@@ -112,7 +116,7 @@ info:
     1.0.2 <br/> 
     把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>
     <br/>
-  version: 2.1.4
+  version: 2.1.5
   title: VMware 客製 Api
   contact:
     email: rayshih@sysage.com.tw
@@ -120,6 +124,7 @@ info:
     name: Sysage
 tags:
   - name: maintenance
+  - name: mfa
   - name: session
   - name: usage
   - name: user
@@ -952,7 +957,7 @@ paths:
                         url: ''
                         stackTrace: string
       operationId: deleteSegment
-      parameters: 
+      parameters:
         - schema:
             type: string
           in: header
@@ -970,7 +975,7 @@ paths:
             default: '1'
           in: query
           name: zone
-          description: 1是hicloud  
+          description: 1是hicloud
   '/maintenance/externalNet/{publicNetworkId}':
     parameters:
       - schema:
@@ -2938,7 +2943,7 @@ paths:
                       code: 'user:0099'
                       message: 建立失敗
                       success: false
-      operationId: add static route and interface ip
+      operationId: static_route_interface_ip
       description: ''
       requestBody:
         content:
@@ -3526,6 +3531,258 @@ paths:
                   contactMail: tester@test.com.tw
                   contactPhone: 02-12345678
         description: ''
+  '/user/vdc/{vdcId}/roles':
+    get:
+      summary: MFA 所有 roles 查詢
+      operationId: check-all-roles
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                1. Success:
+                  value:
+                    data:
+                      - Catalog Author
+                      - Console Access Only
+                      - Org admin with k8s admin
+                      - Defer to Identity Provider
+                      - Organization Administrator
+                      - Tenant Admin
+                      - vApp User
+                      - vApp Author
+                      - Kubernetes Cluster Author
+                    info:
+                      code: '0000'
+                      message: 抓取 roles 成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: '7710'
+                      message: 抓取 roles 失敗
+                      success: true
+      parameters: []
+      description: ''
+      tags:
+        - mfa
+    parameters:
+      - schema:
+          type: string
+        name: vdcId
+        in: path
+        description: vdc 名稱
+        required: true
+  '/mfa/cboss/user/{username}/role/{vdcId}':
+    get:
+      summary: MFA 當前 role 查詢
+      operationId: check-now-role
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    type: string
+              examples:
+                1. Success:
+                  value:
+                    data: Catalog Author
+                    info:
+                      code: '0000'
+                      message: 抓取 roles 成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: '7700'
+                      message: 沒有角色 NY55012323000G -> raytest
+                      success: false
+      parameters: []
+      description: ''
+      tags:
+        - mfa
+    parameters:
+      - schema:
+          type: string
+        name: vdcId
+        in: path
+        description: vdc 名稱
+        required: true
+      - schema:
+          type: string
+        name: username
+        in: path
+        required: true
+        description: 使用者名稱
+  '/mfa/cboss/create/{vdcId}':
+    post:
+      summary: MFA 建帳號
+      operationId: create-now-mfa-account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    type: string
+              examples:
+                1. Success:
+                  value:
+                    info:
+                      code: '0000'
+                      message: 建置 user 成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: '7700'
+                      message: 沒有角色 NY55012323000G -> raytest
+                      success: false
+      parameters: []
+      description: ''
+      tags:
+        - mfa
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mfa_user'
+            examples:
+              mfa user:
+                value:
+                  role: Console Access Only
+                  username: raytest
+        description: ''
+    parameters:
+      - schema:
+          type: string
+        name: vdcId
+        in: path
+        description: vdc 名稱
+        required: true
+  '/mfa/cboss/update/{vdcId}/{username}':
+    put:
+      summary: MFA 更新使用者的角色
+      operationId: update-now-mfa-account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    type: string
+              examples:
+                1. Success:
+                  value:
+                    info:
+                      code: '0000'
+                      message: 更新 role 成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: '7720'
+                      message: 更新 role 失敗
+                      success: false
+      parameters: []
+      description: ''
+      tags:
+        - mfa
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mfa_user'
+            examples:
+              mfa user:
+                value:
+                  role: Tenant Admin
+        description: ''
+    parameters:
+      - schema:
+          type: string
+        name: vdcId
+        in: path
+        description: vdc 名稱
+        required: true
+      - schema:
+          type: string
+        name: username
+        in: path
+        description: user 名稱
+        required: true
+  '/mfa/cboss/delete/{vdcId}/{username}':
+    delete:
+      summary: MFA 刪除使用者
+      operationId: delete-now-mfa-user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    $ref: '#/components/schemas/info'
+                  data:
+                    type: string
+              examples:
+                1. Success:
+                  value:
+                    info:
+                      code: '0000'
+                      message: 刪除 role 成功
+                      success: true
+                2. Fail:
+                  value:
+                    info:
+                      code: '7730'
+                      message: 刪除 role 失敗
+                      success: false
+      parameters: []
+      description: ''
+      tags:
+        - mfa
+    parameters:
+      - schema:
+          type: string
+        name: vdcId
+        in: path
+        description: vdc 名稱
+        required: true
+      - schema:
+          type: string
+        name: username
+        in: path
+        description: user 名稱
+        required: true
 externalDocs:
   description: See AsyncAPI example
   url: 'https://mermade.github.io/shins/asyncapi.html'
@@ -4729,6 +4986,18 @@ components:
         格式:
           cidr: 8.8.8.8/16
           vlan: 107
+    mfa_user:
+      title: mfa_user
+      type: object
+      properties:
+        role:
+          type: string
+        username:
+          type: string
+      x-examples:
+        mfa user:
+          role: Console Access Only
+          username: raytest
   securitySchemes: {}
   links: {}
   callbacks: {}
