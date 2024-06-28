@@ -3,6 +3,10 @@ servers:
   - url: 'http://localhost'
 info:
   description: |-
+    2.1.6 <br/>
+    MFA CURD Api 改成 HNxxxxxxxx 與 region / zone 做為參數
+    <br/>
+    <br/>
     2.1.5 <br/>
     新增 MFA CURD Api
     <br/>
@@ -116,7 +120,7 @@ info:
     1.0.2 <br/> 
     把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>
     <br/>
-  version: 2.1.5
+  version: 2.1.6
   title: VMware 客製 Api
   contact:
     email: rayshih@sysage.com.tw
@@ -3531,7 +3535,7 @@ paths:
                   contactMail: tester@test.com.tw
                   contactPhone: 02-12345678
         description: ''
-  '/user/vdc/{vdcId}/roles':
+  '/user/org/{orgId}/roles':
     get:
       summary: MFA 所有 roles 查詢
       operationId: check-all-roles
@@ -3572,18 +3576,28 @@ paths:
                       code: '7710'
                       message: 抓取 roles 失敗
                       success: true
-      parameters: []
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: region
+          description: 台北1 台南2 新加坡3
+        - schema:
+            type: string
+          in: query
+          name: zone
+          description: '1'
       description: ''
       tags:
         - mfa
     parameters:
       - schema:
           type: string
-        name: vdcId
+        name: orgId
         in: path
-        description: vdc 名稱
         required: true
-  '/mfa/cboss/user/{username}/role/{vdcId}':
+        description: 組織名稱
+  '/mfa/cboss/user/{username}/role/{orgId}':
     get:
       summary: MFA 當前 role 查詢
       operationId: check-now-role
@@ -3613,24 +3627,34 @@ paths:
                       code: '7700'
                       message: 沒有角色 NY55012323000G -> raytest
                       success: false
-      parameters: []
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: region
+          description: 台北1 台南2 新加坡3
+        - schema:
+            type: string
+          in: query
+          name: zone
+          description: '1'
       description: ''
       tags:
         - mfa
     parameters:
       - schema:
           type: string
-        name: vdcId
-        in: path
-        description: vdc 名稱
-        required: true
-      - schema:
-          type: string
         name: username
         in: path
         required: true
         description: 使用者名稱
-  '/mfa/cboss/create/{vdcId}':
+      - schema:
+          type: string
+        name: orgId
+        in: path
+        required: true
+        description: 組織名稱
+  '/mfa/cboss/create/{orgId}':
     post:
       summary: MFA 建帳號
       operationId: create-now-mfa-account
@@ -3659,7 +3683,17 @@ paths:
                       code: '7700'
                       message: 沒有角色 NY55012323000G -> raytest
                       success: false
-      parameters: []
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: region
+          description: 台北1 台南2 新加坡3
+        - schema:
+            type: string
+          in: query
+          name: zone
+          description: '1'
       description: ''
       tags:
         - mfa
@@ -3677,11 +3711,11 @@ paths:
     parameters:
       - schema:
           type: string
-        name: vdcId
+        name: orgId
         in: path
-        description: vdc 名稱
         required: true
-  '/mfa/cboss/update/{vdcId}/{username}':
+        description: 組織名稱
+  '/mfa/cboss/update/{orgId}/{username}':
     put:
       summary: MFA 更新使用者的角色
       operationId: update-now-mfa-account
@@ -3710,7 +3744,17 @@ paths:
                       code: '7720'
                       message: 更新 role 失敗
                       success: false
-      parameters: []
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: region
+          description: 台北1 台南2 新加坡3
+        - schema:
+            type: string
+          in: query
+          name: zone
+          description: '1'
       description: ''
       tags:
         - mfa
@@ -3727,17 +3771,17 @@ paths:
     parameters:
       - schema:
           type: string
-        name: vdcId
-        in: path
-        description: vdc 名稱
-        required: true
-      - schema:
-          type: string
         name: username
         in: path
         description: user 名稱
         required: true
-  '/mfa/cboss/delete/{vdcId}/{username}':
+      - schema:
+          type: string
+        name: orgId
+        in: path
+        required: true
+        description: 組織名稱
+  '/mfa/cboss/delete/{orgId}/{username}':
     delete:
       summary: MFA 刪除使用者
       operationId: delete-now-mfa-user
@@ -3766,23 +3810,33 @@ paths:
                       code: '7730'
                       message: 刪除 role 失敗
                       success: false
-      parameters: []
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: region
+          description: 台北1 台南2 新加坡3
+        - schema:
+            type: string
+          in: query
+          name: zone
+          description: '1'
       description: ''
       tags:
         - mfa
     parameters:
       - schema:
           type: string
-        name: vdcId
-        in: path
-        description: vdc 名稱
-        required: true
-      - schema:
-          type: string
         name: username
         in: path
         description: user 名稱
         required: true
+      - schema:
+          type: string
+        name: orgId
+        in: path
+        required: true
+        description: 組織名稱
 externalDocs:
   description: See AsyncAPI example
   url: 'https://mermade.github.io/shins/asyncapi.html'
