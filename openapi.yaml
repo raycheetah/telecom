@@ -3,6 +3,10 @@ servers:
   - url: 'http://localhost'
 info:
   description: |-
+    2.1.7 <br/>
+    Segment 新增 routes 做為參數
+    <br/>
+    <br/>
     2.1.6 <br/>
     MFA CURD Api 改成 HNxxxxxxxx 與 region / zone 做為參數
     <br/>
@@ -120,8 +124,8 @@ info:
     1.0.2 <br/> 
     把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>
     <br/>
-  version: 2.1.6
-  title: VMware 客製 Api
+  version: 2.1.7
+  title: '[Deprecated] VMware 客製 Api (未來不再更新，請至 bitbucket)'
   contact:
     email: rayshih@sysage.com.tw
   license:
@@ -2959,6 +2963,9 @@ paths:
                 value:
                   cidr: 8.8.8.8/24
                   vlan: 107
+                  routes:
+                    - 10.0.0.8/8
+                    - 172.12.0.0/16
       parameters:
         - schema:
             type: string
@@ -5028,18 +5035,27 @@ components:
     interfaceIp:
       title: interfaceIp
       type: object
+      x-examples:
+        格式:
+          cidr: 8.8.8.8/16
+          vlan: 107
+          routes:
+            - 10.0.0.8/8
+            - 172.12.0.0/16
       properties:
         cidr:
           type: string
           description: 要有斜線，不然不過
         vlan:
           type: integer
+        routes:
+          type: array
+          description: Static Route
+          items:
+            type: string
+            example: 10.0.0.8/8
       required:
         - cidr
-      x-examples:
-        格式:
-          cidr: 8.8.8.8/16
-          vlan: 107
     mfa_user:
       title: mfa_user
       type: object
