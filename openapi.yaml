@@ -4,7 +4,9 @@ servers:
 info:
   description: |-
     2.1.7 <br/>
-    Segment 新增 routes 做為參數
+    Segment 新增 routes 做為參數<br/>
+    將 cidr 欄位正名 interfaceIp<br/>
+    增加 hexthop 欄位
     <br/>
     <br/>
     2.1.6 <br/>
@@ -125,7 +127,7 @@ info:
     把 bps 改成 burstsize, 貼近 nsx-t 的原意 <br/>
     <br/>
   version: 2.1.7
-  title: '[Deprecated] VMware 客製 Api (未來不再更新，請至 bitbucket)'
+  title: VMware 客製 Api
   contact:
     email: rayshih@sysage.com.tw
   license:
@@ -2961,11 +2963,13 @@ paths:
             examples:
               Interface IP:
                 value:
-                  cidr: 8.8.8.8/24
+                  interfaceIp: 210.65.157.101/29
                   vlan: 107
                   routes:
-                    - 10.0.0.8/8
-                    - 172.12.0.0/16
+                    - 10.0.0.0/8
+                    - 172.16.0.0/12
+                    - 192.168.0.0/16
+                  nexthop: 210.65.157.100
       parameters:
         - schema:
             type: string
@@ -5037,13 +5041,15 @@ components:
       type: object
       x-examples:
         格式:
-          cidr: 8.8.8.8/16
+          interfaceIp: 210.65.157.101/29
           vlan: 107
           routes:
-            - 10.0.0.8/8
-            - 172.12.0.0/16
+            - 10.0.0.0/8
+            - 172.16.0.0/12
+            - 192.168.0.0/16
+          nexthop: 210.65.157.100
       properties:
-        cidr:
+        interfaceIp:
           type: string
           description: 要有斜線，不然不過
         vlan:
@@ -5054,8 +5060,10 @@ components:
           items:
             type: string
             example: 10.0.0.8/8
+        nexthop:
+          type: string
       required:
-        - cidr
+        - interfaceIp
     mfa_user:
       title: mfa_user
       type: object
